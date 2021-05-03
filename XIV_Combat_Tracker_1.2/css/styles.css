@@ -1,0 +1,252 @@
+*, *::before, *::after {
+    box-sizing: border-box;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    font-weight: normal;
+}
+
+body {
+    margin: auto;
+    padding-top: 10px;
+    /*display: grid;*/
+    align-content: center;
+    justify-content: center;
+    background-color: darkgrey;
+    /*grid-template-columns: 25px 120px 130px 45px 12px 45px 45px 12px 45px 45px 45px 45px 45px 45px 45px 25px;*/
+    /*grid-template-rows: repeat(auto,25px);*/
+}
+
+
+table {
+    margin: auto;
+    padding: 0;
+    align-content: center;
+    justify-content: center;
+    display: table;
+    background-color: black;
+    border: none;
+    border-collapse: collapse;
+    outline: none;
+    columns: 25px 120px 130px 45px 12px 45px 45px 12px 45px 45px 45px 45px 45px 45px 45px 25px;
+}
+
+th {
+    border: 1px solid rgb(19, 19, 19);
+    /*border: 1px solid white;*/
+    outline: none;
+    color: white;
+    border-collapse:collapse;
+}
+
+tbody {
+
+    padding: 0;
+    border: none;
+    outline: none;
+    border-collapse:collapse;
+
+}
+
+
+div {
+
+    font-size: small;
+    padding: 4px;
+    background-color: darkgrey;
+    text-align: center;
+}
+
+tr {
+    height: 25px;
+    border-collapse: collapse;
+    background-color: black;
+    border: none;
+}
+
+
+
+tfoot {
+    border-collapse: collapse;
+    border: none;
+}
+
+.numberheader {
+    width: 25px;
+    border: none;
+    padding-top: 0;
+}
+
+.nameheader {
+    width: 120px;
+    border-left: none;
+}
+
+.roleheader {
+    width: 130px;
+}
+
+.span3header {
+    width: 102px;
+}
+
+.statheader {
+    width: 45px;
+}
+
+.recheader {
+    width: 45px;
+    border-right: none;
+}
+
+.deleteheader {
+    width: 25px;
+    border: none;
+}
+
+.numbercell {
+    width: 25px;
+    background-color: black;
+    border: none;
+}
+
+.addbuttoncell {
+    width: 25px;
+    background-color: black;
+    border: none;
+}
+
+.namecell {
+    width: 120px;
+    border-bottom: 1px solid black;
+}
+
+.rolecell {
+    width: 130px;
+    border-bottom: 1px solid black;
+}
+
+.staticcell {
+    width: 45px;
+    border-bottom: 1px solid black;
+}
+
+.hpmpcell {
+    width: 45px;
+    border: none;
+    border-bottom: 1px solid black;
+}
+
+.deletecell {
+    width: 25px;
+    background-color: black;
+    border: none;
+}
+
+.slashcell {
+    width: 12px;
+    border: none;
+    border-bottom: 1px solid black;
+}
+
+td {
+    background-color: rgb(73, 73, 73);
+    border-right: 2px solid rgb(63, 63, 63);
+    border-bottom: 1px solid black;
+}
+
+.title {
+    font-weight: bold;
+    background-color: black;
+    color: white;
+    padding-top: 4px;
+}
+
+.span-2 {
+    grid-column: span 3;
+    padding: 4px;
+    font-weight: bold;
+    background-color: black;
+    color: white;
+}
+
+input {
+    width: 100%;
+    text-align: center;
+    font-weight: bold;
+    background-color: rgb(238, 238, 238);
+    /*border: 1px solid black;*/
+}
+
+select {
+    width: 100%;
+    text-align: center;
+    font-weight: bold;
+    background-color: lightgray;
+    /*border: 1px solid black;*/
+}
+
+.static {
+    font-weight: bold;
+    text-align: center;
+    padding: 4px 0;
+    background-color: rgb(73, 73, 73);
+    color: white;
+    border: none;
+    /*border-top: 1px solid black;
+    border-bottom: 1px solid black;*/
+}
+
+.slash {
+    width: 100%;
+    font-weight: bold;
+    text-align: center;
+    padding: 4px 0;
+    background-color: rgb(73, 73, 73);
+    color: white;
+    border: none;
+    /*border-top: 1px solid black;
+    border-bottom: 1px solid black;*/
+}
+
+.numberinput {
+    width: 100%;
+    font-weight: bold;
+    text-align: center;
+    padding: 4px 0;
+    background-color: rgb(33, 33, 33);
+    color: white;
+    border: 2px solid black;
+}
+
+.buttoncell {
+    width: 100%;
+    padding: 1px 0;
+    font-weight: bold;
+    text-align: center;
+    background-color: black;
+    color: white;
+    border: none;
+}
+
+.delete {
+    background-color: black;
+    color: white;
+}
+
+button {
+    font-weight: bold;
+    border-radius: 25px;
+    text-align: center;
+    background-color: lightgrey;
+}
+
+button:active {
+    background-color: white;
+}
+
+.fullrow {
+    grid-column: span 15;
+    font-weight: bold;
+    text-align: center;
+    background-color: black;
+    color: white;
+}

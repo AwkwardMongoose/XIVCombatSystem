@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Combat Tracker</title>
+    <link href="css/styles.css" rel="stylesheet">
+    <link href="css/jquery-ui.css" rel="stylesheet">
+    <script src="js/script.js" defer=""></script>
+    <script src="js/jquery-3.6.0.min.js"></script>
+    <script src="js/jquery-ui.js"></script>
+</head>
+<body>
+    <table id='table'>
+
+        <thead id="table-header">
+            <th class="numberheader" id="numberid2"><div class="title" id="numbersort"><button id="numberid">#</button></div></th>
+            <th class="nameheader"><div class="title">Name</div></th>
+            <th class="roleheader"><div class="title">Role</div></th>
+            <th class="span3header" colspan="3"><div class="title">HP</div></th>
+            <th class="span3header" colspan="3"><div class="title">MP</div></th>
+            <th class="statheader"><div class="title">ATK</div></th>
+            <th class="statheader"><div class="title">DEF</div></th>
+            <th class="statheader"><div class="title">DMG</div></th>
+            <th class="statheader"><div class="title">SDMG</div></th>
+            <th class="statheader"><div class="title">HEAL</div></th>
+            <th class="recheader"><div class="title">REC</div></th>
+            <th class="deleteheader"><div class="delete"></div></th>
+        </thead>
+        <tbody id="sortable">
+        </tbody>
+<tfoot id="bottom-row">
+    <tr>
+<td class="addbuttoncell"><div class="buttoncell" id="add-row-button">
+    <button data-add-row>+</button>
+</div>
+</td>
+</tr>
+</tfoot>
+</table>
+<script>function sortTable(f,n){
+	var rows = $('#table tbody  tr').get();
+
+	rows.sort(function(a, b) {
+
+		var A = getVal(a);
+		var B = getVal(b);
+
+		/*if(A < B) {
+			return -1*f;
+		}*/
+		if(A > B) {
+			return 1*f;
+		}
+		return 0;
+	});
+
+	function getVal(elm){
+		var z = $(elm).children('td');
+        var v = $(z).children('input').eq(n).val().toUpperCase();
+		if($.isNumeric(v)){
+			v = parseInt(v,10);
+		}
+		return v;
+	}
+
+	$.each(rows, function(index, row) {
+		$('#table').children('tbody').append(row);
+	});
+}
+var f_sl = 1;
+var f_nm = 1;
+$("#numberid").click(function(){
+    f_sl *= -1;
+    var n = $(this).prevAll().length;
+    sortTable(f_sl,n);
+});</script>
+<script>$("#sortable").sortable(); {
+    containment: "#sortable"
+}</script>
+</body></html>

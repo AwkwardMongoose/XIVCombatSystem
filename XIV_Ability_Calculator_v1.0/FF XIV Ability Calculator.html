@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculator</title>
+    <link href="styles.css" rel="stylesheet">
+    <script src="script.js" defer></script>
+</head>
+<body>
+<div class="backing">
+    <div class="calculator-grid">
+        <select data-role-select class="dropdown" id="roleselect">
+            <option value="tank">Tank</option>
+            <option value="ltank">Light Tank</option>
+            <option value="mstriker">Melee Striker</option>
+            <option value="rstriker">Ranged Striker</option>
+            <option value="caster">Caster</option>
+            <option value="support">Healer/Support</option>
+            <option value="mtank">Tank Minion</option>
+            <option value="mdps">DPS Minion</option>
+            <option value="mheal">Heal Minion</option>
+            <option value="boss">Boss</option>
+            <option value="limitbreak">LIMIT BREAK</option>
+        </select>
+        <div class="columntitle">You/Allies</div>
+        <div class="columntitle">Enemies</div>
+        <div class="itemname">Damage:</div>
+        <button data-self-damage-minus class="badbutton">-</button>
+        <div data-self-damage class="numberfield"></div>
+        <button data-self-damage-plus class="badbutton">+</button>
+        <button data-enemy-damage-minus>-</button>
+        <div data-enemy-damage class="numberfield"></div>
+        <button data-enemy-damage-plus>+</button>
+        <div class="itemname">Healing:</div>
+        <button data-self-healing-minus>-</button>
+        <div data-self-healing class="numberfield"></div>
+        <button data-self-healing-plus>+</button>
+        <button data-enemy-healing-minus class="badbutton">-</button>
+        <div data-enemy-healing class="numberfield"></div>
+        <button data-enemy-healing-plus class="badbutton">+</button>
+        <div class="itemname">Buff ATK:</div>
+        <button data-self-atkup-minus>-</button>
+        <div data-self-atkup class="numberfield"></div>
+        <button data-self-atkup-plus>+</button>
+        <button data-enemy-atkup-minus class="badbutton">-</button>
+        <div data-enemy-atkup class="numberfield"></div>
+        <button data-enemy-atkup-plus class="badbutton">+</button>
+        <div class="itemname">Debuff ATK:</div>
+        <button data-self-atkdown-minus class="badbutton">-</button>
+        <div data-self-atkdown class="numberfield"></div>
+        <button data-self-atkdown-plus class="badbutton">+</button>
+        <button data-enemy-atkdown-minus>-</button>
+        <div data-enemy-atkdown class="numberfield"></div>
+        <button data-enemy-atkdown-plus>+</button>
+        <div class="itemname">Buff DEF:</div>
+        <button data-self-defup-minus>-</button>
+        <div data-self-defup class="numberfield"></div>
+        <button data-self-defup-plus>+</button>
+        <button data-enemy-defup-minus class="badbutton">-</button>
+        <div data-enemy-defup class="numberfield"></div>
+        <button data-enemy-defup-plus class="badbutton">+</button>
+        <div class="itemname">Debuff DEF:</div>
+        <button data-self-defdown-minus class="badbutton">-</button>
+        <div data-self-defdown class="numberfield"></div>
+        <button data-self-defdown-plus class="badbutton">+</button>
+        <button data-enemy-defdown-minus>-</button>
+        <div data-enemy-defdown class="numberfield"></div>
+        <button data-enemy-defdown-plus>+</button>
+        <div class="itemname">Stun?</div>
+        <input data-self-stun id="selfStunCheckbox" type="checkbox" class="badcheckbox"></input>
+        <input data-enemy-stun id="enemyStunCheckbox" type="checkbox" class="checkbox"></input>
+        <div class="itemname">Esuna?</div>
+        <input data-self-esuna id="selfEsunaCheckbox" type="checkbox" class="checkbox"></input>
+        <input data-enemy-esuna id="enemyEsunaCheckbox" type="checkbox" class="badcheckbox"></input>
+        <div class="itemname">Revive?</div>
+        <input data-self-revive id="selfReviveCheckbox" type="checkbox" class="checkbox"></input>
+        <input data-enemy-revive id="enemyReviveCheckbox" type="checkbox" class="badcheckbox"></input>
+        <div class="itemname">Invulnerability?</div>
+        <input data-self-invuln id="selfInvulnCheckbox" type="checkbox" class="checkbox"></input>
+        <input data-enemy-invuln id="enemyInvulnCheckbox" type="checkbox" class="badcheckbox"></input>
+        <div class="itemname">Periodic Damage?</div>
+        <input data-self-perdamage id="selfPerDamageCheckbox" type="checkbox" class="badcheckbox"></input>
+        <input data-enemy-perdamage id="enemyPerDamageCheckbox" type="checkbox" class="checkbox"></input>
+        <div class="itemname">Periodic Healing?</div>
+        <input data-self-perhealing id="selfPerHealingCheckbox" type="checkbox" class="checkbox"></input>
+        <input data-enemy-perhealing id="enemyPerHealingCheckbox" type="checkbox" class="badcheckbox"></input>
+        <div class="itemname">AoE?</div>
+        <input data-aoe id="AoECheckbox" type="checkbox" class="checkboxsingle"></input>
+        <div class="itemname">Summon/Pet?</div>
+        <input data-summon id="SummonCheckbox" type="checkbox" class="checkboxsingle"></input>
+        <div class="itemname">Stealth?</div>
+        <input data-stealth id="StealthCheckbox" type="checkbox" class="checkboxsingle"></input>
+        <div class="itemname">Total Damage:</div>
+        <div data-self-total-damage class="numberfield4"></div>
+        <div data-enemy-total-damage class="numberfield4"></div>
+        <div class="itemname">Total Healing:</div>
+        <div data-self-total-healing class="numberfield4"></div>
+        <div data-enemy-total-healing class="numberfield4"></div>
+        <div class="itemname">MP Cost:</div>
+        <div data-total-mp-cost class="numberfield4"></div>
+        <div data-mp-error class="MPError"></div>
+    </div>
+</div>
+</body>
+</html>

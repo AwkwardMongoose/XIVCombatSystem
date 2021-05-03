@@ -1,0 +1,247 @@
+*, *::before, *::after {
+    box-sizing: border-box;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    font-weight: normal;
+}
+
+body {
+    height: 1000px;
+    width: 600px;
+    margin: auto;
+    background-color: darkgrey;
+}
+
+
+.calculator-grid {
+    display: grid;
+    justify-content: center;
+    align-content: center;
+    min-height: 50vh;
+    grid-template-columns: 65px repeat(10, 45px);
+    grid-template-rows: minmax(60px, auto) repeat(19, 45px);
+    background-color: black;
+}
+
+.calculator-grid > .Blank1 {
+    grid-column: span 1;
+    background-color: black;
+}
+
+.calculator-grid > .Blank2 {
+    grid-column: span 2;
+    background-color: black;
+}
+
+.calculator-grid > .Blank3 {
+    grid-column: span 3;
+    background-color: black;
+}
+
+.calculator-grid > .Blank4 {
+    grid-column: span 4;
+    background-color: black;
+}
+
+.calculator-grid > .Blank5 {
+    grid-column: span 5;
+    background-color: black;
+}
+
+.calculator-grid > .Blank6 {
+    grid-column: span 6;
+    background-color: black;
+}
+
+.calculator-grid > .Blank7 {
+    grid-column: span 7;
+    background-color: black;
+}
+
+.calculator-grid > .Blank8 {
+    grid-column: span 8;
+    background-color: black;
+}
+
+.calculator-grid > .Blank9 {
+    grid-column: span 9;
+    background-color: black;
+}
+
+.calculator-grid > .Blank10 {
+    grid-column: span 10;
+    background-color: black;
+}
+
+.calculator-grid .backing {
+        background: black;
+}
+
+
+.checkbox {
+    width: 20px;
+    height: 20px;
+    margin: auto;
+    grid-column: span 4;
+    border: 1px solid black;
+    background-color: black;
+}
+
+.badcheckbox {
+    width: 20px;
+    height: 20px;
+    margin: auto;
+    grid-column: span 4;
+    border: 1px solid black;
+    background-color: black;
+    outline: 2px solid red;
+}
+
+.checkboxsingle {
+    width: 20px;
+    height: 20px;
+    margin: auto;
+    grid-column: span 8;
+    border: 1px solid black;
+    background-color: black;
+}
+
+.columntitle {
+    grid-column: span 4;
+    color: darkgrey;
+    display: grid;
+    background-color: rgba(0, 0, 0, .75);
+    align-content: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    border-color: black;
+    border-width: 5px;
+    border-right: black;
+    border-left: black;
+    border-style: solid;
+}
+
+
+.calculator-grid > .itemname {
+    grid-column: span 3;
+    font-size: 1rem;
+    border: 1px solid black;
+    outline: none;
+    align-content: center;
+    justify-content: center;
+    text-align: center;
+    display: grid;
+    background-color: rgba(255, 255, 255, .75);
+
+}
+
+.calculator-grid > .dropdown {
+    grid-column: span 3;
+    font-size: 0.9rem;
+    border: 2px solid black;
+    outline: none;
+    align-content: center;
+    justify-content: center;
+    display: grid;
+    color: lightgrey;
+    font-weight: bold;
+    background-color: rgba(0, 0, 0, .75);
+
+}
+
+.calculator-grid > .numberfield {
+    grid-column: span 2;
+    font-size: 1.5rem;
+    border: 1px solid black;
+    outline: none;
+    display: grid;
+    align-content: center;
+    justify-content: center;
+    background-color: white;
+
+}
+
+.calculator-grid > .numberfield4 {
+    grid-column: span 4;
+    font-size: 1.5rem;
+    border: 1px solid black;
+    outline: none;
+    display: grid;
+    align-content: center;
+    justify-content: center;
+    background-color: white;
+
+}
+
+.calculator-grid > .MPError {
+    grid-column: span 4;
+    font-size: 1.0rem;
+    border: 1px solid black;
+    outline: none;
+    display: grid;
+    align-content: center;
+    justify-content: center;
+    text-align: center;
+    background-color: black;
+    color: rgba(255, 0, 0, .75);
+
+}
+
+.calculator-grid > .numberfield8 {
+    grid-column: span 8;
+    font-size: 1.5rem;
+    border: 1px solid black;
+    outline: none;
+    display: grid;
+    align-content: center;
+    justify-content: center;
+    background-color: white;
+
+}
+
+.calculator-grid > button {
+    cursor: pointer;
+    font-size: 1rem;
+    border: 1px solid black;
+    margin: 9px;
+    outline: none;
+    background-color: rgba(255, 255, 255, .75);
+
+}
+
+.calculator-grid > button:hover {
+    background-color: rgba(255, 255, 255, .90);
+}
+
+.calculator-grid > .badbutton {
+    cursor: pointer;
+    font-size: 1rem;
+    border: 2px solid red;
+    margin: 8px;
+    outline: none;
+    background-color: rgba(255, 200, 200, .75);
+
+}
+
+.span-two {
+    grid-column: span 2;
+}
+
+.output {
+    grid-column: 1 / -1;
+    background-color: rgba(0, 0, 0, .75);
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-around;
+    flex-direction: column;
+    padding: 10px;
+    word-wrap: break-word;
+    word-break: break-all;
+}
+
+.columntitle2 {
+    grid-column: span 4;
+    color: darkgrey;
+    background-color: grey;
+    font-size: 2rem;
+}
+
