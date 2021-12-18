@@ -303,6 +303,7 @@ button:active {
 div.effect-magstyle {
     background-color: white;
     font-weight: bold;
+    width: 50px;
 }
 
 div.effect-magstyle-disabled {

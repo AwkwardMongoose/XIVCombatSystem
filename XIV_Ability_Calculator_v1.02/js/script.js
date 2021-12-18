@@ -50,8 +50,6 @@ function effectSelect(element) {
     } else {
         disableMagnitude(number)
     }
-    
-    console.log(magnitudeRowArr[number].value)
 }
 
 
@@ -145,7 +143,6 @@ function roleSelect(element) {
         break
     }
     updateMag()
-    console.log(sdmg)
 }
 
 function updateAll() {
@@ -275,6 +272,15 @@ function updateMag() {
             let currEffect = effectTypeRowArr[magnitudeRowArr.indexOf(element)].value;
             let thisMag = element.value;
             let magDisplay = document.getElementById(magNumber);
+            let magCritDiff = thisMag-mpCritThreshold;
+            let magCritPercent = 1;
+            if (thisMag < mpCritThreshold) {
+                magCritPercent = 1;
+            } else if (thisMag == mpCritThreshold) {
+                magCritPercent = 1.15;
+            } else if (thisMag > mpCritThreshold) {
+                magCritPercent = 1.15+((0.05)*magCritDiff);
+            }
             switch (currEffect) {
                 case 'dmg':
                     if (currRole == 'none') {
@@ -286,8 +292,12 @@ function updateMag() {
                     } else {
                         if (thisMag <= 0) {
                             magDisplay.innerHTML = '-';
+                        } else if (thisMag >= mpHalfMag && thisMag < mpCritThreshold+7) {
+                            magDisplay.innerHTML = Math.ceil(((sdmg+sdmg+magnitudeArr[element.value])*magCritPercent)/5)*5;
+                        } else if (thisMag >= mpHalfMag && thisMag >= mpCritThreshold+7 ) {
+                            magDisplay.innerHTML = Math.ceil(((sdmg+sdmg+magnitudeArr[element.value])*1.5)/5)*5;
                         } else {
-                            magDisplay.innerHTML = (sdmg+magnitudeArr[element.value]);
+                            magDisplay.innerHTML = Math.ceil((sdmg+magnitudeArr[element.value])*magCritPercent);
                         }
                     }
                     break;
@@ -301,8 +311,10 @@ function updateMag() {
                     } else {
                         if (thisMag <= 0) {
                             magDisplay.innerHTML = '-';
+                        } else if (thisMag >= mpHalfMag) {
+                            magDisplay.innerHTML = (heal+heal+magnitudeArr[element.value])*magCritPercent;
                         } else {
-                            magDisplay.innerHTML = (heal+magnitudeArr[element.value]);
+                            magDisplay.innerHTML = (heal+magnitudeArr[element.value])*magCritPercent;
                         }
                     }
                     break;
@@ -346,18 +358,13 @@ var delayId;
 $(".magbutton").mousedown(function() {
     magButtons(this)
     let button = this;
-    delayId = setTimeout(function(){intervalId = setInterval(magButtons, 100, button)
-        console.log('mousedown')
-        console.log(intervalId)},500);
+    delayId = setTimeout(function(){intervalId = setInterval(magButtons, 100, button)},300);
 }).mouseup(function() {
     clearTimeout(delayId)
     clearInterval(intervalId);
-    console.log('mouseup')
 }).mouseleave(function() {
     clearTimeout(delayId)
     clearInterval(intervalId);
-    console.log('mouseleave')
-    console.log(intervalId)
 });
 
 window.addEventListener('load', function() {
