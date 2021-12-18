@@ -229,7 +229,7 @@ function magButtons(button) {
     if (currEffect == 'dmg' || currEffect == 'heal') {
         switch(buttonType) {
             case 'plus':
-                if (magCount >= 76) {
+                if (magCount >= 75) {
                     break
                 } else {
                     magCount++;break
