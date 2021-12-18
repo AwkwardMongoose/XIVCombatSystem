@@ -265,7 +265,6 @@ function magButtons(button) {
     }
 
     magnitudeRowArr[buttonNumber].value = magCount;
-    console.log(magCount)
     updateMag()
 }
 
@@ -338,8 +337,27 @@ myStorage = window.localStorage;
     magnitudeDisplay(this)
 });*/
 
-$(".magbutton").click(function() {
+/*$(".magbutton").mousedown(function() {
     magButtons(this)
+});*/
+
+var intervalId;
+var delayId;
+$(".magbutton").mousedown(function() {
+    magButtons(this)
+    let button = this;
+    delayId = setTimeout(function(){intervalId = setInterval(magButtons, 100, button)
+        console.log('mousedown')
+        console.log(intervalId)},500);
+}).mouseup(function() {
+    clearTimeout(delayId)
+    clearInterval(intervalId);
+    console.log('mouseup')
+}).mouseleave(function() {
+    clearTimeout(delayId)
+    clearInterval(intervalId);
+    console.log('mouseleave')
+    console.log(intervalId)
 });
 
 window.addEventListener('load', function() {
