@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XIV Combat Tracker</title>
+    <link href="css/styles.css" rel="stylesheet">
+    <link href="css/jquery-ui.css" rel="stylesheet">
+    <script src="js/script.js" defer=""></script>
+    <script src="js/jquery-3.6.0.min.js"></script>
+    <script src="js/jquery-ui.js"></script>
+</head>
+<body>
+    <table style="width:675px; border: none;background-color: black;">
+        <tr>
+            <td style="background-color: black;border: black;">
+                &nbsp;
+            </td>
+            <td style="background-color: black; border: black;color: white; font-size: 14px; font-weight: bold; text-align: center;">
+                Role:
+            </td>
+            <td colspan="9">
+                <select class="role-selector" id="role-option">
+                    <option id="role-option-none" value="none">None</option>
+                    <option id="role-option-tank" value="tank">Tank</option>
+                    <option id="role-option-ltank" value="ltank">Light Tank</option>
+                    <option id="role-option-mstriker" value="mstriker">Melee Striker</option>
+                    <option id="role-option-rstriker" value="rstriker">Ranged Striker</option>
+                    <option id="role-option-caster" value="caster">Caster</option>
+                    <option id="role-option-heal" value="heal">Healer/Support</option>
+                    <option id="role-option-tminion" value="tminion">Minion (Tank)</option>
+                    <option id="role-option-dminion" value="dminion">Minion (DPS)</option>
+                    <option id="role-option-hminion" value="hminion">Minion (Heal)</option>
+                    <option id="role-option-boss" value="boss">Boss</option>
+                    <option id="role-option-limit" value="limit">LIMIT BREAK</option>
+                </select>
+            </td>
+            <td style="background-color: black;border: black;">
+                &nbsp;
+            </td>
+        </tr>
+    </table>
+    <table id='table'>
+        <thead id="table-header">
+            <th class="numberheader" id="numberid2"><div class="title" id="numbersort"></div></th>
+            <th class="nameheader"><div class="title">Effect</div></th>
+            <th class="roleheader"><div class="title">Target</div></th>
+            <th class="span5header" colspan="5"><div class="title">Magnitude</div></th>
+            <th class="checkheader"><div class="title">AoE</div></th>
+            <th class="checkheader"><div class="title">Periodic</div></th>
+            <th class="recheader" colspan="1"><div class="title">MP Cost</div></th>
+            <th class="deleteheader"><div class="delete"></div></th>
+        </thead>
+        <tbody id="sortable">
+            <tr>
+                <td class="numbercell"></td>
+                <td class="rolecell">
+                    <select class="effect-selector" id="effect1-option">
+                        <option id="effect1-option-dmg" value="dmg">Damage</option>
+                        <option id="effect1-option-heal" value="heal">Healing</option>
+                        <option id="effect1-option-stun" value="stun">Stun</option>
+                        <option id="effect1-option-buff" value="buff">Buff</option>
+                        <option id="effect1-option-debuff" value="debuff">Debuff</option>
+                        <option id="effect1-option-esuna" value="esuna">Esuna</option>
+                        <option id="effect1-option-revive" value="revive">Revive</option>
+                        <option id="effect1-option-summon" value="summon">Summon/Pet</option>
+                        <option id="effect1-option-stealth" value="stealth">Stealth</option>
+                        <option id="effect1-option-invuln" value="invuln">Invulnerability</option>
+                    </select></td>
+                <td class="rolecell">
+                    <select class="target-selector" id="target1-option">
+                        <option id="target1-option-enemy" value="enemy">Enemy</option>
+                        <option id="target1-option-ally" value="ally">Self/Ally</option>
+                    </select></td>
+                <td class="blankcell"></td>
+                <td class="magbuttoncell"><button class="magbutton" id="mag-button-down-1">-</button></td>
+                <td class="magnitudecell"><div class="effect-magstyle" id="magnitude-display-1">-</div></td>
+                <td class="magbuttoncell"><button class="magbutton" id="mag-button-plus-1">+</button></td>
+                <td class="blankcell"></td>
+                <td class="checkcell" id=""><input type="checkbox" value="0" id="aoe-check-1"></td>
+                <td class="checkcell"><input type="checkbox" value="0" id="periodic-check-1"></td>
+                <td class="rolecell"></td>
+            </tr>
+            <tr>
+                <td class="numbercell"></td>
+                <td class="rolecell">
+                    <select class="effect-selector" id="effect2-option">
+                        <option id="effect2-option-dmg" value="dmg">Damage</option>
+                        <option id="effect2-option-heal" value="heal">Healing</option>
+                        <option id="effect2-option-stun" value="stun">Stun</option>
+                        <option id="effect2-option-buff" value="buff">Buff</option>
+                        <option id="effect2-option-debuff" value="debuff">Debuff</option>
+                        <option id="effect2-option-esuna" value="esuna">Esuna</option>
+                        <option id="effect2-option-revive" value="revive">Revive</option>
+                        <option id="effect2-option-summon" value="summon">Summon/Pet</option>
+                        <option id="effect2-option-stealth" value="stealth">Stealth</option>
+                        <option id="effect2-option-invuln" value="invuln">Invulnerability</option>
+                    </select></td>
+                <td class="rolecell">
+                    <select class="target-selector" id="target2-option">
+                        <option id="target2-option-enemy" value="enemy">Enemy</option>
+                        <option id="target2-option-ally" value="ally">Self/Ally</option>
+                    </select></td>
+                <td class="blankcell"></td>
+                <td class="magbuttoncell"><button class="magbutton" id="mag-button-down-2">-</button></td>
+                <td class="magnitudecell"><div class="effect-magstyle" id="magnitude-display-2">-</div></td>
+                <td class="magbuttoncell"><button class="magbutton" id="mag-button-plus-2">+</button></td>
+                <td class="blankcell"></td>
+                <td class="checkcell" id=""><input type="checkbox" value="0" id="aoe-check-2"></td>
+                <td class="checkcell"><input type="checkbox" value="0" id="periodic-check-2"></td>
+                <td class="rolecell"></td>
+            </tr>
+            <tr>
+                <td class="numbercell"></td>
+                <td class="rolecell">
+                    <select class="effect-selector" id="effect3-option">
+                        <option id="effect3-option-dmg" value="dmg">Damage</option>
+                        <option id="effect3-option-heal" value="heal">Healing</option>
+                        <option id="effect3-option-stun" value="stun">Stun</option>
+                        <option id="effect3-option-buff" value="buff">Buff</option>
+                        <option id="effect3-option-debuff" value="debuff">Debuff</option>
+                        <option id="effect3-option-esuna" value="esuna">Esuna</option>
+                        <option id="effect3-option-revive" value="revive">Revive</option>
+                        <option id="effect3-option-summon" value="summon">Summon/Pet</option>
+                        <option id="effect3-option-stealth" value="stealth">Stealth</option>
+                        <option id="effect3-option-invuln" value="invuln">Invulnerability</option>
+                    </select></td>
+                <td class="rolecell">
+                    <select class="target-selector" id="target3-option">
+                        <option id="target3-option-enemy" value="enemy">Enemy</option>
+                        <option id="target3-option-ally" value="ally">Self/Ally</option>
+                    </select></td>
+                <td class="blankcell"></td>
+                <td class="magbuttoncell"><button class="magbutton" id="mag-button-down-3">-</button></td>
+                <td class="magnitudecell"><div class="effect-magstyle" id="magnitude-display-3">-</div></td>
+                <td class="magbuttoncell"><button class="magbutton" id="mag-button-plus-3">+</button></td>
+                <td class="blankcell"></td>
+                <td class="checkcell" id=""><input type="checkbox" value="0" id="aoe-check-3"></td>
+                <td class="checkcell"><input type="checkbox" value="0" id="periodic-check-3"></td>
+                <td class="rolecell"></td>
+            </tr>
+            <tr>
+                <td style="text-align: center; align-content: center; margin: auto; padding-right: 8px; background-color: black; border-right: black;"><input type="checkbox" id="testcheckbox"></td>
+            </tr>
+        </tbody>
+<tfoot id="bottom-row">
+    <tr>
+</tr>
+</tfoot>
+</table>
+</body></html>
