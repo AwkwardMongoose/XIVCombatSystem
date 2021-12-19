@@ -55,13 +55,18 @@ function effectSelect(element) {
     } else {
         enablePeriodic(number);
     }
+    if (effect == 'summon' || effect == 'invuln' || effect == 'stealth' || effect == 'esuna' || effect == 'revive') {
+        disableTargetEnemy(number)
+    } else {
+        enableTargetAll(number)
+    }
     updateMPCost()
 }
 
 function targetSelect(element) {
     let target = element.val();
     let number = element.attr('id').slice(6,7);
-    effectTypeRowArr[number] = {value: target};
+    targetTypeRowArr[number] = {value: target};
     updateMPCost()
 }
 
@@ -157,6 +162,33 @@ function roleSelect(element) {
     }
     updateMag()
     updateMPCost()
+}
+
+function disableTargetAlly(row) {
+    let targetFieldRow = 'target' + row + '-option';
+    let targetInput = '<select class="target-selector" id="target' + row + '-option"></select>'
+    let targetField = document.getElementById(targetFieldRow);
+    $(targetField).val('enemy');
+    targetField.disabled = true;
+    targetTypeRowArr[row] = {value: 'enemy'};
+}
+
+function disableTargetEnemy(row) {
+    let targetFieldRow = 'target' + row + '-option';
+    let targetInput = '<select class="target-selector" id="target' + row + '-option"></select>'
+    let targetField = document.getElementById(targetFieldRow);
+    $(targetField).val('ally');
+    targetField.disabled = true;
+    targetTypeRowArr[row] = {value: 'ally'};
+}
+
+function enableTargetAll(row) {
+    let targetFieldRow = 'target' + row + '-option';
+    let targetInput = '<select class="target-selector" id="target' + row + '-option"></select>'
+    let targetField = document.getElementById(targetFieldRow);
+    $(targetField).val('enemy');
+    targetField.disabled = false;
+    targetTypeRowArr[row] = {value: 'eenemy'};
 }
 
 
@@ -349,6 +381,7 @@ function updateMPCost() {
             let mpDisplay = document.getElementById(mpNumber);
             let currEffect = effectTypeRowArr[mpCostRowArr.indexOf(element)].value;
             let mpBaseCost = 0;
+            let target = targetTypeRowArr[rowNumber].value;
             let mpTotal = 0;
             let aoeMult = 1;
             let eotMult = 1;
@@ -382,19 +415,47 @@ function updateMPCost() {
                     mpTotal = Math.ceil((mpBaseCost*aoeMult)/5)*5;
                     break;
                 case 'stun':
+                    mpBaseCost = 30;
+                    mpTotal = Math.ceil((mpBaseCost*aoeMult)/5)*5;
                     break;
                 case 'esuna':
+                    mpBaseCost = 75;
+                    mpTotal = Math.ceil((mpBaseCost*aoeMult)/5)*5;
                     break;
                 case 'invuln':
+                    mpBaseCost = 200;
+                    mpTotal = Math.ceil((mpBaseCost*aoeMult)/5)*5;
                     break;
                 case 'revive':
+                    mpBaseCost = 200;
+                    mpTotal = Math.ceil((mpBaseCost*aoeMult)/5)*5;
                     break;
                 case 'summon':
+                    mpBaseCost = 100;
+                    mpTotal = Math.ceil((mpBaseCost*aoeMult)/5)*5;
                     break;
                 case 'stealth':
+                    mpBaseCost = 100;
+                    mpTotal = Math.ceil((mpBaseCost*aoeMult)/5)*5;
                     break;
             }
-            mpDisplay.innerHTML = mpTotal;
+            switch (target) {
+                case 'enemy':
+                    if (currEffect != 'dmg' && currEffect != 'debuff' && currEffect != 'stun'){
+                        mpDisplay.innerHTML = 0-mpTotal;    
+                    } else {
+                        mpDisplay.innerHTML = mpTotal;
+                    }
+                    break;
+                case 'ally':
+                    if (currEffect != 'dmg' && currEffect != 'debuff' && currEffect != 'stun'){
+                        mpDisplay.innerHTML = mpTotal;    
+                    } else {
+                        mpDisplay.innerHTML = 0-mpTotal;
+                    }
+                    break;
+            }
+            
         } else {
             return;
         }
@@ -473,4 +534,3 @@ $(".target-selector").change(function() {
     let element = $(this);
     targetSelect(element);
 });
-
