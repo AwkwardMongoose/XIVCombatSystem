@@ -35,7 +35,7 @@ var mpCost3 = {value:0};
 const effectTypeRowArr = ['null',effectType1,effectType2,effectType3]
 const targetTypeRowArr = ['null',targetType1,targetType2,targetType3]
 const magnitudeRowArr = ['null',magnitude1,magnitude2,magnitude3]
-const areaEffectTypeRowArr = ['null',areaEffect1,areaEffect2,areaEffect3]
+const areaEffectRowArr = ['null',areaEffect1,areaEffect2,areaEffect3]
 const periodicRowArr = ['null',periodic1,periodic2,periodic3]
 const mpCostRowArr = ['null',mpCost1,mpCost2,mpCost3]
 
@@ -50,6 +50,19 @@ function effectSelect(element) {
     } else {
         disableMagnitude(number)
     }
+    if (effect != 'dmg' && effect != 'heal') {
+        disablePeriodic(number)
+    } else {
+        enablePeriodic(number);
+    }
+    updateMPCost()
+}
+
+function targetSelect(element) {
+    let target = element.val();
+    let number = element.attr('id').slice(6,7);
+    effectTypeRowArr[number] = {value: target};
+    updateMPCost()
 }
 
 
@@ -143,48 +156,25 @@ function roleSelect(element) {
         break
     }
     updateMag()
+    updateMPCost()
 }
 
-function updateAll() {
-    let magDisplay1 = document.getElementById('magnitude-display-1');
-    let magDisplay2 = document.getElementById('magnitude-display-2');
-    let magCount1 = magnitudeRowArr[1].value;
-    let magCount2 = magnitudeRowArr[2].value;
-    let magCount3 = magnitudeRowArr[3].value;
-    magnitudeRowArr[1] = {value: magCount1};
-    magnitudeRowArr[2] = {value: magCount2};
-    magnitudeRowArr[3] = {value: magCount3};
-    let magRow1 = magnitudeRowArr[1].value;
-    let magRow2 = magnitudeRowArr[2].value;
-    let magRow3 = magnitudeRowArr[3].value;
-    
-    if (currRole == 'none') {
-        if (magRow1 < 1) {
-            magDisplay1.innerHTML = '-';
-        } else {
-            magDisplay1.innerHTML = '+'+(sdmg+magnitudeArr[magRow1]);
-        }
-        if (magRow2 < 1) {
-            magDisplay2.innerHTML = '-';
-        } else {
-            magDisplay2.innerHTML = '+'+(sdmg+magnitudeArr[magRow2]);
-        }
-    } else {
-            if (magRow1 < 1) {
-                magDisplay1.innerHTML = '-';
-            } else {
-                magDisplay1.innerHTML = (sdmg+magnitudeArr[magRow1]);
-            }
 
+function disablePeriodic(row) {
+    let eotFieldRow = 'eot-check-' + row;
+    let eotInput = '<input class="effect-check" type="checkbox" value="0" id="eot-check-' + row + '"></input>'
+    let eotField = document.getElementById(eotFieldRow);
+    eotField.disabled = true;
+    eotField.checked = false;
+    effectCheckboxHandler(eotInput)
+}
 
-
-            
-            if (magRow2 < 1) {
-                magDisplay2.innerHTML = '-';
-            } else {
-                magDisplay2.innerHTML = (sdmg+magnitudeArr[magRow2]);
-            }
-    }
+function enablePeriodic(row) {
+    let eotFieldRow = 'eot-check-' + row;
+    let eotInput = '<input class="effect-check" type="checkbox" value="0" id="eot-check-' + row + '"></input>'
+    let eotField = document.getElementById(eotFieldRow);
+    eotField.disabled = false;
+    effectCheckboxHandler(eotInput)
 }
 
 function disableMagnitude(row) {
@@ -207,14 +197,21 @@ function enableMagnitude(row) {
     let displayPlusRow = 'mag-button-plus-' + row;
     let displayMinusRow = 'mag-button-down-' + row;
     let displayFieldRow = 'magnitude-display-' + row;
+    let aoeFieldRow = 'aoe-check-' + row;
+    let eotFieldRow = 'eot-check-' + row;
+    let test = '<input class="effect-check" type="checkbox" value="0" id="eot-check-' + row + '"></input>'
     let displayPlusButton = document.getElementById(displayPlusRow);
     let displayMinusButton = document.getElementById(displayMinusRow);
     let displayField = document.getElementById(displayFieldRow);
+    let aoeField = document.getElementById(aoeFieldRow);
+    let eotField = document.getElementById(eotFieldRow);
     displayPlusButton.disabled = false;
     displayMinusButton.disabled = false;
+    eotField.disabled = false;
     displayField.classList.remove('effect-magstyle-disabled');
     displayField.classList.add('effect-magstyle');
     displayField.innerHTML = '-';
+    effectCheckboxHandler(test)
 }
 
 function magButtons(button) {
@@ -263,6 +260,7 @@ function magButtons(button) {
 
     magnitudeRowArr[buttonNumber].value = magCount;
     updateMag()
+    updateMPCost()
 }
 
 function updateMag() {
@@ -311,10 +309,12 @@ function updateMag() {
                     } else {
                         if (thisMag <= 0) {
                             magDisplay.innerHTML = '-';
-                        } else if (thisMag >= mpHalfMag) {
-                            magDisplay.innerHTML = (heal+heal+magnitudeArr[element.value])*magCritPercent;
+                        } else if (thisMag >= mpHalfMag && thisMag < mpCritThreshold+7) {
+                            magDisplay.innerHTML = Math.ceil(((heal+heal+magnitudeArr[element.value])*magCritPercent)/5)*5;
+                        } else if (thisMag >= mpHalfMag && thisMag >= mpCritThreshold+7 ) {
+                            magDisplay.innerHTML = Math.ceil(((heal+heal+magnitudeArr[element.value])*1.5)/5)*5;
                         } else {
-                            magDisplay.innerHTML = (heal+magnitudeArr[element.value])*magCritPercent;
+                            magDisplay.innerHTML = Math.ceil((heal+magnitudeArr[element.value])*magCritPercent);
                         }
                     }
                     break;
@@ -340,6 +340,91 @@ function updateMag() {
     });
 }
 
+function updateMPCost() {
+    mpCostRowArr.forEach(element => {
+        if (element != 'null') {
+            let rowNumber = mpCostRowArr.indexOf(element);
+            let mpNumber = 'mpcost-display-' + rowNumber;
+            let magNumber = magnitudeRowArr[mpCostRowArr.indexOf(element)].value;
+            let mpDisplay = document.getElementById(mpNumber);
+            let currEffect = effectTypeRowArr[mpCostRowArr.indexOf(element)].value;
+            let mpBaseCost = 0;
+            let mpTotal = 0;
+            let aoeMult = 1;
+            let eotMult = 1;
+            switch (areaEffectRowArr[rowNumber].value) {
+                case 1:
+                    aoeMult = 1.5;
+                    break;
+                case 0:
+                    aoeMult = 1;
+                    break;
+            }
+            switch (periodicRowArr[rowNumber].value) {
+                case 1:
+                    eotMult = 1.5;
+                    break;
+                case 0:
+                    eotMult = 1;
+                    break;
+            }
+            switch (currEffect) {
+                case 'dmg':
+                case 'heal':
+                    mpBaseCost = mpCostArr[magNumber];
+
+                    mpTotal = Math.ceil(((Math.ceil((mpBaseCost*aoeMult)/5)*5)*eotMult)/5)*5;
+                    
+                    break;
+                case 'buff':
+                case 'debuff':
+                    mpBaseCost = buffCostArr[magNumber]
+                    mpTotal = Math.ceil((mpBaseCost*aoeMult)/5)*5;
+                    break;
+                case 'stun':
+                    break;
+                case 'esuna':
+                    break;
+                case 'invuln':
+                    break;
+                case 'revive':
+                    break;
+                case 'summon':
+                    break;
+                case 'stealth':
+                    break;
+            }
+            mpDisplay.innerHTML = mpTotal;
+        } else {
+            return;
+        }
+    })
+}
+
+function effectCheckboxHandler(element) {
+    let checkChecked = $(element).attr('id');
+    let checkNumber = checkChecked.slice(10);
+    let checkType = checkChecked.slice(0,3);
+    let checkState = $(element).is(':checked');
+    switch (checkType) {
+        case 'aoe':
+            if (checkState == true){
+                areaEffectRowArr[checkNumber] = {value: 1}
+            } else {
+                areaEffectRowArr[checkNumber] = {value: 0}
+            }
+            break;
+        case 'eot':
+            if (checkState == true){
+                periodicRowArr[checkNumber] = {value: 1}
+            } else {
+                periodicRowArr[checkNumber] = {value: 0}
+            }
+            break;
+    }
+    console.log(checkNumber+checkType+checkState)
+    updateMPCost()
+}
 
 
 myStorage = window.localStorage;
@@ -380,6 +465,12 @@ $(".role-selector").change(function() {
     roleSelect(element);
 });
 
-$(".role-selector").hover(function() {
-    
+$(".effect-check").change(function() {
+    effectCheckboxHandler(this)
 });
+
+$(".target-selector").change(function() {
+    let element = $(this);
+    targetSelect(element);
+});
+

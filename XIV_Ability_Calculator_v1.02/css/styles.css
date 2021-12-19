@@ -169,6 +169,14 @@ tfoot {
     border: 2px solid black;
 }
 
+.mpcostcell {
+    width: 45px;
+    margin: auto;
+    text-align: center;
+    background-color: rgb(73, 73, 73);
+    
+}
+
 .hpmpcell {
     width: 45px;
     border: none;
@@ -303,6 +311,7 @@ button:active {
 div.effect-magstyle {
     background-color: white;
     font-weight: bold;
+    text-align: center;
     width: 50px;
 }
 
@@ -312,6 +321,14 @@ div.effect-magstyle-disabled {
     font-weight: bold;
 }
 
+
+div.effect-mpcoststyle {
+    background-color: lightgrey;
+    font-weight: bold;
+    width: 140px;
+    text-align: center;
+    margin: auto;
+}
 
 
 
