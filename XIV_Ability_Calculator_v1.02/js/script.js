@@ -188,7 +188,7 @@ function enableTargetAll(row) {
     let targetField = document.getElementById(targetFieldRow);
     $(targetField).val('enemy');
     targetField.disabled = false;
-    targetTypeRowArr[row] = {value: 'eenemy'};
+    targetTypeRowArr[row] = {value: 'enemy'};
 }
 
 
