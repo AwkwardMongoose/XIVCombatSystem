@@ -319,6 +319,8 @@ div.effect-magstyle-disabled {
     background-color: rgb(180, 180, 180);
     color: grey;
     font-weight: bold;
+    text-align: center;
+    width: 50px;
 }
 
 
@@ -330,6 +332,18 @@ div.effect-mpcoststyle {
     margin: auto;
 }
 
+div.effect-mptotalstyle {
+    background-color: lightgrey;
+    font-weight: bold;
+    width: 140px;
+    text-align: center;
+    margin: auto;
+    border: 3px solid black;
+}
+
+div.effect-mptotalstyle-over {
+    border: 3px solid red;
+}
 
 
 

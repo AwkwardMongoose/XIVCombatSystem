@@ -3,6 +3,7 @@ const mpCostArr = [0,10,45,80,115,150,185,220,255,290,325,360,395,430,465,500,53
 const buffMagArr = ['-','+5','+10','+15']
 const debuffMagArr = ['-','-5','-10','-15']
 const buffCostArr = [0,50,60,70]
+const rowArr = ['null',1,2,3]
 
 var currRole = 'none';
 var sdmg = 0;
@@ -11,23 +12,29 @@ var maxMp = 2600;
 var mpHalfMag = 63;
 var mpCritThreshold = 76;
 
+var readoutText = '-';
+var mpCostTotal = 0;
+
 var effectType1 = {value:'dmg'};
 var targetType1 = {value:'enemy'};
 var magnitude1 = {value: 0};
+var magDisplay1 = {value: 0};
 var areaEffect1 = {value:0};
 var periodic1 = {value:0};
 var mpCost1 = {value:0};
 
-var effectType2 = {value:'dmg'};
+var effectType2 = {value:'none'};
 var targetType2 = {value:'enemy'};
 var magnitude2 = {value: 0};
+var magDisplay2 = {value: 0};
 var areaEffect2 = {value:0};
 var periodic2 = {value:0};
 var mpCost2 = {value:0};
 
-var effectType3 = {value:'dmg'};
+var effectType3 = {value:'none'};
 var targetType3 = {value:'enemy'};
 var magnitude3 = {value: 0};
+var magDisplay3 = {value: 0};
 var areaEffect3 = {value:0};
 var periodic3 = {value:0};
 var mpCost3 = {value:0};
@@ -35,30 +42,53 @@ var mpCost3 = {value:0};
 const effectTypeRowArr = ['null',effectType1,effectType2,effectType3]
 const targetTypeRowArr = ['null',targetType1,targetType2,targetType3]
 const magnitudeRowArr = ['null',magnitude1,magnitude2,magnitude3]
+const magDisplayRowArr = ['null',magDisplay1,magDisplay2,magDisplay3]
 const areaEffectRowArr = ['null',areaEffect1,areaEffect2,areaEffect3]
 const periodicRowArr = ['null',periodic1,periodic2,periodic3]
 const mpCostRowArr = ['null',mpCost1,mpCost2,mpCost3]
 
+function initialLoad() {
+    rowArr.forEach(row => {
+        if (row != 'null'){
+            let element = '<select class="effect-selector" id="effect' + row + '-option">'
+            let rowElement = $('#effect' + row + '-option')
+            effectSelect(rowElement)
+        } else {
+            return
+        }
+    })
+}
 
 function effectSelect(element) {
     let effect = element.val();
     let number = element.attr('id').slice(6,7);
     effectTypeRowArr[number] = {value: effect};
-
-    if (effect == 'dmg' || effect == 'heal' || effect == 'buff' || effect == 'debuff') {
-        enableMagnitude(number)
-    } else {
+    if (effect == 'none') {
+        disableArea(number)
         disableMagnitude(number)
-    }
-    if (effect != 'dmg' && effect != 'heal') {
         disablePeriodic(number)
+        disableTargetAlly(number)
     } else {
-        enablePeriodic(number);
-    }
-    if (effect == 'summon' || effect == 'invuln' || effect == 'stealth' || effect == 'esuna' || effect == 'revive') {
-        disableTargetEnemy(number)
-    } else {
-        enableTargetAll(number)
+        if (effect == 'dmg' || effect == 'heal' || effect == 'buff' || effect == 'debuff') {
+            enableMagnitude(number)
+        } else {
+            disableMagnitude(number)
+        }
+        if (effect != 'dmg' && effect != 'heal') {
+            disablePeriodic(number)
+        } else {
+            enablePeriodic(number);
+        }
+        if (effect == 'summon' || effect == 'invuln' || effect == 'stealth' || effect == 'esuna' || effect == 'revive') {
+            disableTargetEnemy(number)
+        } else {
+            enableTargetAll(number)
+        }
+        if (effect == 'summon') {
+            disableArea(number)
+        } else {
+            enableArea(number)
+        }
     }
     updateMPCost()
 }
@@ -209,6 +239,23 @@ function enablePeriodic(row) {
     effectCheckboxHandler(eotInput)
 }
 
+function disableArea(row) {
+    let aoeFieldRow = 'aoe-check-' + row;
+    let aoeInput = '<input class="effect-check" type="checkbox" value="0" id="aoe-check-' + row + '"></input>'
+    let aoeField = document.getElementById(aoeFieldRow);
+    aoeField.disabled = true;
+    aoeField.checked = false;
+    effectCheckboxHandler(aoeInput)
+}
+
+function enableArea(row) {
+    let aoeFieldRow = 'aoe-check-' + row;
+    let aoeInput = '<input class="effect-check" type="checkbox" value="0" id="aoe-check-' + row + '"></input>'
+    let aoeField = document.getElementById(aoeFieldRow);
+    aoeField.disabled = false;
+    effectCheckboxHandler(aoeInput)
+}
+
 function disableMagnitude(row) {
     let displayPlusRow = 'mag-button-plus-' + row;
     let displayMinusRow = 'mag-button-down-' + row;
@@ -301,6 +348,7 @@ function updateMag() {
             let magNumber = 'magnitude-display-' + magnitudeRowArr.indexOf(element);
             let currEffect = effectTypeRowArr[magnitudeRowArr.indexOf(element)].value;
             let thisMag = element.value;
+            let rowNumber = magnitudeRowArr.indexOf(element);
             let magDisplay = document.getElementById(magNumber);
             let magCritDiff = thisMag-mpCritThreshold;
             let magCritPercent = 1;
@@ -315,18 +363,24 @@ function updateMag() {
                 case 'dmg':
                     if (currRole == 'none') {
                         if (thisMag <= 0) {
+                            magDisplayRowArr[rowNumber] = {value: '-'}
                             magDisplay.innerHTML = '-';
                         } else {
+                            magDisplayRowArr[rowNumber] = {value: '+'+magnitudeArr[element.value]}
                             magDisplay.innerHTML = '+'+magnitudeArr[element.value];
                         }
                     } else {
                         if (thisMag <= 0) {
+                            magDisplayRowArr[rowNumber] = {value: '-'}
                             magDisplay.innerHTML = '-';
                         } else if (thisMag >= mpHalfMag && thisMag < mpCritThreshold+7) {
+                            magDisplayRowArr[rowNumber] = {value: Math.ceil(((sdmg+sdmg+magnitudeArr[element.value])*magCritPercent)/5)*5}
                             magDisplay.innerHTML = Math.ceil(((sdmg+sdmg+magnitudeArr[element.value])*magCritPercent)/5)*5;
                         } else if (thisMag >= mpHalfMag && thisMag >= mpCritThreshold+7 ) {
+                            magDisplayRowArr[rowNumber] = {value: Math.ceil(((sdmg+sdmg+magnitudeArr[element.value])*1.5)/5)*5}
                             magDisplay.innerHTML = Math.ceil(((sdmg+sdmg+magnitudeArr[element.value])*1.5)/5)*5;
                         } else {
+                            magDisplayRowArr[rowNumber] = {value: Math.ceil((sdmg+magnitudeArr[element.value])*magCritPercent)}
                             magDisplay.innerHTML = Math.ceil((sdmg+magnitudeArr[element.value])*magCritPercent);
                         }
                     }
@@ -334,33 +388,43 @@ function updateMag() {
                 case 'heal':
                     if (currRole == 'none') {
                         if (thisMag <= 0) {
+                            magDisplayRowArr[rowNumber] = {value: '-'}
                             magDisplay.innerHTML = '-';
                         } else {
+                            magDisplayRowArr[rowNumber] = {value: '+'+magnitudeArr[element.value]}
                             magDisplay.innerHTML = '+'+magnitudeArr[element.value];
                         }
                     } else {
                         if (thisMag <= 0) {
+                            magDisplayRowArr[rowNumber] = {value: '-'}
                             magDisplay.innerHTML = '-';
                         } else if (thisMag >= mpHalfMag && thisMag < mpCritThreshold+7) {
+                            magDisplayRowArr[rowNumber] = {value: Math.ceil(((heal+heal+magnitudeArr[element.value])*magCritPercent)/5)*5}
                             magDisplay.innerHTML = Math.ceil(((heal+heal+magnitudeArr[element.value])*magCritPercent)/5)*5;
                         } else if (thisMag >= mpHalfMag && thisMag >= mpCritThreshold+7 ) {
+                            magDisplayRowArr[rowNumber] = {value: Math.ceil(((heal+heal+magnitudeArr[element.value])*1.5)/5)*5}
                             magDisplay.innerHTML = Math.ceil(((heal+heal+magnitudeArr[element.value])*1.5)/5)*5;
                         } else {
+                            magDisplayRowArr[rowNumber] = {value: Math.ceil((heal+magnitudeArr[element.value])*magCritPercent)}
                             magDisplay.innerHTML = Math.ceil((heal+magnitudeArr[element.value])*magCritPercent);
                         }
                     }
                     break;
                 case 'buff':
                     if (thisMag <= 0) {
+                        magDisplayRowArr[rowNumber] = {value: '-'}
                         magDisplay.innerHTML = '-';
                     } else {
+                        magDisplayRowArr[rowNumber] = {value: buffMagArr[element.value]}
                         magDisplay.innerHTML = buffMagArr[element.value];
                     }
                     break;
                 case 'debuff':
                     if (thisMag <= 0) {
+                        magDisplayRowArr[rowNumber] = {value: '-'}
                         magDisplay.innerHTML = '-';
                     } else {
+                        magDisplayRowArr[rowNumber] = {value: debuffMagArr[element.value]}
                         magDisplay.innerHTML = debuffMagArr[element.value];
                     }
                     break;
@@ -373,6 +437,7 @@ function updateMag() {
 }
 
 function updateMPCost() {
+    var mpTotalCostArr = [];
     mpCostRowArr.forEach(element => {
         if (element != 'null') {
             let rowNumber = mpCostRowArr.indexOf(element);
@@ -382,6 +447,7 @@ function updateMPCost() {
             let currEffect = effectTypeRowArr[mpCostRowArr.indexOf(element)].value;
             let mpBaseCost = 0;
             let target = targetTypeRowArr[rowNumber].value;
+            let mpSubTotal = 0;
             let mpTotal = 0;
             let aoeMult = 1;
             let eotMult = 1;
@@ -406,60 +472,69 @@ function updateMPCost() {
                 case 'heal':
                     mpBaseCost = mpCostArr[magNumber];
 
-                    mpTotal = Math.ceil(((Math.ceil((mpBaseCost*aoeMult)/5)*5)*eotMult)/5)*5;
+                    mpSubTotal = Math.ceil(((Math.ceil((mpBaseCost*aoeMult)/5)*5)*eotMult)/5)*5;
                     
                     break;
                 case 'buff':
                 case 'debuff':
                     mpBaseCost = buffCostArr[magNumber]
-                    mpTotal = Math.ceil((mpBaseCost*aoeMult)/5)*5;
+                    mpSubTotal = Math.ceil((mpBaseCost*aoeMult)/5)*5;
                     break;
                 case 'stun':
                     mpBaseCost = 30;
-                    mpTotal = Math.ceil((mpBaseCost*aoeMult)/5)*5;
+                    mpSubTotal = Math.ceil((mpBaseCost*aoeMult)/5)*5;
                     break;
                 case 'esuna':
                     mpBaseCost = 75;
-                    mpTotal = Math.ceil((mpBaseCost*aoeMult)/5)*5;
+                    mpSubTotal = Math.ceil((mpBaseCost*aoeMult)/5)*5;
                     break;
                 case 'invuln':
                     mpBaseCost = 200;
-                    mpTotal = Math.ceil((mpBaseCost*aoeMult)/5)*5;
+                    mpSubTotal = Math.ceil((mpBaseCost*aoeMult)/5)*5;
                     break;
                 case 'revive':
                     mpBaseCost = 200;
-                    mpTotal = Math.ceil((mpBaseCost*aoeMult)/5)*5;
+                    mpSubTotal = Math.ceil((mpBaseCost*aoeMult)/5)*5;
                     break;
                 case 'summon':
                     mpBaseCost = 100;
-                    mpTotal = Math.ceil((mpBaseCost*aoeMult)/5)*5;
+                    mpSubTotal = Math.ceil((mpBaseCost*aoeMult)/5)*5;
                     break;
                 case 'stealth':
                     mpBaseCost = 100;
-                    mpTotal = Math.ceil((mpBaseCost*aoeMult)/5)*5;
+                    mpSubTotal = Math.ceil((mpBaseCost*aoeMult)/5)*5;
                     break;
             }
             switch (target) {
                 case 'enemy':
                     if (currEffect != 'dmg' && currEffect != 'debuff' && currEffect != 'stun'){
-                        mpDisplay.innerHTML = 0-mpTotal;    
+                        mpTotal = 0-mpSubTotal;
+                        mpDisplay.innerHTML = mpTotal;
                     } else {
+                        mpTotal = mpSubTotal;
                         mpDisplay.innerHTML = mpTotal;
                     }
                     break;
                 case 'ally':
                     if (currEffect != 'dmg' && currEffect != 'debuff' && currEffect != 'stun'){
-                        mpDisplay.innerHTML = mpTotal;    
+                        mpTotal = mpSubTotal;
+                        mpDisplay.innerHTML = mpTotal;
                     } else {
-                        mpDisplay.innerHTML = 0-mpTotal;
+                        mpTotal = 0-mpSubTotal;
+                        mpDisplay.innerHTML = mpTotal;
                     }
                     break;
             }
-            
+            mpCostRowArr[rowNumber] = {value: mpTotal};
+            mpTotalCostArr.push(mpCostRowArr[rowNumber].value)
         } else {
             return;
         }
+        const reducer = (previousValue, currentValue) => previousValue + currentValue;
+        mpCostTotal = mpTotalCostArr.reduce(reducer);
     })
+    let mpCostDisplay = document.getElementById("mpcost-display-total");
+    mpCostDisplay.innerHTML = mpCostTotal;
 }
 
 function effectCheckboxHandler(element) {
@@ -483,21 +558,65 @@ function effectCheckboxHandler(element) {
             }
             break;
     }
-    console.log(checkNumber+checkType+checkState)
     updateMPCost()
 }
 
+function readoutDisplayArray() {
+    var readoutArr = []
+    rowArr.forEach(row => {
+        if (row != 'null') {
+            let effectType = effectTypeRowArr[row].value;
+            let targetType = targetTypeRowArr[row].value;
+            let magnitude = magnitudeRowArr[row].value;
+            let magDisplayText = magDisplayRowArr[row].value;
+            let areaEffect = areaEffectRowArr[row].value;
+            let periodic = periodicRowArr[row].value;
+            let checkedBoxes = 'none';
+            if (areaEffect == true && periodic == true) {
+                checkedBoxes = 'both'
+            } else if (areaEffect == true && periodic == false) {
+                checkedBoxes = 'aoe'
+            } else if (areaEffect == false && periodic == true) {
+                checkedBoxes = 'eot'
+            } else {
+                checkedBoxes = 'none'
+            }
+            switch (effectType) {
+                case 'none':
+                    break;
+                case 'dmg':
+                    let readoutEffect = magDisplayText + ' DMG';
+                    console.log(readoutEffect)
+                    break;
+                case 'heal':
+                    readoutEffect = 2;
+                    break;
+                case 'buff':
+                    readoutEffect = 3;
+                    break;
+                case 'debuff':
+                    readoutEffect = 4;
+                    break;
+                case 'esuna':
+                    readoutEffect = 5;
+                    break;
+                case 'invuln':
+                    break;
+                case 'stealth':
+                    break;
+                case 'summon':
+                    break;
+                case 'revive':
+                    break;
+                case 'stun':
+                    break;
+            }
+        } else {
+            return
+        }
+    })
+}
 
-myStorage = window.localStorage;
-
-
-/*$(".magbutton").click(function() {
-    magnitudeDisplay(this)
-});*/
-
-/*$(".magbutton").mousedown(function() {
-    magButtons(this)
-});*/
 
 var intervalId;
 var delayId;
@@ -514,6 +633,7 @@ $(".magbutton").mousedown(function() {
 });
 
 window.addEventListener('load', function() {
+    initialLoad()
 });
 
 $(".effect-selector").change(function() {
@@ -533,4 +653,42 @@ $(".effect-check").change(function() {
 $(".target-selector").change(function() {
     let element = $(this);
     targetSelect(element);
+});
+
+
+
+
+var testSave = {
+    'name': 'David',
+    'age': 32,
+}
+
+$("#testcheckbox").click(function() {
+    readoutDisplayArray();
+});
+
+/*$("#testcheckbox").click(function() {
+        var textToSave = JSON.stringify(testSave);
+        var hiddenElement = document.createElement('a');
+      
+        hiddenElement.href = 'data:attachment/text,' + encodeURI(textToSave);
+        hiddenElement.target = '_blank';
+        hiddenElement.download = 'myFile.txt';
+        hiddenElement.click();
+});*/
+
+
+$("#testcheckbox2").click(function() {
+    var file = document.getElementById("loadfile").files[0];
+    if (file) {
+        var reader = new FileReader();
+        reader.readAsText(file, "UTF-8");
+        reader.onload = function (evt) {
+            var testLoad = JSON.parse(evt.target.result);
+            console.log(testLoad.name);
+        }
+        reader.onerror = function (evt) {
+            console.log("error reading file");
+        }
+    }
 });
