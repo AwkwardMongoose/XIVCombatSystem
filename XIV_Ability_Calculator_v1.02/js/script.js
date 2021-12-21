@@ -91,6 +91,7 @@ function effectSelect(element) {
         }
     }
     updateMPCost()
+    readoutDisplay()
 }
 
 function targetSelect(element) {
@@ -98,6 +99,7 @@ function targetSelect(element) {
     let number = element.attr('id').slice(6,7);
     targetTypeRowArr[number] = {value: target};
     updateMPCost()
+    readoutDisplay()
 }
 
 
@@ -236,6 +238,7 @@ function enablePeriodic(row) {
     let eotInput = '<input class="effect-check" type="checkbox" value="0" id="eot-check-' + row + '"></input>'
     let eotField = document.getElementById(eotFieldRow);
     eotField.disabled = false;
+    eotField.checked = false;
     effectCheckboxHandler(eotInput)
 }
 
@@ -253,6 +256,7 @@ function enableArea(row) {
     let aoeInput = '<input class="effect-check" type="checkbox" value="0" id="aoe-check-' + row + '"></input>'
     let aoeField = document.getElementById(aoeFieldRow);
     aoeField.disabled = false;
+    aoeField.checked = false;
     effectCheckboxHandler(aoeInput)
 }
 
@@ -267,7 +271,7 @@ function disableMagnitude(row) {
     displayMinusButton.disabled = true;
     displayField.classList.remove('effect-magstyle');
     displayField.classList.add('effect-magstyle-disabled');
-    magnitudeRowArr[row] = {value: 0}
+    magnitudeRowArr[row] = {value: -1}
     displayField.innerHTML = '-';
 }
 
@@ -339,7 +343,6 @@ function magButtons(button) {
 
     magnitudeRowArr[buttonNumber].value = magCount;
     updateMag()
-    updateMPCost()
 }
 
 function updateMag() {
@@ -434,6 +437,8 @@ function updateMag() {
             return
         }
     });
+    updateMPCost()
+    readoutDisplay()
 }
 
 function updateMPCost() {
@@ -559,10 +564,12 @@ function effectCheckboxHandler(element) {
             break;
     }
     updateMPCost()
+    readoutDisplay()
 }
 
-function readoutDisplayArray() {
+function readoutDisplay() {
     var readoutArr = []
+    var readoutText = document.getElementById('ability-readout');
     rowArr.forEach(row => {
         if (row != 'null') {
             let effectType = effectTypeRowArr[row].value;
@@ -571,6 +578,8 @@ function readoutDisplayArray() {
             let magDisplayText = magDisplayRowArr[row].value;
             let areaEffect = areaEffectRowArr[row].value;
             let periodic = periodicRowArr[row].value;
+            let readoutEffect = '';
+            let readoutTarget = '';
             let checkedBoxes = 'none';
             if (areaEffect == true && periodic == true) {
                 checkedBoxes = 'both'
@@ -581,40 +590,79 @@ function readoutDisplayArray() {
             } else {
                 checkedBoxes = 'none'
             }
-            switch (effectType) {
-                case 'none':
-                    break;
-                case 'dmg':
-                    let readoutEffect = magDisplayText + ' DMG';
-                    console.log(readoutEffect)
-                    break;
-                case 'heal':
-                    readoutEffect = 2;
-                    break;
-                case 'buff':
-                    readoutEffect = 3;
-                    break;
-                case 'debuff':
-                    readoutEffect = 4;
-                    break;
-                case 'esuna':
-                    readoutEffect = 5;
-                    break;
-                case 'invuln':
-                    break;
-                case 'stealth':
-                    break;
-                case 'summon':
-                    break;
-                case 'revive':
-                    break;
-                case 'stun':
-                    break;
+            if (effectType != 'none' && magnitude != 0) {
+                switch (effectType) {
+                    case 'dmg':
+                        if (periodic != true) {
+                            readoutEffect = magDisplayText + ' DMG to ';
+                        } else {
+                            readoutEffect = magDisplayText + ' DMG/turn to ';
+                        }
+                        break;
+                    case 'heal':
+                        if (periodic != true) {
+                            readoutEffect = magDisplayText + ' HEAL to ';
+                        } else {
+                            readoutEffect = magDisplayText + ' HEAL/turn to ';
+                        }
+                        break;
+                    case 'buff':
+                        readoutEffect = magDisplayText + ' Buff on ';
+                        break;
+                    case 'debuff':
+                        readoutEffect = magDisplayText + ' Debuff on ';
+                        break;
+                    case 'esuna':
+                        readoutEffect = 'Esuna on ';
+                        break;
+                    case 'invuln':
+                        readoutEffect = 'Invulnerability on ';
+                        break;
+                    case 'stealth':
+                        readoutEffect = 'Stealth on ';
+                        break;
+                    case 'summon':
+                        readoutEffect = 'Summon Minion';
+                        break;
+                    case 'revive':
+                        readoutEffect = 'Revive ';
+                        break;
+                    case 'stun':
+                        readoutEffect = 'Stun ';
+                        break;
+                }
+                if (effectType == 'summon') {
+                    readoutTarget = '';
+                } else if (areaEffect == true) {
+                    if (targetType == 'enemy') {
+                        readoutTarget = 'Enemies (AoE)';
+                    } else if (targetType == 'ally') {
+                        readoutTarget = 'Self & Allies (AoE)';
+                    } else {
+                        return
+                    }
+                } else if (areaEffect != true) {
+                    if (targetType == 'enemy') {
+                        readoutTarget = 'Enemy';
+                    } else if (targetType == 'ally') {
+                        readoutTarget = 'Self/Ally';
+                    } else {
+                        return
+                    }
+                } else {
+                    return
+                }
+                let readoutFinal = readoutEffect + readoutTarget;
+                readoutArr.push(readoutFinal)
+                console.log(readoutFinal)
+            } else {
+                return
             }
         } else {
             return
         }
     })
+    readoutText.innerHTML = readoutArr.join(' || ')
 }
 
 
@@ -664,7 +712,7 @@ var testSave = {
 }
 
 $("#testcheckbox").click(function() {
-    readoutDisplayArray();
+    readoutDisplay();
 });
 
 /*$("#testcheckbox").click(function() {
