@@ -156,8 +156,16 @@ tfoot {
     width: 45px;
     margin: auto;
     text-align: center;
-    background-color: white;
+    background-color: black;
     border: 2px solid black;
+}
+
+.magnitudecell-crit {
+    width: 45px;
+    margin: auto;
+    text-align: center;
+    background-color: black;
+    border: 2px solid blue;
 }
 
 .magnitudecell-disabled {

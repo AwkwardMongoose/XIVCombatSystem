@@ -559,6 +559,14 @@ function updateMPCost() {
             }
             mpCostRowArr[rowNumber] = {value: mpTotal};
             mpTotalCostArr.push(mpCostRowArr[rowNumber].value)
+            let magCrit = document.getElementById('effect-magcell-'+rowNumber)
+            if (magNumber >= mpCritThreshold) {
+                magCrit.classList.remove('magnitudecell')
+                magCrit.classList.add('magnitudecell-crit')
+            } else {
+                magCrit.classList.remove('magnitudecell-crit')
+                magCrit.classList.add('magnitudecell')
+            }
         } else {
             return;
         }
@@ -577,7 +585,7 @@ function updateMPCost() {
         mpCostDisplay.classList.remove('effect-mptotalstyle-over')
         mpCostDisplay.classList.add('effect-mptotalstyle')
         mpCostError.innerHTML = ''
-    } 
+    }
 }
 
 function effectCheckboxHandler(element) {
