@@ -7,6 +7,7 @@ const rowArr = ['null',1,2,3];
 
 var loadSwitch = false;
 
+var currName = ''
 var currRole = 'none';
 var sdmg = 0;
 var heal = 0;
@@ -47,15 +48,15 @@ var periodic3 = {value:0};
 var mpCost3 = {value:0};
 var magState3 = {value: 'disabled'};
 
-const effectTypeRowArr = ['null',effectType1,effectType2,effectType3];
-const prevEffectTypeRowArr = ['null',prevEffectType1,prevEffectType2,prevEffectType3];
-const targetTypeRowArr = ['null',targetType1,targetType2,targetType3];
-const magnitudeRowArr = ['null',magnitude1,magnitude2,magnitude3];
-const magDisplayRowArr = ['null',magDisplay1,magDisplay2,magDisplay3];
-const areaEffectRowArr = ['null',areaEffect1,areaEffect2,areaEffect3];
-const periodicRowArr = ['null',periodic1,periodic2,periodic3];
-const mpCostRowArr = ['null',mpCost1,mpCost2,mpCost3];
-const magStateRowArr = ['null',magState1,magState2,magState3];
+let effectTypeRowArr = ['null',effectType1,effectType2,effectType3];
+let prevEffectTypeRowArr = ['null',prevEffectType1,prevEffectType2,prevEffectType3];
+let targetTypeRowArr = ['null',targetType1,targetType2,targetType3];
+let magnitudeRowArr = ['null',magnitude1,magnitude2,magnitude3];
+let magDisplayRowArr = ['null',magDisplay1,magDisplay2,magDisplay3];
+let areaEffectRowArr = ['null',areaEffect1,areaEffect2,areaEffect3];
+let periodicRowArr = ['null',periodic1,periodic2,periodic3];
+let mpCostRowArr = ['null',mpCost1,mpCost2,mpCost3];
+let magStateRowArr = ['null',magState1,magState2,magState3];
 
 function initialLoad() {
     rowArr.forEach(row => {
@@ -558,7 +559,6 @@ function updateMPCost() {
             }
             mpCostRowArr[rowNumber] = {value: mpTotal};
             mpTotalCostArr.push(mpCostRowArr[rowNumber].value)
-            console.log('MP',areaEffectRowArr[3])
         } else {
             return;
         }
@@ -717,7 +717,6 @@ function updateDropDowns() {
             let aoe = document.getElementById('aoe-check-' + row);
             let aoeState = areaEffectRowArr[row].value == 1 ? true : false;
             aoe.checked = aoeState;
-            console.log('test',areaEffectRowArr[row])
             updateMPCost()
             effectSelect(effect)
             targetSelect(target)
@@ -730,11 +729,9 @@ function updateDropDowns() {
 }
 
 function updateAll() {
-    effectTypeRowArr[3] = {value: 'heal'};
-    magnitudeRowArr[3] = {value: 3};
-    targetTypeRowArr[3] = {value: 'ally'};
-    periodicRowArr[3] = {value: 1};
-    areaEffectRowArr[3] = {value: 1};
+    let name = document.getElementById('ability-name');
+    $(name).val(currName)
+    console.log(currName)
     loadSwitch = true;
     updateMPCost()
     updateMag()
@@ -786,7 +783,117 @@ $(".target-selector").change(function() {
     targetSelect(element);
 });
 
+function saveFile() {
+    /*var saveFile = {
+        'currRole': currRole,
+        'sdmg': sdmg,
+        'heal': heal,
+        'maxMp': maxMp,
+        'mpHalfMag': mpHalfMag,
+        'mpCritThreshold': mpCritThreshold,
+    
+        'readoutText': readoutText,
+        'mpCostTotal': mpCostTotal,
+    
+        'effectType1': effectTypeRowArr[1].value,
+        'prevEffectType1': prevEffectTypeRowArr[1].value,
+        'targetType1': targetTypeRowArr[1].value,
+        'magnitude1': magnitudeRowArr[1].value,
+        'magDisplay1': magDisplayRowArr[1].value,
+        'areaEffect1': areaEffectRowArr[1].value,
+        'periodic1': periodicRowArr[1].value,
+        'mpCost1': mpCostRowArr[1].value,
+        'magState1': magStateRowArr[1].value,
+    
+        'effectType2': effectTypeRowArr[2].value,
+        'prevEffectType2': prevEffectTypeRowArr[2].value,
+        'targetType2': targetTypeRowArr[2].value,
+        'magnitude2': magnitudeRowArr[2].value,
+        'magDisplay2': magDisplayRowArr[2].value,
+        'areaEffect2': areaEffectRowArr[2].value,
+        'periodic2': periodicRowArr[2].value,
+        'mpCost2': mpCostRowArr[2].value,
+        'magState2': magStateRowArr[2].value,
+    
+        'effectType3': effectTypeRowArr[3].value,
+        'prevEffectType3': prevEffectTypeRowArr[3].value,
+        'targetType3': targetTypeRowArr[3].value,
+        'magnitude3': magnitudeRowArr[3].value,
+        'magDisplay3': magDisplayRowArr[3].value,
+        'areaEffect3': areaEffectRowArr[3].value,
+        'periodic3': periodicRowArr[3].value,
+        'mpCost3': mpCostRowArr[3].value,
+        'magState3': magStateRowArr[3].value,
+    };*/
+    let name = document.getElementById('ability-name');
+    currName = $(name).val();
+    let saveFile = {
+        'currName': currName,
+        'currRole': currRole,
+        'sdmg': sdmg,
+        'heal': heal,
+        'maxMp': maxMp,
+        'mpHalfMag': mpHalfMag,
+        'mpCritThreshold': mpCritThreshold,
+    
+        'readoutText': readoutText,
+        'mpCostTotal': mpCostTotal,
+    
+        'effectType': effectTypeRowArr,
+        'prevEffectType': prevEffectTypeRowArr,
+        'targetType': targetTypeRowArr,
+        'magnitude': magnitudeRowArr,
+        'magDisplay': magDisplayRowArr,
+        'areaEffect': areaEffectRowArr,
+        'periodic': periodicRowArr,
+        'mpCost': mpCostRowArr,
+        'magState': magStateRowArr,
+    }
+    
+    var textToSave = JSON.stringify(saveFile);
+    var hiddenElement = document.createElement('a');
+  
+    hiddenElement.href = 'data:attachment/text,' + encodeURI(textToSave);
+    hiddenElement.target = '_blank';
+    hiddenElement.download = currName+'.txt';
+    hiddenElement.click();
+    console.log(effectTypeRowArr[1].value)
+}
 
+function loadFile() {
+    var file = document.getElementById("loadfile").files[0];
+    if (file) {
+        var reader = new FileReader();
+        reader.readAsText(file, "UTF-8");
+        reader.onload = function (evt) {
+            var fileLoad = JSON.parse(evt.target.result);
+            currName = fileLoad.currName;
+            currRole = fileLoad.currRole;
+            sdmg = fileLoad.sdmg;
+            heal = fileLoad.heal;
+            maxMp = fileLoad.maxMp;
+            mpHalfMag = fileLoad.mpHalfMag;
+            mpCritThreshold = fileLoad.mpCritThreshold;
+        
+            readoutText = fileLoad.readoutText;
+            mpCostTotal = fileLoad.mpCostTotal;
+        
+            effectTypeRowArr = fileLoad.effectType;
+            prevEffectTypeRowArr = fileLoad.prevEffectType;
+            targetTypeRowArr = fileLoad.targetType;
+            magnitudeRowArr = fileLoad.magnitude;
+            magDisplayRowArr = fileLoad.magDisplay;
+            areaEffectRowArr = fileLoad.areaEffect;
+            periodicRowArr = fileLoad.periodic;
+            mpCostRowArr = fileLoad.mpCost;
+            magStateRowArr = fileLoad.magState;
+            updateAll()
+        }
+        reader.onerror = function (evt) {
+            console.log("error reading file");
+        }
+    }
+}
 
 
 var testSave = {
@@ -795,31 +902,17 @@ var testSave = {
 }
 
 $("#testcheckbox").click(function() {
-    updateAll();
+    console.log(saveFile.effectType1);
 });
 
-/*$("#testcheckbox").click(function() {
-        var textToSave = JSON.stringify(testSave);
-        var hiddenElement = document.createElement('a');
-      
-        hiddenElement.href = 'data:attachment/text,' + encodeURI(textToSave);
-        hiddenElement.target = '_blank';
-        hiddenElement.download = 'myFile.txt';
-        hiddenElement.click();
-});*/
-
-
-$("#testcheckbox2").click(function() {
-    var file = document.getElementById("loadfile").files[0];
-    if (file) {
-        var reader = new FileReader();
-        reader.readAsText(file, "UTF-8");
-        reader.onload = function (evt) {
-            var testLoad = JSON.parse(evt.target.result);
-            console.log(testLoad.name);
-        }
-        reader.onerror = function (evt) {
-            console.log("error reading file");
-        }
-    }
+$("#savefile").click(function() {
+    saveFile()
 });
+
+
+$("#loadfile").change(function() {
+    loadFile()
+});
+
+
+

@@ -40,6 +40,28 @@
                 &nbsp;
             </td>
         </tr>
+        <tr>
+            <td style="background-color: black;border: black;">
+                &nbsp;
+            </td>
+            <td colspan="10" style="background-color: black; border: black;color: white; font-size: 14px; font-weight: bold; text-align: center;">
+                Ability/Spell Name:
+            </td>
+            <td style="background-color: black;border: black;">
+                &nbsp;
+            </td>
+        </tr>
+        <tr>
+            <td style="background-color: black;border: black;">
+                &nbsp;
+            </td>
+            <td colspan="10" style="background-color: black; border: black;color: white; font-size: 14px; font-weight: bold; text-align: center;">
+                <input type="text" style="width: 300px;height: 40px;font-size: 18px;" id="ability-name" value="" placeholder="Ability name here...">
+            </td>
+            <td style="background-color: black;border: black;">
+                &nbsp;
+            </td>
+        </tr>
     </table>
     <table id='table' style="width: 680px;">
         <thead id="table-header">
@@ -159,16 +181,19 @@
                 <td class="numbercell"></td>
             </tr>
             <tr>
-                <td style="text-align: center; align-content: center; margin: auto; padding-right: 8px; background-color: black; border-right: black;"><input type="checkbox" id="testcheckbox"><input type="checkbox" id="testcheckbox2"></td>
+                <td colspan="12" class="numbercell"></td>
             </tr>
         </tbody>
         <tfoot id="bottom-row">
             <tr>
-                <td colspan='12'>
-                    <input type="file"
-                    id="loadfile" name="loadfile"
-                    accept=".txt">
+                <td class="numbercell"></td>
+                <td colspan="10" style="text-align: center; align-content: center; margin: auto; padding-right: 8px; background-color: black; border-right: black;"><label class="load-file" id="savefile">Save&nbsp;Spell/Ability</label><span>&nbsp;</span><label class="load-file" for="loadfile">Load&nbsp;Spell/Ability</label>
+                    <input type="file" id="loadfile" name="loadfile" accept=".txt" hidden></td>
                 </td>
+                <td class="numbercell"></td>
+            </tr>
+            <tr>
+                <td colspan="12" class="numbercell" style="height: 10px;"></td>
             </tr>
         </tfoot>
     </table>

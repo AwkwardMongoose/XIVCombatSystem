@@ -350,3 +350,29 @@ div.effect-mptotalstyle-over {
 .magbutton {
     display: hidden;
 }
+
+.load-file {
+    
+    height: 25px;
+    width: 160px;
+    padding-left: 5px;
+    padding-right: 5px;
+    font-size: 14px;
+    border: 1px solid black;
+    border-radius: 1px;
+    background-color: lightgrey;
+    font-weight: bold;
+    text-align: center;
+    margin: auto;
+    border-top: #888 solid 2px;
+    border-left: #888 2px solid;
+    border-bottom: solid 2px #333;
+    border-right: solid 2px #333;
+}
+.load-file:active {
+    background-color: white;
+    border-top: #333 solid 2px;
+    border-left: #333 2px solid;
+    border-bottom: solid 2px #888;
+    border-right: solid 2px #888;
+}
