@@ -566,7 +566,18 @@ function updateMPCost() {
         mpCostTotal = mpTotalCostArr.reduce(reducer);
     })
     let mpCostDisplay = document.getElementById("mpcost-display-total");
+    let mpCostError = document.getElementById("mpcost-display-error");
     mpCostDisplay.innerHTML = mpCostTotal;
+    if (mpCostTotal > maxMp) {
+        mpCostDisplay.classList.remove('effect-mptotalstyle')
+        mpCostDisplay.classList.add('effect-mptotalstyle-over')
+        mpCostError.innerHTML = 'Over Max MP!'
+        console.log()
+    } else {
+        mpCostDisplay.classList.remove('effect-mptotalstyle-over')
+        mpCostDisplay.classList.add('effect-mptotalstyle')
+        mpCostError.innerHTML = ''
+    } 
 }
 
 function effectCheckboxHandler(element) {

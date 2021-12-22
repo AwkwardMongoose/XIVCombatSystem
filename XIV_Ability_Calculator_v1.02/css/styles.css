@@ -342,6 +342,11 @@ div.effect-mptotalstyle {
 }
 
 div.effect-mptotalstyle-over {
+    background-color: lightgrey;
+    font-weight: bold;
+    width: 140px;
+    text-align: center;
+    margin: auto;
     border: 3px solid red;
 }
 
