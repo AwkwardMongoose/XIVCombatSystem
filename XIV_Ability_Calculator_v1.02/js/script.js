@@ -560,7 +560,7 @@ function updateMPCost() {
             mpCostRowArr[rowNumber] = {value: mpTotal};
             mpTotalCostArr.push(mpCostRowArr[rowNumber].value)
             let magCrit = document.getElementById('effect-magcell-'+rowNumber)
-            if (magNumber >= mpCritThreshold) {
+            if (magNumber >= mpCritThreshold && (currEffect == 'dmg' || currEffect == 'heal')) {
                 magCrit.classList.remove('magnitudecell')
                 magCrit.classList.add('magnitudecell-crit')
             } else {
