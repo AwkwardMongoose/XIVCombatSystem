@@ -659,13 +659,9 @@ function readoutDisplay() {
                         break;
                     case 'heal':
                         if (periodic != true) {
-                            readoutEffect = magDisplayText + ' DMG to ';
+                            readoutEffect = magDisplayText + ' HEAL to ';
                         } else {
-                            if (magDisplayText == 5) {
-                                readoutEffect = 5 + ' DMG/turn to ';
-                            } else {
-                                readoutEffect = Math.floor((magDisplayText/2)/5)*5 + ' DMG/turn to ';
-                            }
+                            readoutEffect = magDisplayText + ' HEAL/turn to ';
                         }
                         break;
                     case 'buff':
