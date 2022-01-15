@@ -642,7 +642,11 @@ function readoutDisplay() {
                         if (periodic != true) {
                             readoutEffect = magDisplayText + ' DMG to ';
                         } else {
-                            readoutEffect = magDisplayText + ' DMG/turn to ';
+                            if (magDisplayText == 5) {
+                                readoutEffect = 5 + ' DMG/turn to ';
+                            } else {
+                                readoutEffect = Math.floor((magDisplayText/2)/5)*5 + ' DMG/turn to ';
+                            }
                         }
                         break;
                     case 'heal':
