@@ -627,6 +627,18 @@ function readoutDisplay() {
             let readoutEffect = '';
             let readoutTarget = '';
             let checkedBoxes = 'none';
+            if (periodic == true) {
+                if (magDisplayText == '+5') {
+                    magDisplayText = '+5';
+                } else if (currRole == 'none') {
+                    let magDisplayInt = parseInt(magDisplayText);
+                    magDisplayText = '+' + Math.floor((magDisplayInt/2)/5)*5;
+                } else {
+                    let magDisplayInt = parseInt(magDisplayText);
+                    magDisplayText = Math.floor((magDisplayInt/2)/5)*5;
+                }
+            } else {
+            }
             if (areaEffect == true && periodic == true) {
                 checkedBoxes = 'both'
             } else if (areaEffect == true && periodic == false) {
@@ -642,18 +654,18 @@ function readoutDisplay() {
                         if (periodic != true) {
                             readoutEffect = magDisplayText + ' DMG to ';
                         } else {
+                            readoutEffect = magDisplayText + ' DMG/turn to ';
+                        }
+                        break;
+                    case 'heal':
+                        if (periodic != true) {
+                            readoutEffect = magDisplayText + ' DMG to ';
+                        } else {
                             if (magDisplayText == 5) {
                                 readoutEffect = 5 + ' DMG/turn to ';
                             } else {
                                 readoutEffect = Math.floor((magDisplayText/2)/5)*5 + ' DMG/turn to ';
                             }
-                        }
-                        break;
-                    case 'heal':
-                        if (periodic != true) {
-                            readoutEffect = magDisplayText + ' HEAL to ';
-                        } else {
-                            readoutEffect = magDisplayText + ' HEAL/turn to ';
                         }
                         break;
                     case 'buff':
