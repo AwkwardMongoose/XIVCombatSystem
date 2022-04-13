@@ -6,7 +6,7 @@ const tankMP = 200
 const tankATK = "+10"
 const tankDEF = 80
 const tankDMG = 20
-const tankSDMG = 20
+const tankSDMG = 25
 const tankHEAL = 5
 const tankREC = 35
 
@@ -62,7 +62,7 @@ const healREC = 75
 
 //M Tank
 const mTankHP = 75
-const mTankMP = 50
+const mTankMP = 100
 const mTankATK = "+10"
 const mTankDEF = 60
 const mTankDMG = 10
@@ -72,7 +72,7 @@ const mTankREC = 15
 
 //M DPS
 const mDPSHP = 50
-const mDPSMP = 50
+const mDPSMP = 100
 const mDPSATK = "+20"
 const mDPSDEF = 40
 const mDPSDMG = 20
@@ -82,7 +82,7 @@ const mDPSREC = 15
 
 //M Heal
 const mHealHP = 30
-const mHealMP = 50
+const mHealMP = 100
 const mHealATK = "-"
 const mHealDEF = 20
 const mHealDMG = "-"

@@ -128,7 +128,7 @@ function roleSelect(element) {
             mpCritThreshold = 76;
         break
         case 'tank':
-            sdmg = 20;
+            sdmg = 25;
             heal = 5;
             maxMp = 200;
             mpHalfMag = 4;
