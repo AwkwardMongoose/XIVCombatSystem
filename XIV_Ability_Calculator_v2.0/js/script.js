@@ -90,12 +90,12 @@ function effectSelect(element) {
         } else {
             enablePeriodic(number);
         }
-        if (effect == 'summon' || effect == 'invuln' || effect == 'stealth' || effect == 'esuna' || effect == 'revive') {
+        if (effect == 'summon' || effect == 'invuln' || effect == 'stealth' || effect == 'esuna' || effect == 'revive' || effect == 'movement') {
             disableTargetEnemy(number)
         } else {
             enableTargetAll(number)
         }
-        if (effect == 'summon') {
+        if (effect == 'summon' || effect == 'movement') {
             disableArea(number)
         } else {
             enableArea(number)
@@ -130,44 +130,44 @@ function roleSelect(element) {
         case 'tank':
             sdmg = 25;
             heal = 5;
-            maxMp = 200;
+            maxMp = 250;
             mpHalfMag = 4;
-            mpCritThreshold = 6;
+            mpCritThreshold = 7;
         break
         case 'ltank':
             sdmg = 25;
             heal = 5;
-            maxMp = 250;
+            maxMp = 300;
             mpHalfMag = 5;
-            mpCritThreshold = 7;
+            mpCritThreshold = 8;
         break
         case 'mstriker':
             sdmg = 35;
             heal = 5;
-            maxMp = 200;
+            maxMp = 250;
             mpHalfMag = 4;
-            mpCritThreshold = 6;
+            mpCritThreshold = 7;
         break
         case 'rstriker':
             sdmg = 30;
             heal = 5;
-            maxMp = 150;
+            maxMp = 200;
             mpHalfMag = 3;
-            mpCritThreshold = 5;
+            mpCritThreshold = 6;
         break
         case 'caster':
             sdmg = 45;
             heal = 5;
-            maxMp = 500;
+            maxMp = 550;
             mpHalfMag = 8;
-            mpCritThreshold = 15;
+            mpCritThreshold = 16;
         break
         case 'heal':
             sdmg = 20;
             heal = 35;
-            maxMp = 500;
+            maxMp = 550;
             mpHalfMag = 8;
-            mpCritThreshold = 15;
+            mpCritThreshold = 16;
         break
         case 'tminion':
             sdmg = 10;
@@ -193,9 +193,9 @@ function roleSelect(element) {
         case 'boss':
             sdmg = 50;
             heal = 30;
-            maxMp = 500;
-            mpHalfMag = 8;
-            mpCritThreshold = 15;
+            maxMp = 600;
+            mpHalfMag = 9;
+            mpCritThreshold = 17;
         break
         case 'limit':
             sdmg = 100;
@@ -536,6 +536,10 @@ function updateMPCost() {
                     mpBaseCost = 100;
                     mpSubTotal = Math.ceil((mpBaseCost*aoeMult)/5)*5;
                     break;
+                case 'movement':
+                    mpBaseCost = 50;
+                    mpSubTotal = Math.ceil((mpBaseCost*aoeMult)/5)*5;
+                    break;
             }
             switch (target) {
                 case 'enemy':
@@ -688,6 +692,9 @@ function readoutDisplay() {
                     case 'stun':
                         readoutEffect = 'Stun ';
                         break;
+                    case 'movement':
+                        readoutEffect = 'Movement ';
+                        break;
                 }
                 if (effectType == 'summon') {
                     readoutTarget = '';
@@ -699,7 +706,7 @@ function readoutDisplay() {
                     } else {
                         return
                     }
-                } else if (areaEffect != true) {
+                } else if (areaEffect != true && effectType != 'movement') {
                     if (targetType == 'enemy') {
                         readoutTarget = 'Enemy';
                     } else if (targetType == 'ally') {
@@ -707,6 +714,8 @@ function readoutDisplay() {
                     } else {
                         return
                     }
+                } else if(areaEffect != true && effectType == 'movement') {
+                    readoutTarget = '(Self)';
                 } else {
                     return
                 }

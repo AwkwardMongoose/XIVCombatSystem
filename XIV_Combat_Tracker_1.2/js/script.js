@@ -2,7 +2,7 @@
 
 //Tank
 const tankHP = 200
-const tankMP = 200
+const tankMP = 250
 const tankATK = "+10"
 const tankDEF = 80
 const tankDMG = 20
@@ -12,7 +12,7 @@ const tankREC = 35
 
 //Light Tank
 const lightTankHP = 170
-const lightTankMP = 250
+const lightTankMP = 300
 const lightTankATK = "+15"
 const lightTankDEF = 75
 const lightTankDMG = 25
@@ -22,7 +22,7 @@ const lightTankREC = 35
 
 //Melee Striker
 const mStrikerHP = 150
-const mStrikerMP = 200
+const mStrikerMP = 250
 const mStrikerATK = "+30"
 const mStrikerDEF = 65
 const mStrikerDMG = 35
@@ -32,7 +32,7 @@ const mStrikerREC = 35
 
 //Ranged Striker
 const rStrikerHP = 140
-const rStrikerMP = 150
+const rStrikerMP = 200
 const rStrikerATK = "+30"
 const rStrikerDEF = 60
 const rStrikerDMG = 30
@@ -42,7 +42,7 @@ const rStrikerREC = 35
 
 //Caster
 const casterHP = 120
-const casterMP = 500
+const casterMP = 550
 const casterATK = "+20"
 const casterDEF = 50
 const casterDMG = 10
@@ -52,7 +52,7 @@ const casterREC = 50
 
 //Healer/Support
 const healHP = 100
-const healMP = 500
+const healMP = 550
 const healATK = "+0"
 const healDEF = 45
 const healDMG = 10
@@ -92,7 +92,7 @@ const mHealREC = 25
 
 //Boss
 const bossHP = "???"
-const bossMP = 500
+const bossMP = 600
 const bossATK = "+25"
 const bossDEF = 60
 const bossDMG = 40
