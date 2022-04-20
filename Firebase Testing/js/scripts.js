@@ -37,15 +37,15 @@ function writeUserData(userId, name, email, imageUrl) {
       });
       
   }
-  console.log('Test 0.7')
+  console.log('Test 0.8')
 
 const db1 = getDatabase();
 const starCountRef = ref(db1, 'users1');
 onValue(starCountRef, (snapshot) => {
   const data = snapshot.val();
-
+  let newtext = snapshot.val().username;
   const para = document.createElement("p");
-  const node = document.createTextNode(snapshot.val().username);
+  const node = document.createTextNode(newtext);
   para.appendChild(node);
   const element = document.getElementById("div1");
   element.appendChild(para);
