@@ -36,7 +36,7 @@ function writeUserData(userId, name, email, imageUrl) {
       });
       
   }
-
+  console.log('Test 0.3')
 
 const db1 = getDatabase();
 const starCountRef = ref(db1, 'users1');
@@ -48,11 +48,10 @@ onValue(starCountRef, (snapshot) => {
 });
 
 
-var input = document.getElementById('input').innerHTML;
 const button = document.getElementById('button');
 button.addEventListener('click', function() {
-    let name = toString(input);
+  let input = document.getElementById('input').innerHTML;
+  let name = toString(input);
     console.log(toString(input))
-    console.log('Test 0.2')
     writeUserData('1', name)
 })
