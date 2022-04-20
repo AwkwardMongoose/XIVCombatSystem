@@ -18,6 +18,7 @@ function writeUserData(userId, name, email, imageUrl) {
     set(ref(db, 'users' + userId), {
       username: name,
     });
+    document.getElementById("input").value = "";
   }
 
   const dbRef = ref(getDatabase());
@@ -36,7 +37,7 @@ function writeUserData(userId, name, email, imageUrl) {
       });
       
   }
-  console.log('Test 0.5')
+  console.log('Test 0.6')
 
 const db1 = getDatabase();
 const starCountRef = ref(db1, 'users1');
