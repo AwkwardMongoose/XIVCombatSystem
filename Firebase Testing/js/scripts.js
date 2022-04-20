@@ -52,5 +52,6 @@ var input = document.getElementById('input').value;
 const button = document.getElementById('button');
 button.addEventListener('click', function() {
     let name = toString(input);
+    console.log(toString(input))
     writeUserData('1', name)
 })
