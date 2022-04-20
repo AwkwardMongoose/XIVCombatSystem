@@ -37,7 +37,7 @@ function writeUserData(userId, name, email, imageUrl) {
       });
       
   }
-  console.log('Test 0.9')
+  console.log('Test 0.1')
 
 const db1 = getDatabase();
 const starCountRef = ref(db1, 'users1');
@@ -47,7 +47,7 @@ onValue(starCountRef, (snapshot) => {
   const para = document.createElement("p");
   const node = document.createTextNode(newtext);
   para.appendChild(node);
-  const element = document.getElementById("test");
+  const element = document.getElementById("div1");
   element.appendChild(para);
 
 
