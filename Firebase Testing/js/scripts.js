@@ -14,9 +14,10 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 
-function writeUserData(userId, name, email, imageUrl) {
+function writeUserData(userId, name, text) {
     set(ref(db, 'users' + userId), {
       username: name,
+      text: text,
     });
     document.getElementById("input").value = "";
   }
@@ -37,15 +38,17 @@ function writeUserData(userId, name, email, imageUrl) {
       });
       
   }
-  console.log('Test 0.2')
+  console.log('Test 0.3')
 
 const db1 = getDatabase();
+
 const starCountRef = ref(db1, 'users1');
 onValue(starCountRef, (snapshot) => {
   const data = snapshot.val();
-  let newtext = snapshot.val().username;
+  let name = snapshot.val().username;
+  let newtext = snapshot.val().text;
   const para = document.createElement("p");
-  const node = document.createTextNode(newtext);
+  const node = document.createTextNode(name + ": " + newtext);
   para.appendChild(node);
   const element = document.getElementById("div1");
   element.appendChild(para);
@@ -60,8 +63,7 @@ onValue(starCountRef, (snapshot) => {
 
 const button = document.getElementById('button');
 button.addEventListener('click', function() {
-  let input = document.getElementById('input').value;
-  let name = input;
-    console.log(toString(input))
-    writeUserData('1', name)
+  let name = document.getElementById('name').value;
+  let text = document.getElementById('input').value;
+  writeUserData('1', name, text)
 })
