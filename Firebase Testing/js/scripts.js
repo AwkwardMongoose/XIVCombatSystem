@@ -51,6 +51,6 @@ onValue(starCountRef, (snapshot) => {
 var input = document.getElementById('input');
 const button = document.getElementById('button');
 button.addEventListener('click', function() {
-    let name = input.val;
+    let name = input.value;
     writeUserData('1', name)
 })
