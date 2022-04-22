@@ -48,7 +48,6 @@ function rowMax() {
       rowArr.forEach(a => {
         numArr.push(parseInt(a.number));
       });
-      console.log(Math.max(...numArr))
       return Math.max(...numArr) + 1
     } else {
       return 1
@@ -111,7 +110,7 @@ function getRowData() {
       if (snapshot.exists()) {
         let items = snapshot.val();
         items.forEach((a,b) => {
-          console.log(items[b].name)
+          
           let table = document.getElementById('data-table');
           
           let newRow  = document.createElement("tr");
@@ -160,9 +159,40 @@ function getRowData() {
     });
 }
 
-onValue(dbRef, (snapshot) => {
-  const data = snapshot.val();
-  console.log('Updated')
+onValue(ref(db, 'rows/'), (snapshot) => {
+  let data = snapshot.val();
+  if (snapshot.exists()) {
+    let rowArr = [];
+    data.forEach((a,b) => {
+      rowArr.push(a.number);
+      let num = a.number;
+      let name = a.name;
+      let role = a.role;
+      try {
+        document.getElementById('row'+num).id
+      } catch {
+        newRow(num,name,role)
+        console.log('Row '+num+' not found.')
+      }
+      try {
+        let tRows = $('[id*="row"]');
+        tRows.each(c => {
+          let rowCount = c+1;
+          let rowDel = document.getElementById('row'+rowCount);
+          let rowExists = rowArr.includes(rowCount);
+          if (rowExists != true) {
+            rowDel.remove()
+          } else {
+            console.log(c)
+          }
+        })
+      } catch {
+        console.log('No Rows')
+      }
+    })
+  } else {
+    console.log('No snapshot')
+  }
 });
 
 const button = document.getElementById('button');
@@ -171,7 +201,7 @@ button.addEventListener('click', async function() {
   let name = document.getElementById('name').value;
   let role = document.getElementById('role').value;
   writeRowData(num,name,role)
-  newRow(num,name,role)
+  //newRow(num,name,role)
   console.log('Enter')
 })
 
@@ -180,9 +210,9 @@ testButton.addEventListener('click', async function() {
   console.log(await rowMax())
 })
 
-window.addEventListener('load', function() {
+/*window.addEventListener('load', function() {
   getRowData()
-})
+})*/
 
 $(document).on('click', 'button', function() {
   let x = this.id.slice(0,3);
