@@ -10,3 +10,17 @@ tr {
 td {
     text-align: center;
 }
+
+
+.data-table {
+    border: 2px solid black;
+    text-align: left;
+}
+
+.data-cell {
+    border: 1px solid black
+}
+
+.align-left {
+    text-align: left;
+}
