@@ -17,7 +17,7 @@ const dbRef = ref(getDatabase());
 const db1 = getDatabase();
 
 function writeRowData(rowNum, name1, role1) {
-  let arrayNum = rowNum;
+  let arrayNum = rowNum-1;
   set(ref(db, 'rows/'+arrayNum), {
       number: rowNum,
       name: name1,
@@ -26,7 +26,7 @@ function writeRowData(rowNum, name1, role1) {
 }
 
 function removeRowData(rowNum) {
-  let arrayNum = rowNum;
+  let arrayNum = rowNum-1;
   set(ref(db, 'rows/'+arrayNum), null);
 }
 
@@ -40,7 +40,7 @@ function rowNum() {
     });
 }
 
-/*function rowMax() {
+function rowMax() {
   let numArr = [];
   return get(child(dbRef, 'rows')).then((snapshot) => {
     if (snapshot.exists()) {
@@ -56,30 +56,12 @@ function rowNum() {
   }).catch((error) => {
       console.error(error);
   });
-}*/
-
-function rowMax() {
-  let numArr = [];
-  return get(child(dbRef, 'rows')).then((snapshot) => {
-    if (snapshot.exists()) {
-      let rowArr = snapshot.val();
-      for (let a in rowArr) {
-        numArr.push(parseInt(a));
-      }
-      return Math.max(...numArr) + 1
-    } else {
-      return 1
-    }
-
-  }).catch((error) => {
-      console.error(error);
-  });
 }
 
 function newRow(num,name,role) {
   let table = document.getElementById('data-table');
           
-  let newRow = document.createElement("tr");
+  let newRow  = document.createElement("tr");
   newRow.id = 'row'+num;
   table.appendChild(newRow);
 
@@ -176,8 +158,8 @@ function getRowData() {
       console.error(error);
     });
 }
-//Old Script
-/*onValue(ref(db, 'rows/'), (snapshot) => {
+
+onValue(ref(db, 'rows/'), (snapshot) => {
   let data = snapshot.val();
   if (snapshot.exists()) {
     let rowArr = [];
@@ -210,121 +192,11 @@ function getRowData() {
   } else {
     console.log('No snapshot')
   }
-});*/
-//New Script
-/*onValue(ref(db, 'rows/'), (snapshot) => {
-  let data = [];
-  data.push(snapshot.val());
-  if (snapshot.exists()) {
-    let rowArr = [];
-    for (let x of data) {
-      for (let a of x) {
-        console.log(a)
-        if (a != undefined) {
-          rowArr.push(a.number);
-          console.log(rowArr)
-          let num = a.number;
-          let name = a.name;
-          let role = a.role;          
-          if (document.getElementById('row'+num) != null) {
-            console.log('IF NULL FALSE')
-          } else {
-            newRow(num,name,role)
-            console.log('Row '+num+' not found.')
-          }
-          try {
-            let tRows = document.querySelectorAll('tr');
-            console.log(tRows)
-            tRows.forEach(v => {
-                console.log(v)
-                let rowID = v.id;
-                if (rowID.includes('row')) {
-                  let rowCount = parseInt(rowID.slice(3));
-                  if (rowArr.includes(rowCount)) {
-                    console.log('Row '+rowCount+' found!')
-                  } else {
-                    v.remove()
-                  }
-                }
-            })
-          } catch {
-            console.log('No Rows')
-          }
-    
-        } else {
-          console.log('UNDEFINED')
-        }
-      }
-    }
-  } else {
-    console.log('No snapshot')
-  }
-});*/
-
-onValue(ref(db, 'rows/'), (snapshot) => {
-  let data = snapshot.val();
-  if (snapshot.exists()) {
-    let rowArr = [];
-    for (let x in data) {
-      let a = data[x]
-      let num = a.number;
-      let name = a.name;
-      let role = a.role;
-      console.log(name,num,role)
-        console.log(a)
-        if (a != undefined) {
-          rowArr.push(a.number);
-          console.log(rowArr)
-          let num = a.number;
-          let name = a.name;
-          let role = a.role;          
-          if (document.getElementById('row'+num) != null) {
-            console.log('IF NULL FALSE')
-          } else {
-            newRow(num,name,role)
-            console.log('Row '+num+' not found.')
-          }
-          try {
-            let tRows = document.querySelectorAll('tr');
-            console.log(tRows)
-            tRows.forEach(v => {
-                console.log(v)
-                let rowID = v.id;
-                if (rowID.includes('row')) {
-                  let rowCount = parseInt(rowID.slice(3));
-                  if (rowArr.includes(rowCount)) {
-                    console.log('Row '+rowCount+' found!')
-                  } else {
-                    v.remove()
-                  }
-                }
-            })
-          } catch {
-            console.log('No Rows')
-          }
-    
-        } else {
-          console.log('UNDEFINED')
-        }
-    }
-  } else {
-    let tRows = document.querySelectorAll('tr');
-    console.log(tRows)
-    tRows.forEach(v => {
-        console.log(v)
-        let rowID = v.id;
-        if (rowID.includes('row')) {
-          v.remove()
-        }
-    })
-    console.log('No snapshot')
-  }
 });
 
 const button = document.getElementById('button');
 button.addEventListener('click', async function() {
   let num = await rowMax();
-  console.log(num)
   let name = document.getElementById('name').value;
   let role = document.getElementById('role').value;
   writeRowData(num,name,role)
