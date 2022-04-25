@@ -24,14 +24,25 @@
             <input type="text" style="width: 100px;" id="name">
         </td>
         <td>
-            <input type="text" style="width: 100px;" id="role">
+            <select style="width: 100px;" id="role">
+                <option value="Tank">Tank</option>
+                <option value="Light Tank">Light Tank</option>
+                <option value="Melee Striker">Melee Striker</option>
+                <option value="Ranged Striker">Ranged Striker</option>
+                <option value="Caster">Caster</option>
+                <option value="Healer/Support">Healer/Support</option>
+                <option value="Minion (Tank)">Minion (Tank)</option>
+                <option value="Minion (DPS)">Minion (DPS)</option>
+                <option value="Minion (Heals)">Minion (Heals)</option>
+                <option value="Boss">Boss</option>
+            </select>
         </td>
         <td>
             <button id="button">Enter</button>
         </td>
     </tr>
     <tr id="names">
-        <td>name</td>
+        <td>Name</td>
         <td>Role</td>
         <td><button id="test-button">Test!</button></td>
     </tr>

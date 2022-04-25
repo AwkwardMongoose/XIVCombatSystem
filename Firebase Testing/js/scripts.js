@@ -1,6 +1,6 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.11/firebase-app.js";
 import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/9.6.11/firebase-firestore.js";
-import { getDatabase, ref, set, child, get, onValue } from "https://www.gstatic.com/firebasejs/9.6.11/firebase-database.js";
+import { getDatabase, ref, set, child, get, onValue, update } from "https://www.gstatic.com/firebasejs/9.6.11/firebase-database.js";
 
 const firebaseConfig = {
     apiKey: "AIzaSyDKRtcEDO2_JTe7DHKR63a4WKC6n8bjK-M",
@@ -25,38 +25,25 @@ function writeRowData(rowNum, name1, role1) {
   });
 }
 
+function changeRowData(type,rowNum,value) {
+  switch (type) {
+    case 'charname':
+      update(ref(db, 'rows/'+rowNum), {
+        name: value,
+    });
+    break
+    case 'role':
+      update(ref(db, 'rows/'+rowNum), {
+        role: value,
+    });
+    break
+  }
+}
+
 function removeRowData(rowNum) {
   let arrayNum = rowNum;
   set(ref(db, 'rows/'+arrayNum), null);
 }
-
-function rowNum() {
-  return get(child(dbRef, 'rows')).then((snapshot) => {
-    let rowArr = snapshot.val();
-    let row = rowArr.length;
-    return row + 1;
-  }).catch((error) => {
-      console.error(error);
-    });
-}
-
-/*function rowMax() {
-  let numArr = [];
-  return get(child(dbRef, 'rows')).then((snapshot) => {
-    if (snapshot.exists()) {
-      let rowArr = snapshot.val();
-      rowArr.forEach(a => {
-        numArr.push(parseInt(a.number));
-      });
-      return Math.max(...numArr) + 1
-    } else {
-      return 1
-    }
-
-  }).catch((error) => {
-      console.error(error);
-  });
-}*/
 
 function rowMax() {
   let numArr = [];
@@ -90,13 +77,50 @@ function newRow(num,name,role) {
   let newNameCell = document.createElement('td');
   newRow.appendChild(newNameCell);
   newNameCell.classList.add('data-cell', 'align-left');
-  let newNameInput = document.createElement('input')
+  let newNameInput = document.createElement('input');
+  newNameInput.id = 'charname'+num;
   newNameInput.value = name;
   newRow.appendChild(newNameCell);
 
   let newRoleCell = document.createElement('td');
   newRow.appendChild(newRoleCell);
-  newRoleCell.classList.add('data-cell');
+  newRoleCell.classList.add('data-cell','wide');
+  let newRoleSelect = document.createElement('select');
+  newRoleSelect.classList.add('wide');
+  newRoleSelect.id = 'role'+num;
+  
+  newRow.appendChild(newRoleCell);
+
+  let newTank = document.createElement('option');
+  newTank.value = 'Tank';
+  newTank.innerHTML = 'Tank';
+  let newLTank = document.createElement('option');
+  newLTank.value = 'Light Tank';
+  newLTank.innerHTML = 'Light Tank';
+  let newMStriker = document.createElement('option');
+  newMStriker.value = 'Melee Striker';
+  newMStriker.innerHTML = 'Melee Striker';
+  let newRStriker = document.createElement('option');
+  newRStriker.value = 'Ranged Striker';
+  newRStriker.innerHTML = 'Ranged Striker';
+  let newCaster = document.createElement('option');
+  newCaster.value = 'Caster';
+  newCaster.innerHTML = 'Caster';
+  let newHealer = document.createElement('option');
+  newHealer.value = 'Healer/Support';
+  newHealer.innerHTML = 'Healer/Support';
+  let newMTank = document.createElement('option');
+  newMTank.value = 'Minion (Tank)';
+  newMTank.innerHTML = 'Minion (Tank)';
+  let newMDPS = document.createElement('option');
+  newMDPS.value = 'Minion (DPS)';
+  newMDPS.innerHTML = 'Minion (DPS)';
+  let newMHeal = document.createElement('option');
+  newMHeal.value = 'Minion (Heals)';
+  newMHeal.innerHTML = 'Minion (Heals)';
+  let newBoss = document.createElement('option');
+  newBoss.value = 'Boss';
+  newBoss.innerHTML = 'Boss';
 
   let newDelCell = document.createElement('td');
   newRow.appendChild(newDelCell);
@@ -112,9 +136,18 @@ function newRow(num,name,role) {
   newNumCell.appendChild(newNum);
   
   newNameCell.appendChild(newNameInput);
-  
-  let newRole = document.createTextNode(role);
-  newRoleCell.appendChild(newRole);
+  newRoleCell.appendChild(newRoleSelect);
+  newRoleSelect.appendChild(newTank);
+  newRoleSelect.appendChild(newLTank);
+  newRoleSelect.appendChild(newMStriker);
+  newRoleSelect.appendChild(newRStriker);
+  newRoleSelect.appendChild(newCaster);
+  newRoleSelect.appendChild(newHealer);
+  newRoleSelect.appendChild(newMTank);
+  newRoleSelect.appendChild(newMDPS);
+  newRoleSelect.appendChild(newMHeal);
+  newRoleSelect.appendChild(newBoss);
+  newRoleSelect.value = role;
 }
 
 function removeRow(num) {
@@ -123,7 +156,7 @@ function removeRow(num) {
   removeRowData(num)
 }
   
-function getRowData() {
+/* function getRowData() {
   get(child(dbRef, 'rows')).then((snapshot) => {
       if (snapshot.exists()) {
         let items = snapshot.val();
@@ -175,143 +208,65 @@ function getRowData() {
     }).catch((error) => {
       console.error(error);
     });
-}
-//Old Script
-/*onValue(ref(db, 'rows/'), (snapshot) => {
-  let data = snapshot.val();
-  if (snapshot.exists()) {
-    let rowArr = [];
-    data.forEach((a,b) => {
-      rowArr.push(a.number);
-      let num = a.number;
-      let name = a.name;
-      let role = a.role;
-      
-      if (document.getElementById('row'+num)) {
-
-      } else {
-        newRow(num,name,role)
-        console.log('Row '+num+' not found.')
-      }
-      try {
-        let tRows = $('[id*="row"]');
-        tRows.each(c => {
-          let rowCount = c+1;
-          let rowDel = document.getElementById('row'+rowCount);
-          let rowExists = rowArr.includes(rowCount);
-          if (rowExists != true) {
-            rowDel.remove()
-          }
-        })
-      } catch {
-        console.log('No Rows')
-      }
-    })
-  } else {
-    console.log('No snapshot')
-  }
-});*/
-//New Script
-/*onValue(ref(db, 'rows/'), (snapshot) => {
-  let data = [];
-  data.push(snapshot.val());
-  if (snapshot.exists()) {
-    let rowArr = [];
-    for (let x of data) {
-      for (let a of x) {
-        console.log(a)
-        if (a != undefined) {
-          rowArr.push(a.number);
-          console.log(rowArr)
-          let num = a.number;
-          let name = a.name;
-          let role = a.role;          
-          if (document.getElementById('row'+num) != null) {
-            console.log('IF NULL FALSE')
-          } else {
-            newRow(num,name,role)
-            console.log('Row '+num+' not found.')
-          }
-          try {
-            let tRows = document.querySelectorAll('tr');
-            console.log(tRows)
-            tRows.forEach(v => {
-                console.log(v)
-                let rowID = v.id;
-                if (rowID.includes('row')) {
-                  let rowCount = parseInt(rowID.slice(3));
-                  if (rowArr.includes(rowCount)) {
-                    console.log('Row '+rowCount+' found!')
-                  } else {
-                    v.remove()
-                  }
-                }
-            })
-          } catch {
-            console.log('No Rows')
-          }
-    
-        } else {
-          console.log('UNDEFINED')
-        }
-      }
-    }
-  } else {
-    console.log('No snapshot')
-  }
-});*/
+}*/
 
 onValue(ref(db, 'rows/'), (snapshot) => {
   let data = snapshot.val();
   if (snapshot.exists()) {
+    //Add/Remove Rows
     let rowArr = [];
     for (let x in data) {
       let a = data[x]
       let num = a.number;
       let name = a.name;
       let role = a.role;
-      console.log(name,num,role)
-        console.log(a)
         if (a != undefined) {
           rowArr.push(a.number);
-          console.log(rowArr)
           let num = a.number;
           let name = a.name;
           let role = a.role;          
           if (document.getElementById('row'+num) != null) {
-            console.log('IF NULL FALSE')
           } else {
             newRow(num,name,role)
-            console.log('Row '+num+' not found.')
           }
           try {
             let tRows = document.querySelectorAll('tr');
-            console.log(tRows)
             tRows.forEach(v => {
-                console.log(v)
                 let rowID = v.id;
                 if (rowID.includes('row')) {
                   let rowCount = parseInt(rowID.slice(3));
                   if (rowArr.includes(rowCount)) {
-                    console.log('Row '+rowCount+' found!')
                   } else {
                     v.remove()
                   }
                 }
             })
           } catch {
-            console.log('No Rows')
           }
-    
         } else {
-          console.log('UNDEFINED')
         }
+    }
+    //Update Rows
+    for (let x in data) {
+      let a = data[x];
+      let num = a.number;
+      let name = a.name;
+      console.log(a.name)
+      let role = a.role;
+      let charName = document.getElementById('charname'+num)
+      let charRole = document.getElementById('role'+num)
+      if (charName.value != name) {
+        charName.value = name;
+        console.log('Change Name')
+      }
+      if (charRole.value != role) {
+        charRole.value = role;
+        console.log('Change Role')
+      }
     }
   } else {
     let tRows = document.querySelectorAll('tr');
-    console.log(tRows)
     tRows.forEach(v => {
-        console.log(v)
         let rowID = v.id;
         if (rowID.includes('row')) {
           v.remove()
@@ -349,6 +304,31 @@ $(document).on('click', 'button', function() {
     console.log(x)
   } else {
     console.log('Failure')
+  }
+})
+
+$(document).on('change', 'input', function() {
+  let id = this.id;
+  let rowNum = id.match(/\d+/g);
+// num[0] will be 21
+
+  let type = id.match(/[a-zA-Z]+/g);
+  let value = this.value;
+  if (rowNum[0] != null){
+    changeRowData(type[0],rowNum[0],value)
+  }
+  
+})
+
+$(document).on('change', 'select', function() {
+  let id = this.id;
+  let rowNum = id.match(/\d+/g);
+// num[0] will be 21
+console.log(rowNum[0])
+  let type = id.match(/[a-zA-Z]+/g);
+  let value = this.value;
+  if (rowNum[0] != null){
+    changeRowData(type[0],rowNum[0],value)
   }
 })
 
