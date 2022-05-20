@@ -174,7 +174,7 @@ input {
 .ent-image {
     height: 100px;
     width: 100px;
-    background-image: url("/img/abigail_icon_small.png");
+    background-image: url("../img/abigail_icon_small.png");
     grid-area: img;
 }
 .ent-role {
