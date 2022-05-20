@@ -75,7 +75,7 @@ input {
     padding-top: 3px;
     justify-self: center;
     position: relative;
-    top: 25%;
+    top: 7%;
     right: 20%;
     text-align: center;
     background-color: black;
@@ -87,7 +87,7 @@ input {
 
 .init-title {
     position: relative;
-    top: 23%;
+    top: 4%;
     right: 20%;
     text-align: center;
 }
@@ -262,6 +262,7 @@ input {
 }
 
 .delbutton:hover {
+    cursor: pointer;
     border: 2px solid white;
     color: white;
 }
@@ -290,6 +291,12 @@ input {
     padding-top: 5px;
 }
 
+.newbutton:hover {
+    cursor: pointer;
+    border: white 4px solid;
+    color: white;
+}
+
 .newbutton:active {
     margin: auto;
     width: 50px;
@@ -303,3 +310,151 @@ input {
     padding-top: 5px;
 }
 
+.ent-limit {
+    position: absolute;
+    bottom: 9px;
+    left: 5px;
+    height: 30px;
+}
+
+/* LIMIT BREAK TABLE
+.limit-table {
+    background: transparent;
+    border-collapse: collapse;
+    width: 135px;
+}
+
+.limit-head {
+    background-color: black;
+    border: 2px solid darkgray;
+    border-bottom: none;
+    padding: 0;
+    padding-top: 2px;
+    color: white;
+    width: 55px;
+    height: 10px;
+}
+
+.limit-blank {
+    border-bottom: 2px solid darkgray;
+}
+
+.limit-cell {
+    background-color: black;
+    border: 2px solid darkgray;
+    border-top: none;
+    height: 15px;
+}
+END LIMIT BREAK TABLE */
+
+/* LIMIT BREAK GRID */
+.limit-grid {
+    display: grid;
+    background: transparent;
+    border-collapse: collapse;
+    width: 135px;
+    grid-template-columns: 45px 45px 45px;
+    grid-template-rows: 14px 20px;
+    grid-template-areas: 
+    'lhead lblank lblank'
+    'lcell lcell lcell'
+    ;
+}
+
+.limit-head {
+    position: relative;
+    top: 8px;
+    left: 2px;
+    background-color: black;
+    text-align: right;
+    grid-area: lhead;
+    border: none;
+    padding: 0;
+    padding-top: 2px;
+    color: white;
+    height: 9.75px;
+    width: 49px;
+    z-index: 2;
+}
+
+.limit-blank {
+    grid-area: lblank;
+}
+
+.limit-cell {
+    display: flex;
+    flex-direction: row;
+    grid-area: lcell;
+    background-color: black;
+    border: 2px solid darkgray;
+    border-radius: 3px;
+    padding-top: 4px;
+    line-height: 15px;
+}
+
+.limit-check {
+    position: relative;
+    bottom: 2px;
+    width: 48px;
+    padding: 0;
+    margin: 0;
+    border-left: 1px solid white;
+    z-index: 3;
+    opacity: 0%;
+}
+
+.limit-check:hover {
+    cursor: pointer;
+}
+
+.limit-divide {
+    position: relative;
+    bottom: 2px;
+    background-color: darkgray;
+    width: 1px;
+    padding: 0;
+    margin: 0;
+    text-align: center;
+}
+
+.limit-bar1 {
+    display: none;
+    position: absolute;
+    left: 5px;
+    bottom: 0px;
+    width: 35px;
+    background: yellow;
+    border: 1px solid rgb(185, 185, 0);
+    border-radius: 3px;
+    height: 11px;
+    z-index: 1;
+}
+.limit-bar2 {
+    display: none;
+    position: absolute;
+    left: 49px;
+    bottom: 0px;
+    width: 35px;
+    background: yellow;
+    border: 1px solid rgb(185, 185, 0);
+    border-radius: 3px;
+    height: 11px;
+    z-index: 1;
+}
+.limit-bar3 {
+    display: none;
+    position: absolute;
+    left: 93px;
+    bottom: 0px;
+    width: 35px;
+    background: yellow;
+    border: 1px solid rgb(185, 185, 0);
+    border-radius: 3px;
+    height: 11px;
+    z-index: 1;
+}
+
+.limit-fill {
+    display: block;
+}
+/* END LIMIT BREAK GRID */
