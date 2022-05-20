@@ -261,12 +261,18 @@ input {
     border-radius: 2px;
 }
 
+.delbutton:hover {
+    border: 2px solid white;
+    color: white;
+}
+
 .delbutton:active {
     background: linear-gradient(to top right, darkred 0%, red 70%);
     border: 2px black solid;
     font-size: 14px;
     height: 24px;
     width: 24px;
+    color: white;
     padding: 0;
     margin: auto;
     border-radius: 2px;
