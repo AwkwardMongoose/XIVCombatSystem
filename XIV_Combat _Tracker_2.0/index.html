@@ -61,6 +61,53 @@
                 </div>
             </div>
         </div>
+        <div class="ent-grid-backpanel">
+            <div class="ent-grid">
+                <div class="ent-name"><input type="text" placeholder="Name..."></div>
+                <div class="ent-image"></div>
+                <div class="ent-role">
+                    <select>
+                        <option id="tank" selected>Tank</option>
+                        <option id="ltank">Light Tank</option>
+                        <option id="mstr">Melee Striker</option>
+                        <option id="rstr">Ranged Striker</option>
+                    </select>
+                </div>
+                <div class="ent-HP">HP<span class="underline"><input class="points" type="text"><span class="slash">/</span><input class="points2" value="1000"></span>
+                </div>
+                <div class="ent-MP">MP<span class="underline"><input class="points" type="text"><span class="slash">/</span><input class="points2" value="1000"></span>
+                </div>
+                <div class="ent-stats">
+                    <div class="atk">ATK</div>
+                    <div class="def">DEF</div>
+                    <div class="dmg">DMG</div>
+                    <div class="sdmg">SDMG</div>
+                    <div class="heal">HEAL</div>
+                    <div class="rec">REC</div>
+                    <div class="atknum"><button class="magbutton">-</button><input class="inputnum" type="number" step="5" value="10"><button class="magbutton">+</button></div>
+                    <div class="defnum"><button class="magbutton">-</button><input class="inputnum" type="number" step="5" value="10"><button class="magbutton">+</button></div>
+                    <div class="dmgnum">20</div>
+                    <div class="sdmgnum">30</div>
+                    <div class="healnum">40</div>
+                    <div class="recnum">50</div>
+                </div>
+                <div class="ent-init"><span class="init-title">Init</span><input class="init" type="text"></div>
+                <div class="ent-delete"><button class="delbutton">x</button></div>
+                <div class="ent-limit">
+                    <div class="limit-grid">
+                        <div class="limit-head">
+                            LIMIT
+                        </div>
+                        <div class="limit-blank">
+                        </div>
+                        <div class="limit-cell">
+                            <input class="limit-1 limit-check" type="checkbox" id="limit1-2"><span class="limit-divide"></span><input class="limit-2 limit-check" type="checkbox" id="limit2-2"><span class="limit-divide"></span><input class="limit-3 limit-check" type="checkbox" id="limit3-2">
+                            <div class="limit-bar1" id="bar1-2"></div><div class="limit-bar2" id="bar2-2"></div><div class="limit-bar3" id="bar3-2"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="new-root">
             <button class="newbutton">+</button>
         </div>
