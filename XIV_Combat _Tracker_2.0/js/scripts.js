@@ -1,5 +1,5 @@
 const limitChecks = document.getElementsByClassName('limit-check');
-
+dragula([document.getElementById('entroot')]);
 
 Array.from(limitChecks).forEach(x => {
     x.addEventListener('change', function() {

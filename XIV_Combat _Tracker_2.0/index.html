@@ -7,15 +7,19 @@
     <title>XIV Combat Tracker 2.0</title>
     <link href="css/styles.css" rel="stylesheet">
     <link href="css/jquery-ui.css" rel="stylesheet">
+    <script type="module" src="js/dragula.js"></script>
+    <link href="css/dragula.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Press Start 2P">
     <script type="module" src="js/scripts.js" defer=""></script>
     <script src="js/jquery-3.6.0.min.js"></script>
     <script src="js/jquery-ui.js"></script>
+    
 </head>
+<body>
 <div class="root">
-    <div class="ent-root">
+    <div class="ent-root" id="entroot">
         <div class="ent-grid-backpanel">
-            <div class="ent-grid">
+            <div class="ent-grid" id="entgrid">
                 <div class="ent-name"><input type="text" placeholder="Name..."></div>
                 <div class="ent-image"></div>
                 <div class="ent-role">
@@ -24,6 +28,10 @@
                         <option id="ltank">Light Tank</option>
                         <option id="mstr">Melee Striker</option>
                         <option id="rstr">Ranged Striker</option>
+                    </select>
+                    <select>
+                        <option selected>NPC</option>
+                        <option>Player</option>
                     </select>
                 </div>
                 <div class="ent-HP">HP<span class="underline"><input class="points" type="text"><span class="slash">/</span><input class="points2" value="1000"></span>
@@ -92,7 +100,6 @@
                     <div class="recnum">50</div>
                 </div>
                 <div class="ent-init"><span class="init-title">Init</span><input class="init" type="text"></div>
-                <div class="ent-delete"><button class="delbutton">x</button></div>
                 <div class="ent-limit">
                     <div class="limit-grid">
                         <div class="limit-head">
@@ -113,3 +120,5 @@
         </div>
     </div>
 </div>
+</body>
+</html>
