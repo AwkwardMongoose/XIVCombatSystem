@@ -102,17 +102,9 @@ input {
     text-align: center;
 }
 
-.top-root {
-    display: flex;
-    height: 910px;
-    gap: 2px;
-    flex-flow: column;
-    flex-wrap: wrap;
-}
-
 .root {
     display: flex;
-    height: 900px;
+    height: 95vh;
     gap: 2px;
     flex-flow: column;
     flex-wrap: wrap;
@@ -120,7 +112,7 @@ input {
 
 .ent-root {
     display: flex;
-    height: 900px;
+    height: 100%;
     gap: 2px;
     flex-flow: column;
     flex-wrap: wrap;
