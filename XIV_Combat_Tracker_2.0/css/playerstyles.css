@@ -121,7 +121,7 @@ input {
 }
 
 .new-root {
-    display: flex;
+    display: none;
     gap: 2px;
     flex-flow: column;
     width: 455px;
@@ -239,7 +239,12 @@ input {
     padding: 3.2px;
 }
 
+.ent-type {
+    display: none;
+}
+
 .ent-delete {
+    display: none;
     position: absolute;
     right: -2px;
     top: -2px;
