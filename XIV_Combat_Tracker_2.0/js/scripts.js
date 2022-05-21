@@ -33,12 +33,12 @@ dmLogin.addEventListener('click', function() {
     let password = prompt("Please enter the DM password:", "Type Here...");
     let email = 'tgf.xiv@gmail.com';
     if (password == 'atwood') {
-        window.location = "/dmview.html";
+        window.location = "../dmview.html";
     } else {
         alert('INCORRECT PASSWORD')
     }
 })
 
 playerLogin.addEventListener('click', function() {
-    window.location = "/playerview.html";
+    window.location = "../playerview.html";
 })
