@@ -49,7 +49,7 @@ input {
     font-size: 14px;
     border: 0;
     outline: none;
-    width: 100%;
+    width: 95%;
 }
 
 .points {
@@ -66,6 +66,7 @@ input {
 }
 
 .inputnum {
+    text-align: center;
     font-size: 10px;
     width: 20px;
     line-height: 12px;
@@ -96,6 +97,7 @@ input {
     min-width: 110px;
     width: fit-content;
     border-bottom: 1px solid lightgray;
+    z-index: 20;
 }
 
 .slash {
@@ -166,9 +168,37 @@ input {
 .ent-image {
     height: 100px;
     width: 100px;
-    background-image: url("../img/abigail_icon_small.png");
+    /*background-image: url("../img/abigail_icon_small.png");*/
+    background-size: contain;
     grid-area: img;
 }
+
+.image-item {
+    position: absolute;
+    top: 6px;
+    left: 45px;
+    height: 100px;
+    width: 100px;
+}
+
+.image-selector {
+    position: absolute;
+    top: 85px;
+    left: 125px;
+    cursor: pointer;
+    background: transparent;
+    border: 1px solid white;
+    border-radius: 2px;
+    height: 14px;
+    width: 14px;
+    padding: 0;
+    z-index: 12;
+}
+
+.image-selector:active {
+    border: 2px solid black;
+}
+
 .ent-role {
     grid-area: role;
 }
@@ -230,6 +260,7 @@ input {
 }
 
 .ent-grid-backpanel {
+    display: none;
     position: relative;
     border: none;
     width:fit-content;
@@ -237,10 +268,6 @@ input {
     background: rgb(97,97,97);
     background: linear-gradient(to top left, rgb(82, 82, 82) 0%, lightgray 100%);
     padding: 3.2px;
-}
-
-.ent-type {
-    display: none;
 }
 
 .ent-delete {
@@ -482,3 +509,11 @@ END LIMIT BREAK TABLE */
 }
 
 /* END LOGIN STYLES */
+
+.type-selector {
+    display: none;
+}
+
+.hide-card[value='player'] ~ .ent-grid-backpanel {
+    display: block;
+}

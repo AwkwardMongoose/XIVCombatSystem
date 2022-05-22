@@ -25,19 +25,3 @@ const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 const dbRef = ref(getDatabase());
 const db1 = getDatabase();
-
-const dmLogin = document.getElementById('dmlogin');
-const playerLogin = document.getElementById('playerlogin');
-
-dmLogin.addEventListener('click', function() {
-    let password = prompt("Please enter the DM password:", "Type Here...");
-    if (password == 'atwood') {
-        window.location = "dmview.html";
-    } else {
-        alert('INCORRECT PASSWORD')
-    }
-})
-
-playerLogin.addEventListener('click', function() {
-    window.location = "playerview.html";
-})
