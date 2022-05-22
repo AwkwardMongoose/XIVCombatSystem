@@ -271,14 +271,14 @@ function newCard(row,role) {
     let avImg = document.createElement('img')
     avImg.classList.add('image-item')
     avImg.id = 'img'+row;
-    avImg.src = '../img/Blank.png';
+    avImg.src = './img/Blank.png';
     imageDiv.appendChild(avImg)
     let imageButton = document.createElement('button')
     imageButton.classList.add('image-selector')
     imageButton.id = 'imgbutton'+row;
     imageDiv.appendChild(imageButton)
     let imgSrc = document.createElement('img')
-    imgSrc.src = "../img/imgbutton.png";
+    imgSrc.src = "./img/imgbutton.png";
     imgSrc.height = '10';
     imageButton.appendChild(imgSrc)
     grid.appendChild(imageDiv)
@@ -692,7 +692,7 @@ $(document).on('click','.image-selector', function() {
     console.log(img[0])
     let imageURL = prompt('Enter image URL:','default');
     if (imageURL == 'default' || imageURL == undefined || imageURL == null) {
-        img[0].src = '../img/Blank.png';
+        img[0].src = './img/Blank.png';
         img[0].style.display = 'block';
     } else {
         img[0].src = imageURL;
