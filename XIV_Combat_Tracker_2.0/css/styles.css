@@ -177,8 +177,8 @@ input {
     position: absolute;
     top: 6px;
     left: 45px;
-    height: 100px;
-    width: 100px;
+    height: 95px;
+    width: 95px;
 }
 
 .image-selector {
@@ -511,4 +511,66 @@ END LIMIT BREAK TABLE */
 
 .hide-card[value='npc'] ~ .ent-grid {
     background: linear-gradient(to bottom right, rgb(59, 0, 0) 0%, rgb(196, 0, 0) 100%);
+}
+
+.magreset {
+    /*display: none;*/
+    background: transparent;
+    position: absolute;
+    bottom: 35px;
+    left: 192px;
+    text-align: center;
+    padding: 0;
+    padding-top: 0px;
+    margin: 0;
+    width: 10px;
+    font-size: 7px;
+    border: solid 1px lightgray;
+    border-radius: 3px;
+}
+
+.magreset:active {
+    background: black;
+    text-align: center;
+    padding: 0;
+    padding-top: 2px;
+    margin: 0;
+    width: 10px;
+    font-size: 9px;
+    border: none;
+}
+
+.magreset:hover {
+    cursor:pointer;
+}
+
+.magreset2 {
+    /*display: none;*/
+    background: transparent;
+    position: absolute;
+    bottom: 35px;
+    left: 247px;
+    text-align: center;
+    padding: 0;
+    padding-top: 0px;
+    margin: 0;
+    width: 10px;
+    font-size: 7px;
+    border: solid 1px lightgray;
+    border-radius: 3px;
+}
+
+.magreset2:active {
+    background: black;
+    text-align: center;
+    padding: 0;
+    padding-top: 2px;
+    margin: 0;
+    width: 10px;
+    font-size: 9px;
+    border: none;
+}
+
+.magreset2:hover {
+    cursor:pointer;
 }

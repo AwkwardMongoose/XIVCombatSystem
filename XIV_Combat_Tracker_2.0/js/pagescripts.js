@@ -157,7 +157,7 @@ let newCardData = {
     'role': 'tank',
     'type': 'npc',
     'init': '',
-    'imgURL': 'default',
+    'imgURL': './img/Blank.png',
     'currHP': tank.hp,
     'maxHP': tank.hp,
     'currMP': tank.mp,
@@ -171,27 +171,32 @@ let newCardData = {
     'lb1': false,
     'lb2': false,
     'lb3': false,
+    'atkbuff': 0,
+    'defbuff': 0
 };
 //
 //console.log(del1.id.match(/[a-zA-Z]+/g)[0],del1.id.match(/\d+/g)[0])
 
 function limitBar(element) {
     let row = element.id.match(/\d+/g)[0];
-        let limit1 = document.getElementById('limiti'+row);
-        let limit2 = document.getElementById('limitii'+row);
-        let limit3 = document.getElementById('limitiii'+row);
-        let limitSlice = element.id.slice(5);
-        let limitNum = (limitSlice.match(/i/g)||[]).length;
-        console.log(limitNum)
-        let bar1 = document.getElementById('bari'+row);
-        let bar2 = document.getElementById('barii'+row);
-        let bar3 = document.getElementById('bariii'+row);
-        let checked = element.checked;
+    let limit1 = document.getElementById('limiti'+row);
+    let limit2 = document.getElementById('limitii'+row);
+    let limit3 = document.getElementById('limitiii'+row);
+    let limitSlice = element.id.slice(5);
+    let limitNum = (limitSlice.match(/i/g)||[]).length;
+    let bar1 = document.getElementById('bari'+row);
+    let bar2 = document.getElementById('barii'+row);
+    let bar3 = document.getElementById('bariii'+row);
+    let checked = element.checked;
         switch (limitNum) {
             case 1:
                 if (checked == false) {
                     limit2.checked = false;
                     limit3.checked = false;
+                    update(ref(db, 'rows/'+row), {
+                        'lb2': false,
+                        'lb3': false
+                    });
                     $(bar1).removeClass('limit-fill')
                 } else {
                     $(bar1).addClass('limit-fill')
@@ -202,9 +207,15 @@ function limitBar(element) {
             case 2:
                 if (checked == false) {
                     limit3.checked = false;
+                    update(ref(db, 'rows/'+row), {
+                        'lb3': false
+                    });
                     $(bar2).removeClass('limit-fill')
                 } else {
                     limit1.checked = true;
+                    update(ref(db, 'rows/'+row), {
+                        'lb1': true,
+                    });
                     $(bar1).addClass('limit-fill')
                     $(bar2).addClass('limit-fill')
                 }
@@ -216,6 +227,10 @@ function limitBar(element) {
                 } else {
                     limit1.checked = true;
                     limit2.checked = true;
+                    update(ref(db, 'rows/'+row), {
+                        'lb1': true,
+                        'lb2': true
+                    });
                     $(bar1).addClass('limit-fill')
                     $(bar2).addClass('limit-fill')
                     $(bar3).addClass('limit-fill')
@@ -224,7 +239,7 @@ function limitBar(element) {
         }
 }
 
-function newCard(row,role) {
+function newCard(row,char) {
     let entroot = document.getElementById('entroot');
     let playerView = (window.location.href).includes('playerview');
     let dmView = (window.location.href).includes('dmview');
@@ -259,7 +274,9 @@ function newCard(row,role) {
     nameDiv.classList.add('ent-name')
     grid.appendChild(nameDiv);
     let nameInput = document.createElement('input');
+    nameInput.classList.add('name')
     nameInput.type = 'text';
+    nameInput.value = char.name;
     nameInput.placeholder = 'Name...';
     nameInput.id = 'name'+row;
     nameDiv.appendChild(nameInput)
@@ -271,7 +288,7 @@ function newCard(row,role) {
     let avImg = document.createElement('img')
     avImg.classList.add('image-item')
     avImg.id = 'img'+row;
-    avImg.src = './img/Blank.png';
+    avImg.src = char.imgURL;
     imageDiv.appendChild(avImg)
     let imageButton = document.createElement('button')
     imageButton.classList.add('image-selector')
@@ -288,36 +305,80 @@ function newCard(row,role) {
     roleDiv.classList.add('ent-role')
     grid.appendChild(roleDiv)
     let roleSel = document.createElement('select');
+    roleSel.classList.add('rolesel')
     roleSel.id = 'role'+row;
-    roleSel.value = 'tank';
+    roleSel.value = char.role;
     roleDiv.appendChild(roleSel)
+    //Tank
     let roleTank = document.createElement('option');
     roleTank.value = "tank";
     roleTank.selected = 'true'
     let tankName = document.createTextNode('Tank')
     roleTank.appendChild(tankName)
+    //LTank
     let roleLTank = document.createElement('option');
     roleLTank.value = "ltank";
     let lTankName = document.createTextNode('Light Tank')
     roleLTank.appendChild(lTankName)
+    //MStriker
     let roleMStrike = document.createElement('option');
     roleMStrike.value = "mstr";
     let mStrikeName = document.createTextNode('Melee Striker')
     roleMStrike.appendChild(mStrikeName)
+    //RStriker
     let roleRStrike = document.createElement('option');
     roleRStrike.value = "rstr";
     let rStrikeName = document.createTextNode('Ranged Striker')
     roleRStrike.appendChild(rStrikeName)
+    //Caster
+    let roleCast = document.createElement('option');
+    roleCast.value = "cast";
+    let castName = document.createTextNode('Caster')
+    roleCast.appendChild(castName)
+    //Healer
+    let roleHeal = document.createElement('option');
+    roleHeal.value = "heal";
+    let healerName = document.createTextNode('Healer')
+    roleHeal.appendChild(healerName)
+    //MTank
+    let roleMTank = document.createElement('option');
+    roleMTank.value = "mtank";
+    let mtankName = document.createTextNode('Minion (Tank)')
+    roleMTank.appendChild(mtankName)
+    //MDps
+    let roleMDps = document.createElement('option');
+    roleMDps.value = "mdps";
+    let mdpsName = document.createTextNode('Minion (DPS)')
+    roleMDps.appendChild(mdpsName)
+    //MHeal
+    let roleMHeal = document.createElement('option');
+    roleMHeal.value = "mheal";
+    let mhealName = document.createTextNode('Minion (Healer)')
+    roleMHeal.appendChild(mhealName)
+    //BOSS
+    let roleBoss = document.createElement('option');
+    roleBoss.value = "boss";
+    let bossName = document.createTextNode('Boss')
+    roleBoss.appendChild(bossName)
+
+
+
     roleSel.appendChild(roleTank)
     roleSel.appendChild(roleLTank)
     roleSel.appendChild(roleMStrike)
     roleSel.appendChild(roleRStrike)
+    roleSel.appendChild(roleCast)
+    roleSel.appendChild(roleHeal)
+    roleSel.appendChild(roleMTank)
+    roleSel.appendChild(roleMDps)
+    roleSel.appendChild(roleMHeal)
+    roleSel.appendChild(roleBoss)
 
     //TYPE
     let entTypeSel = document.createElement('select');
     entTypeSel.classList.add('type-selector')
-    roleDiv.appendChild(entTypeSel)
     entTypeSel.id = 'type'+row;
+    roleDiv.appendChild(entTypeSel)
     //NPC
     let typeNPC = document.createElement('option');
     entTypeSel.appendChild(typeNPC)
@@ -330,6 +391,7 @@ function newCard(row,role) {
     typePlayer.value = 'player';
     let playerName = document.createTextNode('Player')
     typePlayer.appendChild(playerName)
+    entTypeSel.value = char.type;
 
     //HP DIV
     let hpDiv = document.createElement('div')
@@ -343,7 +405,7 @@ function newCard(row,role) {
     let currHPInput = document.createElement('input')
     currHPInput.classList.add('points')
     currHPInput.type = 'text'
-    currHPInput.value = role.hp;
+    currHPInput.value = char.currHP;
     currHPInput.id = 'currhp'+row;
     hpSpan.appendChild(currHPInput)
     let hpSlashSpan = document.createElement('span')
@@ -354,8 +416,11 @@ function newCard(row,role) {
     let maxHPInput = document.createElement('input')
     maxHPInput.classList.add('points2')
     maxHPInput.type = 'text'
-    maxHPInput.value = role.hp;
+    maxHPInput.value = char.maxHP;
     maxHPInput.id = 'maxhp'+row;
+    if (playerView == true) {
+        maxHPInput.readOnly = true;
+    }
     hpSpan.appendChild(maxHPInput)
 
 
@@ -371,7 +436,7 @@ function newCard(row,role) {
     let currMPInput = document.createElement('input')
     currMPInput.classList.add('points')
     currMPInput.type = 'text'
-    currMPInput.value = role.mp;
+    currMPInput.value = char.currMP;
     currMPInput.id = 'currmp'+row;
     mpSpan.appendChild(currMPInput)
     let mpSlashSpan = document.createElement('span')
@@ -382,8 +447,11 @@ function newCard(row,role) {
     let maxMPInput = document.createElement('input')
     maxMPInput.classList.add('points2')
     maxMPInput.type = 'text'
-    maxMPInput.value = role.mp;
+    maxMPInput.value = char.maxMP;
     maxMPInput.id = 'maxmp'+row;
+    if (playerView == true) {
+        maxMPInput.readOnly = true;
+    }
     mpSpan.appendChild(maxMPInput)
 
 
@@ -433,6 +501,7 @@ function newCard(row,role) {
     statsDiv.appendChild(atkNumDiv)
     let atkDown = document.createElement('button')
     atkDown.classList.add('magbutton')
+    atkDown.id = 'atkdown'+row;
     let atkMinus = document.createTextNode('-')
     atkDown.appendChild(atkMinus)
     atkNumDiv.appendChild(atkDown)
@@ -440,20 +509,28 @@ function newCard(row,role) {
     atkNumName.classList.add('inputnum')
     atkNumName.type = 'number';
     atkNumName.step = '5';
-    atkNumName.value = role.atk;
+    atkNumName.value = char.atk+char.atkbuff;
     atkNumName.id = 'atk'+row;
     atkNumDiv.appendChild(atkNumName)
     let atkUp = document.createElement('button')
     atkUp.classList.add('magbutton')
+    atkUp.id = 'atkup'+row;
     let atkPlus = document.createTextNode('+')
     atkUp.appendChild(atkPlus)
     atkNumDiv.appendChild(atkUp)
+    let atkReset = document.createElement('button')
+    atkReset.classList.add('magreset')
+    atkReset.id = 'atkreset'+row;
+    let atkX = document.createTextNode('x')
+    atkReset.appendChild(atkX)
+    atkNumDiv.appendChild(atkReset)
 
     let defNumDiv = document.createElement('div')
     defNumDiv.classList.add('defnum')
     statsDiv.appendChild(defNumDiv)
     let defDown = document.createElement('button')
     defDown.classList.add('magbutton')
+    defDown.id = 'defdown'+row;
     let defMinus = document.createTextNode('-')
     defDown.appendChild(defMinus)
     defNumDiv.appendChild(defDown)
@@ -461,41 +538,49 @@ function newCard(row,role) {
     defNumName.classList.add('inputnum')
     defNumName.type = 'number';
     defNumName.step = '5';
-    defNumName.value = role.def;
+    defNumName.value = char.def+char.defbuff;
     defNumName.id = 'def'+row;
     defNumDiv.appendChild(defNumName)
     let defUp = document.createElement('button')
     defUp.classList.add('magbutton')
+    defUp.id = 'defup'+row;
     let defPlus = document.createTextNode('+')
     defUp.appendChild(defPlus)
     defNumDiv.appendChild(defUp)
+    let defReset = document.createElement('button')
+    defReset.classList.add('magreset2')
+    defReset.id = 'defreset'+row;
+    let defX = document.createTextNode('x')
+    defReset.appendChild(defX)
+    defNumDiv.appendChild(defReset)
+
 
     let dmgNumDiv = document.createElement('div')
     dmgNumDiv.classList.add('dmgnum')
+    dmgNumDiv.id = 'dmg'+row;
     statsDiv.appendChild(dmgNumDiv)
-    let dmgNumName = document.createTextNode(role.dmg)
-    dmgNumName.id = 'dmg'+row;
+    let dmgNumName = document.createTextNode(char.dmg)
     dmgNumDiv.appendChild(dmgNumName)
 
     let sdmgNumDiv = document.createElement('div')
     sdmgNumDiv.classList.add('sdmgnum')
+    sdmgNumDiv.id = 'sdmg'+row;
     statsDiv.appendChild(sdmgNumDiv)
-    let sdmgNumName = document.createTextNode(role.sdmg)
-    sdmgNumName.id = 'sdmg'+row;
+    let sdmgNumName = document.createTextNode(char.sdmg)
     sdmgNumDiv.appendChild(sdmgNumName)
 
     let healNumDiv = document.createElement('div')
     healNumDiv.classList.add('healnum')
+    healNumDiv.id = 'heal'+row;
     statsDiv.appendChild(healNumDiv)
-    let healNumName = document.createTextNode(role.heal)
-    healNumName.id = 'heal'+row;
+    let healNumName = document.createTextNode(char.heal)
     healNumDiv.appendChild(healNumName)
 
     let recNumDiv = document.createElement('div')
     recNumDiv.classList.add('recnum')
+    recNumDiv.id = 'rec'+row;
     statsDiv.appendChild(recNumDiv)
-    let recNumName = document.createTextNode(role.rec)
-    recNumName.id = 'rec'+row;
+    let recNumName = document.createTextNode(char.rec)
     recNumDiv.appendChild(recNumName)
 
     //INIT DIV
@@ -511,6 +596,7 @@ function newCard(row,role) {
     initInput.classList.add('init')
     initInput.type = 'text';
     initInput.id = 'init'+row;
+    initInput.value = char.init;
     initDiv.appendChild(initInput)
 
     //DELETE DIV
@@ -553,6 +639,7 @@ function newCard(row,role) {
     lCheck1.classList.add('limit-1')
     lCheck1.classList.add('limit-check')
     lCheck1.id = 'limiti'+row;
+    lCheck1.checked = char.lb1;
     limitCell.appendChild(lCheck1)
 
     let limitSpan1 = document.createElement('span')
@@ -564,6 +651,7 @@ function newCard(row,role) {
     lCheck2.classList.add('limit-2')
     lCheck2.classList.add('limit-check')
     lCheck2.id = 'limitii'+row;
+    lCheck2.checked = char.lb2;
     limitCell.appendChild(lCheck2)
 
     let limitSpan2 = document.createElement('span')
@@ -575,6 +663,7 @@ function newCard(row,role) {
     lCheck3.classList.add('limit-3')
     lCheck3.classList.add('limit-check')
     lCheck3.id = 'limitiii'+row;
+    lCheck3.checked = char.lb3;
     limitCell.appendChild(lCheck3)
 
     let lBar1 = document.createElement('div')
@@ -591,6 +680,10 @@ function newCard(row,role) {
     lBar3.classList.add('limit-bar3')
     lBar3.id = 'bariii'+row;
     limitCell.appendChild(lBar3)
+
+    limitBar(lCheck1)
+    limitBar(lCheck2)
+    limitBar(lCheck3)
 }
 
 function writeRowData(row,card) {
@@ -614,7 +707,9 @@ function writeRowData(row,card) {
         'rec': card.rec,
         'lb1': card.lb1,
         'lb2': card.lb2,
-        'lb3': card.lb3,       
+        'lb3': card.lb3,
+        'atkbuff': card.atkbuff,
+        'defbuff': card.defbuff
     });
 }
 
@@ -647,6 +742,7 @@ function removeRowData(rowNum) {
 
 onValue(ref(db, 'rows/'), (snapshot) => {
     let data = snapshot.val();
+    let cardArr = [0];
     if (snapshot.exists()) {
         let rowCount = [0]
         for (let x in data) {
@@ -654,12 +750,118 @@ onValue(ref(db, 'rows/'), (snapshot) => {
             let rowNum = a.row;
             //Row Count
             rowCount.push(parseInt(rowNum))
+            //Render Cards
+            if ($('#card'+rowNum)[0] == undefined) {
+                newCard(rowNum,a)
+                console.log('Card#'+rowNum+' created!')
+            } else {
+                
+            }
+            //Remove Cards
+            let cardEx = $('#card'+rowNum);
+            cardEx.each(function(index,el) {
+                cardArr.push(el)
+            })
+            //Update Name
+            let cardName = $('#name'+rowNum)[0];
+            if (cardName.value != a.name) {
+                cardName.value = a.name;
+            }
+            //Update Image
+            let cardImg = $('#img'+rowNum)[0];
+            if (cardImg.src != a.imgURL) {
+                cardImg.src = a.imgURL;
+            }
+            //Update Init
+            let cardInit = $('#init'+rowNum)[0];
+            if (cardInit.value != a.init) {
+                cardInit.value = a.init;
+            }
+            //Update Role
+            let cardRole = $('#role'+rowNum)[0];
+            if (cardRole.value != a.role) {
+                cardRole.value = a.role;
+            }
+            //Update Curr HP
+            let cardCurrHP = $('#currhp'+rowNum)[0];
+            if (cardCurrHP.value != a.currHP) {
+                cardCurrHP.value = a.currHP;
+            }
+            //Update Max HP
+            let cardMaxHP = $('#maxhp'+rowNum)[0];
+            if (cardMaxHP.value != a.maxHP) {
+                cardMaxHP.value = a.maxHP;
+            }
+            //Update Curr MP
+            let cardCurrMP = $('#currmp'+rowNum)[0];
+            if (cardCurrMP.value != a.currMP) {
+                cardCurrMP.value = a.currMP;
+            }
+            //Update Max HP
+            let cardMaxMP = $('#maxmp'+rowNum)[0];
+            if (cardMaxMP.value != a.maxMP) {
+                cardMaxMP.value = a.maxMP;
+            }
+            //Update ATK
+            let cardAtk = $('#atk'+rowNum)[0];
+            let totalAtk = a.atk+a.atkbuff;
+            if (cardAtk.value != totalAtk) {
+                cardAtk.value = totalAtk;
+            }
+            //Update DEF
+            let cardDef = $('#def'+rowNum)[0];
+            let totalDef = a.def+a.defbuff;
+            if (cardDef.value != totalDef) {
+                cardDef.value = totalDef;
+            }
+            //Update DMG
+            let cardDmg = $('#dmg'+rowNum)[0];
+            if (cardDmg.innerHTML != a.dmg) {
+                cardDmg.innerHTML = a.dmg;
+            }
+            //Update SDMG
+            let cardSdmg = $('#sdmg'+rowNum)[0];
+            if (cardSdmg.innerHTML != a.sdmg) {
+                cardSdmg.innerHTML = a.sdmg;
+            }
+            //Update HEAL
+            let cardHeal = $('#heal'+rowNum)[0];
+            if (cardHeal.innerHTML != a.heal) {
+                cardHeal.innerHTML = a.heal;
+            }
+            //Update REC
+            let cardRec = $('#rec'+rowNum)[0];
+            if (cardRec.innerHTML != a.rec) {
+                cardRec.innerHTML = a.rec;
+            }
+            //Update Limit 1
+            let cardLimit1 = $('#limiti'+rowNum)[0];
+            if (cardLimit1.checked != a.lb1) {
+                cardLimit1.checked = a.lb1;
+                //limitBar(cardLimit1)
+            }
+            //Update Limit 2
+            let cardLimit2 = $('#limitii'+rowNum)[0];
+            if (cardLimit2.checked != a.lb2) {
+                cardLimit2.checked = a.lb2;
+                //limitBar(cardLimit2)
+            }
+            //Update Limit 3
+            let cardLimit3 = $('#limitiii'+rowNum)[0];
+            if (cardLimit3.checked != a.lb3) {
+                cardLimit3.checked = a.lb3;
+                //limitBar(cardLimit3)
+            }
             //Update Type
-            let cardType = $('#type'+rowNum);
             let hideVal = $('#hidecard'+rowNum)[0];
-            console.log(hideVal.value)
+            let cardVis = $('#card'+rowNum)[0];
             if (hideVal.value != a.type) {
                 hideVal.value = a.type;
+            }
+            if (a.type == 'player') {
+                cardVis.classList.add('player')
+            } else if (a.type == 'npc') {
+                cardVis.classList.remove('player')
             }
         }
         num = rowCount.reduce(function(a, b) {
@@ -669,47 +871,215 @@ onValue(ref(db, 'rows/'), (snapshot) => {
         num = 1;
       console.log('No snapshot')
     }
+    let cardAll = $("div[id^='card']");
+    cardAll.each(function(index,el) {
+        let exists = cardArr.includes(el);
+        if (exists != true) {
+            el.remove()
+        }
+    })
   });
 
 createButton.addEventListener('click', function() {
-    newCard(num,tank);
     writeRowData(num,newCardData);
-    console.log(newCardData)
 })
 
 $(document).on('click', '.delbutton', function() {
     deleteRow(this)
     removeRowData(this.id.slice(3))
 });
-
+//Limit
 $(document).on('change','.limit-check', function() {
     limitBar(this)
+    let row = this.id.match(/\d+/g)[0];
+    let val = this.checked;
+    let limitSlice = this.id.slice(5);
+    let limitNum = (limitSlice.match(/i/g)||[]).length;
+    switch (limitNum) {
+        case 1:
+            update(ref(db, 'rows/'+row), {
+                'lb1': val,
+            });
+            break
+        case 2:
+            update(ref(db, 'rows/'+row), {
+                'lb2': val,
+            });
+            break
+        case 3:
+            update(ref(db, 'rows/'+row), {
+                'lb3': val,
+            });
+            break
+    }
 })
-
+//Name
+$(document).on('change', '.name', function() {
+    let row = this.id.match(/\d+/g)[0];
+    let val = this.value;
+    update(ref(db, 'rows/'+row), {
+        'name': val,
+    });
+})
+//Image
 $(document).on('click','.image-selector', function() {
     let row = this.id.match(/\d+/g)[0];
     let img = $('#img'+row);
-    console.log(img[0])
     let imageURL = prompt('Enter image URL:','default');
     if (imageURL == 'default' || imageURL == undefined || imageURL == null) {
-        img[0].src = './img/Blank.png';
-        img[0].style.display = 'block';
+        update(ref(db, 'rows/'+row), {
+            'imgURL': './img/Blank.png',
+        });
     } else {
-        img[0].src = imageURL;
-        img[0].style.display = 'block';
+        update(ref(db, 'rows/'+row), {
+            'imgURL': imageURL,
+        });
     }
 })
-
+//Init
+$(document).on('change', '.init', function() {
+    let row = this.id.match(/\d+/g)[0];
+    let val = this.value;
+    update(ref(db, 'rows/'+row), {
+        'init': val,
+    });
+})
+//Type
 $(document).on('click', '.type-selector', function() {
     let row = this.id.slice(4);
-    console.log(row)
     let val = this.value;
     let hidden = $('#hidecard'+row);
-    console.log(hidden[0])
     hidden[0].value = val;
     update(ref(db, 'rows/'+row), {
         'type': val,
     });
     //writeRowData(row,val)
 })
+//Curr HP&MP
+$(document).on('change', '.points', function() {
+    let row = this.id.match(/\d+/g)[0];
+    let type = this.id.match(/[a-zA-Z]+/g)[0];
+    let val = this.value;
+    if (type == 'currhp') {
+        update(ref(db, 'rows/'+row), {
+            'currHP': val,
+        });
+    } else if (type == 'currmp') {
+        update(ref(db, 'rows/'+row), {
+            'currMP': val,
+        });
+    }
+})
+//Max HP&MP
+$(document).on('change', '.points2', function() {
+    let row = this.id.match(/\d+/g)[0];
+    let type = this.id.match(/[a-zA-Z]+/g)[0];
+    let val = this.value;
+    if (type == 'maxhp') {
+        update(ref(db, 'rows/'+row), {
+            'maxHP': val,
+        });
+    } else if (type == 'maxmp') {
+        update(ref(db, 'rows/'+row), {
+            'maxMP': val,
+        });
+    }
+})
 
+//Buff and Debuff
+$(document).on('click', '.magbutton', function() {
+    let row = this.id.match(/\d+/g)[0];
+    let type = this.id.match(/[a-zA-Z]+/g)[0];
+    let atkBuffNum = 0;
+    let defBuffNum = 0;
+    get(child(dbRef, 'rows/'+row)).then((snapshot) => {
+        if (snapshot.exists()) {
+            let data = snapshot.val();
+            atkBuffNum = data.atkbuff;
+            defBuffNum = data.defbuff;
+            if (type == 'atkup') {
+                if (atkBuffNum <=10) {
+                    atkBuffNum += 5;
+                    update(ref(db, 'rows/'+row), {
+                        'atkbuff': atkBuffNum,
+                    });
+                } else {
+                    update(ref(db, 'rows/'+row), {
+                        'atkbuff': atkBuffNum,
+                    });
+                }
+            } else if (type == 'atkdown') {
+                if (atkBuffNum >=-10) {
+                    atkBuffNum -= 5;
+                    update(ref(db, 'rows/'+row), {
+                        'atkbuff': atkBuffNum,
+                    });
+                } else {
+                    update(ref(db, 'rows/'+row), {
+                        'atkbuff': atkBuffNum,
+                    });
+                }
+            } else if (type == 'defup') {
+                if (defBuffNum <=10) {
+                    defBuffNum += 5;
+                    update(ref(db, 'rows/'+row), {
+                        'defbuff': defBuffNum,
+                    });
+                } else {
+                    update(ref(db, 'rows/'+row), {
+                        'defbuff': defBuffNum,
+                    });
+                }
+            } else if (type == 'defdown') {
+                if (defBuffNum >=-10) {
+                    defBuffNum -= 5;
+                    update(ref(db, 'rows/'+row), {
+                        'defbuff': defBuffNum,
+                    });
+                } else {
+                    update(ref(db, 'rows/'+row), {
+                        'defbuff': defBuffNum,
+                    });
+                }
+            }
+          } else {
+            console.log("No data available");
+          }
+        }).catch((error) => {
+          console.error(error);
+    })
+})
+//Buff+Debuff Reset
+$(document).on('click', '.magreset', function() {
+    let row = this.id.match(/\d+/g)[0];
+    let type = this.id.match(/[a-zA-Z]+/g)[0];
+    if (type == 'atkreset') {
+        update(ref(db, 'rows/'+row), {
+            'atkbuff': 0,
+        });
+    } else if (type == 'defreset') {
+        update(ref(db, 'rows/'+row), {
+            'defbuff': 0,
+        });
+    }
+})
+//Roles
+$(document).on('change', '.rolesel', function() {
+    let row = this.id.match(/\d+/g)[0];
+    let value = this.value;
+    let val = eval(value);
+    update(ref(db, 'rows/'+row), {
+        'role': value,
+        'currHP': val.hp,
+        'maxHP': val.hp,
+        'currMP': val.mp,
+        'maxMP': val.mp,
+        'atk': val.atk,
+        'def': val.def,
+        'dmg': val.dmg,
+        'sdmg': val.sdmg,
+        'heal': val.heal,
+        'rec': val.rec
+    });
+    console.log(row,val)
+})
