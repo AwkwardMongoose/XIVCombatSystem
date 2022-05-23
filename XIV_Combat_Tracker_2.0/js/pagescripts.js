@@ -36,8 +36,30 @@ window.onload = function() {
         const errorCode = error.code;
         const errorMessage = error.message;
         // ...
+      }).then(function() {
+        let playerView = (window.location.href).includes('playerview');
+        let dmView = (window.location.href).includes('dmview');
+        if (dmView == true) {
+            let password = get(child(dbRef, 'password')).then((snapshot) => {
+                if (snapshot.exists()) {
+                    let password = snapshot.val();
+                    let entry = prompt("Please enter the DM password:", "Type Here...");
+                    if (entry == password) {
+                        console.log('Signed into Page!')
+                        let root = $('.root')[0];
+                        root.style.display = 'flex'
+                    } else {
+                        alert('INCORRECT PASSWORD')
+                        window.location = "index.html";
+                    }
+                }
+            })
+        }
+
       });
 }
+
+
 
 dragula([document.getElementById('entroot')], {slideFactorY: 50, slideFactorX: 50,});
 

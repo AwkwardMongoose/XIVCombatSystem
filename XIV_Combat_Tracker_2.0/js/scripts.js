@@ -30,12 +30,7 @@ const dmLogin = document.getElementById('dmlogin');
 const playerLogin = document.getElementById('playerlogin');
 
 dmLogin.addEventListener('click', function() {
-    let password = prompt("Please enter the DM password:", "Type Here...");
-    if (password == 'atwood') {
-        window.location = "dmview.html";
-    } else {
-        alert('INCORRECT PASSWORD')
-    }
+    window.location = "dmview.html";
 })
 
 playerLogin.addEventListener('click', function() {
