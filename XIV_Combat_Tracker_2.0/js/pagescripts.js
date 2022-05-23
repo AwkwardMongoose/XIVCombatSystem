@@ -522,6 +522,7 @@ function newCard(row,char) {
     atkNumDiv.appendChild(atkUp)
     let atkReset = document.createElement('button')
     atkReset.classList.add('magreset')
+    atkReset.classList.add('magresetbutton')
     atkReset.id = 'atkreset'+row;
     let atkX = document.createTextNode('x')
     atkReset.appendChild(atkX)
@@ -551,6 +552,7 @@ function newCard(row,char) {
     defNumDiv.appendChild(defUp)
     let defReset = document.createElement('button')
     defReset.classList.add('magreset2')
+    defReset.classList.add('magresetbutton')
     defReset.id = 'defreset'+row;
     let defX = document.createTextNode('x')
     defReset.appendChild(defX)
@@ -1052,9 +1054,10 @@ $(document).on('click', '.magbutton', function() {
     })
 })
 //Buff+Debuff Reset
-$(document).on('click', '.magreset', function() {
+$(document).on('click', '.magresetbutton', function() {
     let row = this.id.match(/\d+/g)[0];
     let type = this.id.match(/[a-zA-Z]+/g)[0];
+    console.log(type)
     if (type == 'atkreset') {
         update(ref(db, 'rows/'+row), {
             'atkbuff': 0,
