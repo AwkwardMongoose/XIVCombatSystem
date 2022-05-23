@@ -177,68 +177,6 @@ let newCardData = {
 //
 //console.log(del1.id.match(/[a-zA-Z]+/g)[0],del1.id.match(/\d+/g)[0])
 
-function limitBar(element) {
-    let row = element.id.match(/\d+/g)[0];
-    let limit1 = document.getElementById('limiti'+row);
-    let limit2 = document.getElementById('limitii'+row);
-    let limit3 = document.getElementById('limitiii'+row);
-    let limitSlice = element.id.slice(5);
-    let limitNum = (limitSlice.match(/i/g)||[]).length;
-    let bar1 = document.getElementById('bari'+row);
-    let bar2 = document.getElementById('barii'+row);
-    let bar3 = document.getElementById('bariii'+row);
-    let checked = element.checked;
-        switch (limitNum) {
-            case 1:
-                if (checked == false) {
-                    limit2.checked = false;
-                    limit3.checked = false;
-                    update(ref(db, 'rows/'+row), {
-                        'lb2': false,
-                        'lb3': false
-                    });
-                    $(bar1).removeClass('limit-fill')
-                } else {
-                    $(bar1).addClass('limit-fill')
-                }
-                $(bar2).removeClass('limit-fill')
-                $(bar3).removeClass('limit-fill')
-                break
-            case 2:
-                if (checked == false) {
-                    limit3.checked = false;
-                    update(ref(db, 'rows/'+row), {
-                        'lb3': false
-                    });
-                    $(bar2).removeClass('limit-fill')
-                } else {
-                    limit1.checked = true;
-                    update(ref(db, 'rows/'+row), {
-                        'lb1': true,
-                    });
-                    $(bar1).addClass('limit-fill')
-                    $(bar2).addClass('limit-fill')
-                }
-                $(bar3).removeClass('limit-fill')
-                break
-            case 3:
-                if (checked == false) {
-                    $(bar3).removeClass('limit-fill')
-                } else {
-                    limit1.checked = true;
-                    limit2.checked = true;
-                    update(ref(db, 'rows/'+row), {
-                        'lb1': true,
-                        'lb2': true
-                    });
-                    $(bar1).addClass('limit-fill')
-                    $(bar2).addClass('limit-fill')
-                    $(bar3).addClass('limit-fill')
-                }
-                break
-        }
-}
-
 function newCard(row,char) {
     let entroot = document.getElementById('entroot');
     let playerView = (window.location.href).includes('playerview');
@@ -750,6 +688,31 @@ function removeRowData(rowNum) {
     set(ref(db, 'rows/'+arrayNum), null);
   }
 
+function limitBar(el) {
+    let row = el.id.match(/\d+/g)[0];
+    let limit1 = $('#limiti'+row)[0].checked;
+    let limit2 = $('#limitii'+row)[0].checked;
+    let limit3 = $('#limitiii'+row)[0].checked;
+    let bar1 = $('#bari'+row)[0];
+    let bar2 = $('#barii'+row)[0];
+    let bar3 = $('#bariii'+row)[0];
+    if (limit1 == true) {
+        bar1.classList.add('limit-fill')
+    } else {
+        bar1.classList.remove('limit-fill')
+    }
+    if (limit2 == true) {
+        bar2.classList.add('limit-fill')
+    } else {
+        bar2.classList.remove('limit-fill')
+    }
+    if (limit3 == true) {
+        bar3.classList.add('limit-fill')
+    } else {
+        bar3.classList.remove('limit-fill')
+    }
+}
+
 onValue(ref(db, 'rows/'), (snapshot) => {
     let data = snapshot.val();
     let cardArr = [0];
@@ -862,6 +825,7 @@ onValue(ref(db, 'rows/'), (snapshot) => {
                 cardLimit3.checked = a.lb3;
                 //limitBar(cardLimit3)
             }
+            limitBar(cardLimit1)
             //Update Type
             let hideVal = $('#hidecard'+rowNum)[0];
             let cardVis = $('#card'+rowNum)[0];
@@ -900,26 +864,67 @@ $(document).on('click', '.delbutton', function() {
 });
 //Limit
 $(document).on('change','.limit-check', function() {
-    limitBar(this)
     let row = this.id.match(/\d+/g)[0];
     let val = this.checked;
+    let limit2 = $('#limitii'+row)[0].checked;
+    let limit3 = $('#limitiii'+row)[0].checked;
+    console.log(limit2,limit3)
     let limitSlice = this.id.slice(5);
     let limitNum = (limitSlice.match(/i/g)||[]).length;
     switch (limitNum) {
         case 1:
-            update(ref(db, 'rows/'+row), {
-                'lb1': val,
-            });
+            if (val == true) {
+                update(ref(db, 'rows/'+row), {
+                    'lb1': true,
+                    'lb2': false,
+                    'lb3': false,
+                });
+            } else if (val == false && limit2 == true) {
+                update(ref(db, 'rows/'+row), {
+                    'lb1': true,
+                    'lb2': false,
+                    'lb3': false,
+                });
+            } else if (val == false) {
+                update(ref(db, 'rows/'+row), {
+                    'lb1': false,
+                    'lb2': false,
+                    'lb3': false,
+                });
+            }
             break
         case 2:
-            update(ref(db, 'rows/'+row), {
-                'lb2': val,
-            });
+            if (val == true) {
+                update(ref(db, 'rows/'+row), {
+                    'lb1': true,
+                    'lb2': true,
+                    'lb3': false,
+                });
+            } else if (val == false && limit3 == true) {
+                update(ref(db, 'rows/'+row), {
+                    'lb1': true,
+                    'lb2': true,
+                    'lb3': false,
+                });
+            } else if (val == false) {
+                update(ref(db, 'rows/'+row), {
+                    'lb2': false,
+                    'lb3': false,
+                });
+            }
             break
         case 3:
-            update(ref(db, 'rows/'+row), {
-                'lb3': val,
-            });
+            if (val == true) {
+                update(ref(db, 'rows/'+row), {
+                    'lb1': true,
+                    'lb2': true,
+                    'lb3': true,
+                });
+            } else if (val == false) {
+                update(ref(db, 'rows/'+row), {
+                    'lb3': false,
+                });
+            }
             break
     }
 })
@@ -995,7 +1000,6 @@ $(document).on('change', '.points2', function() {
         });
     }
 })
-
 //Buff and Debuff
 $(document).on('click', '.magbutton', function() {
     let row = this.id.match(/\d+/g)[0];
