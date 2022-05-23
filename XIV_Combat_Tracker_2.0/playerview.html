@@ -9,79 +9,18 @@
     <link href="css/dragula.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Press Start 2P">
     <link href="css/playerstyles.css" rel="stylesheet">
-    <script type="module" src="js/dragula.js"></script>
-    <script type="module" src="js/babel.min.js"></script>
+    <script type="module" src="js/dragula.min.js"></script>
     <script src="js/jquery-3.6.0.min.js"></script>
     <script src="js/jquery-ui.js"></script>
-    <!-- Note: when deploying, replace "development.js" with "production.min.js". -->
-    <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
-    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
     <script type="module" src="js/pagescripts.js" defer=""></script>
 </head>
 <body>
-<div class="root">
-    <div class="ent-root" id="entroot">
-        <div id="addroot"></div>
-        <!--<input class="hide-card" type="hidden" value="" id="hidecard1">
-        <div class="ent-grid-backpanel" id="card1">
-            <div class="ent-grid" id="entgrid">
-                <div class="ent-name"><input class="name" type="text" placeholder="Name..." id="name1"></div>
-                <div class="ent-image" id="image1">
-                    <img class="image-item" id="img1" src="" onerror="this.style.display='none'">
-                        <button class="image-selector" id="imagebutton1"><img src="./img/imgbutton.png" height="10px"></button>
-                </div>
-                <div class="ent-role">
-                    <select id="role1">
-                        <option value="tank">Tank</option>
-                        <option value="ltank">Light Tank</option>
-                        <option value="mstr">Melee Striker</option>
-                        <option value="rstr">Ranged Striker</option>
-                    </select>
-                    <select class="type-selector" id="type1">
-                        <option value="npc" selected>NPC</option>
-                        <option value="player">Player</option>
-                    </select>
-                </div>
-                <div class="ent-HP">HP<span class="underline"><input class="points" type="text" id="currhp1"><span class="slash">/</span><input class="points2" value="1000" id="maxhp1"></span>
-                </div>
-                <div class="ent-MP">MP<span class="underline"><input class="points" type="text" id="currmp1"><span class="slash">/</span><input class="points2" value="1000" id="maxmp1"></span>
-                </div>
-                <div class="ent-stats">
-                    <div class="atk">ATK</div>
-                    <div class="def">DEF</div>
-                    <div class="dmg">DMG</div>
-                    <div class="sdmg">SDMG</div>
-                    <div class="heal">HEAL</div>
-                    <div class="rec">REC</div>
-                    <div class="atknum"><button class="magbutton" id="atkdown1">-</button><input class="inputnum" type="number" step="5" value="10" id="atk1"><button class="magbutton" id="atkup1">+</button></div>
-                    <div class="defnum"><button class="magbutton" id="defdown1">-</button><input class="inputnum" type="number" step="5" value="10" id="def1"><button class="magbutton" id="defup1">+</button></div>
-                    <div class="dmgnum" id="dmg1">20</div>
-                    <div class="sdmgnum" id="sdmg1">30</div>
-                    <div class="healnum" id="heal1">40</div>
-                    <div class="recnum" id="rec1">50</div>
-                </div>
-                <div class="ent-init"><span class="init-title">Init</span><input class="init" type="text" id="init1"></div>
-                <div class="ent-delete"><button class="delbutton" id="del1">x</button></div>
-                <div class="ent-limit">
-                    <div class="limit-grid">
-                        <div class="limit-head">
-                            LIMIT
-                        </div>
-                        <div class="limit-blank">
-                        </div>
-                        <div class="limit-cell">
-                            <input class="limit-1 limit-check" type="checkbox" id="limiti1"><span class="limit-divide"></span><input class="limit-2 limit-check" type="checkbox" id="limitii1"><span class="limit-divide"></span><input class="limit-3 limit-check" type="checkbox" id="limitiii1">
-                            <div class="limit-bar1" id="bari1"></div><div class="limit-bar2" id="barii1"></div><div class="limit-bar3" id="bariii1"></div>
-                        </div>
-                    </div>
-                </div>
+    <div class="root">
+        <div class="ent-root" id="entroot">
+            <div id="addroot"></div>
+            <div class="new-root" id="newroot">
+                <button class="newbutton" id="newentbutton">+</button>
             </div>
-        </div>-->
-        <div class="new-root" id="newroot">
-            <button class="newbutton" id="newentbutton">+</button>
         </div>
     </div>
-
-</div>
 </body>
-</html>
