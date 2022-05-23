@@ -509,6 +509,9 @@ function newCard(row,char) {
     atkNumDiv.appendChild(atkDown)
     let atkNumName = document.createElement('input')
     atkNumName.classList.add('inputnum')
+    if (playerView == true) {
+        atkNumName.readOnly = true;
+    }
     atkNumName.type = 'number';
     atkNumName.step = '5';
     atkNumName.value = char.atk+char.atkbuff;
@@ -539,6 +542,9 @@ function newCard(row,char) {
     defNumDiv.appendChild(defDown)
     let defNumName = document.createElement('input')
     defNumName.classList.add('inputnum')
+    if (playerView == true) {
+        defNumName.readOnly = true;
+    }
     defNumName.type = 'number';
     defNumName.step = '5';
     defNumName.value = char.def+char.defbuff;
