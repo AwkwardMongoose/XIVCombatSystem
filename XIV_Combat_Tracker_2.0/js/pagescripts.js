@@ -369,10 +369,12 @@ function newCard(row,char) {
     roleSel.appendChild(roleRStrike)
     roleSel.appendChild(roleCast)
     roleSel.appendChild(roleHeal)
-    roleSel.appendChild(roleMTank)
-    roleSel.appendChild(roleMDps)
-    roleSel.appendChild(roleMHeal)
-    roleSel.appendChild(roleBoss)
+    if (dmView == true) {
+        roleSel.appendChild(roleMTank)
+        roleSel.appendChild(roleMDps)
+        roleSel.appendChild(roleMHeal)
+        roleSel.appendChild(roleBoss)
+    }
 
     //TYPE
     let entTypeSel = document.createElement('select');
