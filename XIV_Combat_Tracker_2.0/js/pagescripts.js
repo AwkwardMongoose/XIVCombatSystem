@@ -2,7 +2,18 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.11/firebas
 import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/9.6.11/firebase-firestore.js";
 import { getDatabase, ref, set, child, get, onValue, update } from "https://www.gstatic.com/firebasejs/9.6.11/firebase-database.js";
 import { getAuth, createUserWithEmailAndPassword, signInAnonymously, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.6.11/firebase-auth.js";
-
+function sessionId() {
+    var key = sessionStorage.getItem('xivSession');
+    if (key == null || key == undefined || key == "") {
+        return 'test'
+    } else {
+        return key
+    };
+}
+var session = sessionId();
+var sessionIdField = document.querySelector('.codefield');
+sessionIdField.value = session;
+console.log('Session: '+session)
 
 // Import the functions you need from the SDKs you need
 // TODO: Add SDKs for Firebase products that you want to use
@@ -43,14 +54,22 @@ window.onload = function() {
             let password = get(child(dbRef, 'password')).then((snapshot) => {
                 if (snapshot.exists()) {
                     let password = snapshot.val();
-                    let entry = prompt("Please enter the DM password:", "Type Here...");
-                    if (entry == password) {
-                        console.log('Signed into Page!')
+                    if (sessionStorage.getItem('xivCreator') == 'true') {
+                        console.log('Signed in as Creator!')
+                        set(ref(db, 'session/'+session+'/'), null);
                         let root = $('.root')[0];
                         root.style.display = 'flex'
+                        sessionStorage.removeItem('xivCreator');
                     } else {
-                        alert('INCORRECT PASSWORD')
-                        window.location = "index.html";
+                        let entry = prompt("Please enter the DM password:", "Type Here...");
+                        if (entry == password) {
+                            console.log('Signed into Page!')
+                            let root = $('.root')[0];
+                            root.style.display = 'flex'
+                        } else {
+                            alert('INCORRECT PASSWORD')
+                            window.location = "index.html";
+                        }
                     }
                 }
             })
@@ -658,7 +677,7 @@ function newCard(row,char) {
 
 function writeRowData(row,card) {
     let arrayNum = row;
-    set(ref(db, 'rows/'+arrayNum), {
+    set(ref(db, 'session/'+session+'/'+arrayNum), {
         'row': row,
         'name': card.name,
         'role': card.role,
@@ -687,12 +706,12 @@ function changeRowData(card) {
     let row = card.row;
     switch (type) {
       case 'charname':
-        update(ref(db, 'rows/'+rowNum), {
+        update(ref(db, 'session/'+session+'/'+rowNum), {
           name: value,
       });
       break
       case 'role':
-        update(ref(db, 'rows/'+rowNum), {
+        update(ref(db, 'session/'+session+'/'+rowNum), {
           role: value,
       });
       break
@@ -707,7 +726,7 @@ function deleteRow(element) {
 
 function removeRowData(rowNum) {
     let arrayNum = rowNum;
-    set(ref(db, 'rows/'+arrayNum), null);
+    set(ref(db, 'session/'+session+'/'+arrayNum), null);
   }
 
 function limitBar(el) {
@@ -735,7 +754,7 @@ function limitBar(el) {
     }
 }
 
-onValue(ref(db, 'rows/'), (snapshot) => {
+onValue(ref(db, 'session/'+session+'/'), (snapshot) => {
     let data = snapshot.val();
     let cardArr = [0];
     if (snapshot.exists()) {
@@ -896,19 +915,19 @@ $(document).on('change','.limit-check', function() {
     switch (limitNum) {
         case 1:
             if (val == true) {
-                update(ref(db, 'rows/'+row), {
+                update(ref(db, 'session/'+session+'/'+row), {
                     'lb1': true,
                     'lb2': false,
                     'lb3': false,
                 });
             } else if (val == false && limit2 == true) {
-                update(ref(db, 'rows/'+row), {
+                update(ref(db, 'session/'+session+'/'+row), {
                     'lb1': true,
                     'lb2': false,
                     'lb3': false,
                 });
             } else if (val == false) {
-                update(ref(db, 'rows/'+row), {
+                update(ref(db, 'session/'+session+'/'+row), {
                     'lb1': false,
                     'lb2': false,
                     'lb3': false,
@@ -917,19 +936,19 @@ $(document).on('change','.limit-check', function() {
             break
         case 2:
             if (val == true) {
-                update(ref(db, 'rows/'+row), {
+                update(ref(db, 'session/'+session+'/'+row), {
                     'lb1': true,
                     'lb2': true,
                     'lb3': false,
                 });
             } else if (val == false && limit3 == true) {
-                update(ref(db, 'rows/'+row), {
+                update(ref(db, 'session/'+session+'/'+row), {
                     'lb1': true,
                     'lb2': true,
                     'lb3': false,
                 });
             } else if (val == false) {
-                update(ref(db, 'rows/'+row), {
+                update(ref(db, 'session/'+session+'/'+row), {
                     'lb2': false,
                     'lb3': false,
                 });
@@ -937,13 +956,13 @@ $(document).on('change','.limit-check', function() {
             break
         case 3:
             if (val == true) {
-                update(ref(db, 'rows/'+row), {
+                update(ref(db, 'session/'+session+'/'+row), {
                     'lb1': true,
                     'lb2': true,
                     'lb3': true,
                 });
             } else if (val == false) {
-                update(ref(db, 'rows/'+row), {
+                update(ref(db, 'session/'+session+'/'+row), {
                     'lb3': false,
                 });
             }
@@ -954,7 +973,7 @@ $(document).on('change','.limit-check', function() {
 $(document).on('change', '.name', function() {
     let row = this.id.match(/\d+/g)[0];
     let val = this.value;
-    update(ref(db, 'rows/'+row), {
+    update(ref(db, 'session/'+session+'/'+row), {
         'name': val,
     });
 })
@@ -964,11 +983,11 @@ $(document).on('click','.image-selector', function() {
     let img = $('#img'+row);
     let imageURL = prompt('Enter image URL:','default');
     if (imageURL == 'default' || imageURL == undefined || imageURL == null) {
-        update(ref(db, 'rows/'+row), {
+        update(ref(db, 'session/'+session+'/'+row), {
             'imgURL': './img/Blank.png',
         });
     } else {
-        update(ref(db, 'rows/'+row), {
+        update(ref(db, 'session/'+session+'/'+row), {
             'imgURL': imageURL,
         });
     }
@@ -977,7 +996,7 @@ $(document).on('click','.image-selector', function() {
 $(document).on('change', '.init', function() {
     let row = this.id.match(/\d+/g)[0];
     let val = this.value;
-    update(ref(db, 'rows/'+row), {
+    update(ref(db, 'session/'+session+'/'+row), {
         'init': val,
     });
 })
@@ -987,7 +1006,7 @@ $(document).on('click', '.type-selector', function() {
     let val = this.value;
     let hidden = $('#hidecard'+row);
     hidden[0].value = val;
-    update(ref(db, 'rows/'+row), {
+    update(ref(db, 'session/'+session+'/'+row), {
         'type': val,
     });
     //writeRowData(row,val)
@@ -998,11 +1017,11 @@ $(document).on('change', '.points', function() {
     let type = this.id.match(/[a-zA-Z]+/g)[0];
     let val = this.value;
     if (type == 'currhp') {
-        update(ref(db, 'rows/'+row), {
+        update(ref(db, 'session/'+session+'/'+row), {
             'currHP': val,
         });
     } else if (type == 'currmp') {
-        update(ref(db, 'rows/'+row), {
+        update(ref(db, 'session/'+session+'/'+row), {
             'currMP': val,
         });
     }
@@ -1013,11 +1032,11 @@ $(document).on('change', '.points2', function() {
     let type = this.id.match(/[a-zA-Z]+/g)[0];
     let val = this.value;
     if (type == 'maxhp') {
-        update(ref(db, 'rows/'+row), {
+        update(ref(db, 'session/'+session+'/'+row), {
             'maxHP': val,
         });
     } else if (type == 'maxmp') {
-        update(ref(db, 'rows/'+row), {
+        update(ref(db, 'session/'+session+'/'+row), {
             'maxMP': val,
         });
     }
@@ -1028,7 +1047,7 @@ $(document).on('click', '.magbutton', function() {
     let type = this.id.match(/[a-zA-Z]+/g)[0];
     let atkBuffNum = 0;
     let defBuffNum = 0;
-    get(child(dbRef, 'rows/'+row)).then((snapshot) => {
+    get(child(dbRef, 'session/'+session+'/'+row)).then((snapshot) => {
         if (snapshot.exists()) {
             let data = snapshot.val();
             atkBuffNum = data.atkbuff;
@@ -1036,44 +1055,44 @@ $(document).on('click', '.magbutton', function() {
             if (type == 'atkup') {
                 if (atkBuffNum <=10) {
                     atkBuffNum += 5;
-                    update(ref(db, 'rows/'+row), {
+                    update(ref(db, 'session/'+session+'/'+row), {
                         'atkbuff': atkBuffNum,
                     });
                 } else {
-                    update(ref(db, 'rows/'+row), {
+                    update(ref(db, 'session/'+session+'/'+row), {
                         'atkbuff': atkBuffNum,
                     });
                 }
             } else if (type == 'atkdown') {
                 if (atkBuffNum >=-10) {
                     atkBuffNum -= 5;
-                    update(ref(db, 'rows/'+row), {
+                    update(ref(db, 'session/'+session+'/'+row), {
                         'atkbuff': atkBuffNum,
                     });
                 } else {
-                    update(ref(db, 'rows/'+row), {
+                    update(ref(db, 'session/'+session+'/'+row), {
                         'atkbuff': atkBuffNum,
                     });
                 }
             } else if (type == 'defup') {
                 if (defBuffNum <=10) {
                     defBuffNum += 5;
-                    update(ref(db, 'rows/'+row), {
+                    update(ref(db, 'session/'+session+'/'+row), {
                         'defbuff': defBuffNum,
                     });
                 } else {
-                    update(ref(db, 'rows/'+row), {
+                    update(ref(db, 'session/'+session+'/'+row), {
                         'defbuff': defBuffNum,
                     });
                 }
             } else if (type == 'defdown') {
                 if (defBuffNum >=-10) {
                     defBuffNum -= 5;
-                    update(ref(db, 'rows/'+row), {
+                    update(ref(db, 'session/'+session+'/'+row), {
                         'defbuff': defBuffNum,
                     });
                 } else {
-                    update(ref(db, 'rows/'+row), {
+                    update(ref(db, 'session/'+session+'/'+row), {
                         'defbuff': defBuffNum,
                     });
                 }
@@ -1091,11 +1110,11 @@ $(document).on('click', '.magresetbutton', function() {
     let type = this.id.match(/[a-zA-Z]+/g)[0];
     console.log(type)
     if (type == 'atkreset') {
-        update(ref(db, 'rows/'+row), {
+        update(ref(db, 'session/'+session+'/'+row), {
             'atkbuff': 0,
         });
     } else if (type == 'defreset') {
-        update(ref(db, 'rows/'+row), {
+        update(ref(db, 'session/'+session+'/'+row), {
             'defbuff': 0,
         });
     }
@@ -1105,7 +1124,7 @@ $(document).on('change', '.rolesel', function() {
     let row = this.id.match(/\d+/g)[0];
     let value = this.value;
     let val = eval(value);
-    update(ref(db, 'rows/'+row), {
+    update(ref(db, 'session/'+session+'/'+row), {
         'role': value,
         'currHP': val.hp,
         'maxHP': val.hp,
@@ -1120,3 +1139,24 @@ $(document).on('change', '.rolesel', function() {
     });
     console.log(row,val)
 })
+
+var copyCodeBtn = document.querySelector('.codebutton');
+
+copyCodeBtn.addEventListener('click', function(event) {
+    var copyTextarea = document.querySelector('.codefield');
+    copyTextarea.focus();
+    copyTextarea.select();
+    try {
+        var successful = document.execCommand('copy');
+        var msg = successful ? 'successful' : 'unsuccessful';
+        console.log('Copying text command was ' + msg);
+        let copied = document.getElementById('copied');
+        copied.classList.remove('fadehide')
+        setTimeout(function () {
+            copied.classList.add('fadehide');
+        }, 5);
+        copyCodeBtn.focus();
+    } catch (err) {
+        console.log('Oops, unable to copy');
+    }
+});

@@ -583,3 +583,36 @@ END LIMIT BREAK TABLE */
 .magreset2:hover {
     cursor:pointer;
 }
+
+.codefield {
+    width: 130px;
+    font-size: 12px;
+}
+
+.codebutton {
+    background-color: darkblue;
+    border: 2px solid lightgray;
+    border-radius: 2px;
+    height: 18px;
+    width: 55px;
+}
+
+.codebutton:active {
+border: 2px solid gray;
+color: gray;
+font-size: 10px;
+}
+
+.copied {
+    color: green;
+}
+
+.fadeshow {
+    visibility:visible;
+}
+
+.fadehide {
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 0s 2s, opacity 2s linear;
+  }

@@ -26,13 +26,87 @@ const db = getDatabase(app);
 const dbRef = ref(getDatabase());
 const db1 = getDatabase();
 
+window.onload = function() {
+    const auth = getAuth();
+    signInAnonymously(auth)
+      .then(() => {
+        // Signed in..
+        console.log('Signed in!')
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        // ...
+      })
+}
+
+function makeid(length) {
+    var result           = '';
+    var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    var charactersLength = characters.length;
+    for ( var i = 0; i < length; i++ ) {
+      result += characters.charAt(Math.floor(Math.random() * 
+ charactersLength));
+   }
+   return result;
+}
+
 const dmLogin = document.getElementById('dmlogin');
 const playerLogin = document.getElementById('playerlogin');
+const newSession = document.getElementById('newsession');
+
+function createNewSession() {
+    let y = makeid(10);
+    set(ref(db, 'valid/'+y), {
+        valid:true,
+    });
+    sessionStorage.setItem('xivSession', y)
+    sessionStorage.setItem('xivCreator', 'true')
+    window.location = "dmview.html";
+}
+
+newSession.addEventListener('click', function() {
+    let password = get(child(dbRef, 'password')).then((snapshot) => {
+        if (snapshot.exists()) {
+            let password = snapshot.val();
+            let entry = prompt("Please enter the DM password:", "Type Here...");
+            if (entry == password) {
+                console.log('Signed into DM!')
+                createNewSession()
+            } else {
+                alert('INCORRECT PASSWORD')
+            }
+        }
+    })
+})
 
 dmLogin.addEventListener('click', function() {
-    window.location = "dmview.html";
+    var x = document.getElementById('session').value;
+    let sessEx = get(child(dbRef, 'valid/'+x)).then((snapshot) => {
+        if (snapshot.exists()) {
+            sessionStorage.setItem('xivSession', x)
+            console.log(sessionStorage.getItem('xivSession'))
+            window.location = "dmview.html";
+        } else {
+            console.log('NO SESSION FOUND')
+        }
+    })
 })
 
 playerLogin.addEventListener('click', function() {
-    window.location = "playerview.html";
+    var x = document.getElementById('session').value;
+    let sessEx = get(child(dbRef, 'valid/'+x)).then((snapshot) => {
+        if (snapshot.exists()) {
+            sessionStorage.setItem('xivSession', x)
+            console.log(sessionStorage.getItem('xivSession'))
+            window.location = "playerview.html";
+        } else {
+            let notFound = document.getElementById('notfound')
+            notFound.classList.remove('fadehide')
+            setTimeout(function () {
+                notFound.classList.add('fadehide');
+            }, 500);
+            console.log('NO SESSION FOUND')
+        }
+    })
 })
