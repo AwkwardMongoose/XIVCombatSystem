@@ -116,6 +116,7 @@ input {
     display: flex;
     height: 100%;
     gap: 2px;
+    column-gap: 8px;
     flex-flow: column;
     flex-wrap: wrap;
     width: 465px;
@@ -244,7 +245,6 @@ input {
     display: grid;
     margin: auto;
     width: min-content;
-    background: linear-gradient(to bottom right, rgb(0, 0, 59) 0%, rgb(0, 0, 196) 100%);
     border: 2px solid black;
     border-radius: 3px;
     color: lightgray;
@@ -257,6 +257,18 @@ input {
     'init img img hp mp'
     'init img img stats stats'
     ;
+    background: linear-gradient(135deg, rgb(0, 0, 59) 0%, rgb(0, 0, 196) 25%, rgb(0, 0, 59) 50%, rgb(0, 0, 196) 75%, rgb(0, 0, 59) 100%);
+    background-size: 300% 300%;
+    animation-name: colorshift;
+    animation-duration: 30s;
+    animation-direction: normal;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+}
+
+@keyframes colorshift { 
+    0%{background-position:0% 0%}
+    100%{background-position:75% 75%}
 }
 
 .ent-grid-backpanel {
@@ -267,6 +279,30 @@ input {
     background: rgb(97,97,97);
     background: linear-gradient(to top left, rgb(82, 82, 82) 0%, lightgray 100%);
     padding: 3.2px;
+    animation-name: hovering2;
+    animation-duration: 0.1s;
+    animation-direction: normal;
+    animation-iteration-count: 1;
+    animation-timing-function: linear;
+    animation-fill-mode: forwards;
+}
+
+.ent-grid-backpanel:hover {
+    animation-name: hovering;
+    animation-duration: 0.1s;
+    animation-direction: reverse;
+    animation-iteration-count: 1;
+    animation-timing-function: linear;
+    animation-fill-mode: forwards;
+}
+
+@keyframes hovering { 
+    100%{left:0px}
+    0%{left: 5px;}
+}
+@keyframes hovering2 { 
+    100%{left:0px}
+    0%{left:5px}
 }
 
 .ent-delete {
@@ -453,11 +489,15 @@ END LIMIT BREAK TABLE */
     left: 5px;
     bottom: 0px;
     width: 35px;
-    background: yellow;
     border: 1px solid rgb(185, 185, 0);
     border-radius: 3px;
     height: 11px;
     z-index: 1;
+    animation-name: limitbar;
+    animation-duration: 1s;
+    animation-direction: normal;
+    animation-iteration-count: infinite;
+    
 }
 .limit-bar2 {
     display: none;
@@ -465,11 +505,14 @@ END LIMIT BREAK TABLE */
     left: 49px;
     bottom: 0px;
     width: 35px;
-    background: yellow;
     border: 1px solid rgb(185, 185, 0);
     border-radius: 3px;
     height: 11px;
     z-index: 1;
+    animation-name: limitbar;
+    animation-duration: 1s;
+    animation-direction: normal;
+    animation-iteration-count: infinite;
 }
 .limit-bar3 {
     display: none;
@@ -477,11 +520,25 @@ END LIMIT BREAK TABLE */
     left: 93px;
     bottom: 0px;
     width: 35px;
-    background: yellow;
     border: 1px solid rgb(185, 185, 0);
     border-radius: 3px;
     height: 11px;
     z-index: 1;
+    animation-name: limitbar;
+    animation-duration: 1s;
+    animation-direction: normal;
+    animation-iteration-count: infinite;
+}
+
+
+@keyframes limitbar {
+    0%{background-color: yellow;}
+    15%{background-color: rgb(250, 189, 135);}
+    25%{background-color: rgb(255, 192, 247);}
+    50%{background-color: yellow;}
+    65%{background-color: rgb(250, 189, 135);}
+    75%{background-color: rgb(255, 192, 247);}
+    100%{background-color: yellow;}
 }
 
 .limit-fill {
@@ -507,10 +564,85 @@ END LIMIT BREAK TABLE */
 }
 
 /* END LOGIN STYLES */
+.role-card[value='mtank'] ~ .ent-grid {
+    background: linear-gradient(135deg, rgb(0, 0, 59) 0%, rgb(0, 0, 196) 25%, rgb(0, 0, 59) 50%, rgb(0, 0, 196) 75%, rgb(0, 0, 59) 100%);
+    background-size: 300% 300%;
+    animation-name: colorshift;
+    animation-duration: 30s;
+    animation-direction: normal;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+}
 
+.role-card[value='mdps'] ~ .ent-grid {
+    background: linear-gradient(135deg, rgb(59, 0, 0) 0%, rgb(152, 0, 0) 25%, rgb(59, 0, 0) 50%, rgb(152, 0, 0) 75%, rgb(59, 0, 0) 100%);
+    background-size: 300% 300%;
+    animation-name: colorshift;
+    animation-duration: 30s;
+    animation-direction: normal;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+}
+
+.role-card[value='mheal'] ~ .ent-grid {
+    background: linear-gradient(135deg, rgb(0, 59, 0) 0%, rgb(0, 142, 0) 25%, rgb(0, 59, 0) 50%, rgb(0, 142, 0) 75%, rgb(0, 59, 0) 100%);
+    background-size: 300% 300%;
+    animation-name: colorshift;
+    animation-duration: 30s;
+    animation-direction: normal;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+}
+
+.role-card[value='mstr'] ~ .ent-grid {
+    background: linear-gradient(135deg, rgb(59, 0, 0) 0%, rgb(152, 0, 0) 25%, rgb(59, 0, 0) 50%, rgb(152, 0, 0) 75%, rgb(59, 0, 0) 100%);
+    background-size: 300% 300%;
+    animation-name: colorshift;
+    animation-duration: 30s;
+    animation-direction: normal;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+}
+
+.role-card[value='rstr'] ~ .ent-grid {
+    background: linear-gradient(135deg, rgb(59, 0, 0) 0%, rgb(152, 0, 0) 25%, rgb(59, 0, 0) 50%, rgb(152, 0, 0) 75%, rgb(59, 0, 0) 100%);
+    background-size: 300% 300%;
+    animation-name: colorshift;
+    animation-duration: 30s;
+    animation-direction: normal;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+}
+
+.role-card[value='cast'] ~ .ent-grid {
+    background: linear-gradient(135deg, rgb(59, 0, 0) 0%, rgb(152, 0, 0) 25%, rgb(59, 0, 0) 50%, rgb(152, 0, 0) 75%, rgb(59, 0, 0) 100%);
+    background-size: 300% 300%;
+    animation-name: colorshift;
+    animation-duration: 30s;
+    animation-direction: normal;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+}
+
+.role-card[value='heal'] ~ .ent-grid {
+    background: linear-gradient(135deg, rgb(0, 59, 0) 0%, rgb(0, 142, 0) 25%, rgb(0, 59, 0) 50%, rgb(0, 142, 0) 75%, rgb(0, 59, 0) 100%);
+    background-size: 300% 300%;
+    animation-name: colorshift;
+    animation-duration: 30s;
+    animation-direction: normal;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+}
 
 .hide-card[value='npc'] ~ .ent-grid {
-    background: linear-gradient(to bottom right, rgb(59, 0, 0) 0%, rgb(196, 0, 0) 100%);
+    background: linear-gradient(to bottom right, rgb(0, 0, 0) 0%, rgb(70, 0, 0) 100%);
+    background: linear-gradient(135deg, rgb(0, 0, 0) 0%, rgb(50, 0, 0) 25%, rgb(0, 0, 0) 50%, rgb(50, 0, 0) 75%, rgb(0, 0, 0) 100%);
+    background-size: 300% 300%;
+    animation-name: colorshift;
+    animation-duration: 30s;
+    animation-direction: normal;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
 }
 
 .magreset {
@@ -606,4 +738,11 @@ font-size: 10px;
     visibility: hidden;
     opacity: 0;
     transition: visibility 0s 2s, opacity 2s linear;
+  }
+
+
+
+  @keyframes shift {
+    0%   {background-color:red; left:0px; top:0px;}
+    100% {background-color:rgb(44, 0, 0); left:0px; top:0px;}
   }

@@ -231,6 +231,7 @@ function newCard(row,char) {
         entroot.appendChild(hideCardPlayer)
     }
 
+
     //GRID STUFF
     let panel = document.createElement('div');
     panel.classList.add('ent-grid-backpanel')
@@ -244,6 +245,12 @@ function newCard(row,char) {
         hideCardDM.id = 'hidecard'+row;
         panel.appendChild(hideCardDM)
     }
+    let roleCard = document.createElement('input')
+    roleCard.classList.add('role-card')
+    roleCard.type = 'hidden';
+    roleCard.value = char.role;
+    roleCard.id = 'rolecard'+row;
+    panel.appendChild(roleCard)
     let grid = document.createElement('div');
     grid.classList.add('ent-grid')
     panel.appendChild(grid)
@@ -793,8 +800,12 @@ onValue(ref(db, 'session/'+session+'/'), (snapshot) => {
             }
             //Update Role
             let cardRole = $('#role'+rowNum)[0];
+            let roleColor = $('#rolecard'+rowNum)[0];
             if (cardRole.value != a.role) {
                 cardRole.value = a.role;
+            }
+            if (roleColor.value != a.role) {
+                roleColor.value = a.role;
             }
             //Update Curr HP
             let cardCurrHP = $('#currhp'+rowNum)[0];
@@ -870,8 +881,12 @@ onValue(ref(db, 'session/'+session+'/'), (snapshot) => {
             //Update Type
             let hideVal = $('#hidecard'+rowNum)[0];
             let cardVis = $('#card'+rowNum)[0];
+            let typeVal = $('#type'+rowNum)[0];
             if (hideVal.value != a.type) {
                 hideVal.value = a.type;
+            }
+            if (typeVal.value != a.type) {
+                typeVal.value = a.type;
             }
             if (a.type == 'player') {
                 cardVis.classList.add('player')
