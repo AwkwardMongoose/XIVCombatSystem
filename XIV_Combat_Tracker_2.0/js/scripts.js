@@ -88,6 +88,11 @@ dmLogin.addEventListener('click', function() {
             console.log(sessionStorage.getItem('xivSession'))
             window.location = "dmview.html";
         } else {
+            let notFound = document.getElementById('notfound')
+            notFound.classList.remove('fadehide')
+            setTimeout(function () {
+                notFound.classList.add('fadehide');
+            }, 500);
             console.log('NO SESSION FOUND')
         }
     })
