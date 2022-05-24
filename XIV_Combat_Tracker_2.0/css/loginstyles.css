@@ -27,13 +27,15 @@ body {
 }
 
 .sessiondiv {
+    margin: auto;
     margin-top: 350px;
     text-align: center;
     margin: auto;
-    width: 1000px;
+    width: fit-content;
 }
 
 .session {
+    margin: auto;
     color: black;
     margin: auto;
     width: 200px;
