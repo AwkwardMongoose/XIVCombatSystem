@@ -489,15 +489,11 @@ END LIMIT BREAK TABLE */
     left: 5px;
     bottom: 0px;
     width: 35px;
+    background-color: yellow;
     border: 1px solid rgb(185, 185, 0);
     border-radius: 3px;
     height: 11px;
-    z-index: 1;
-    animation-name: limitbar;
-    animation-duration: 1s;
-    animation-direction: normal;
-    animation-iteration-count: infinite;
-    
+    z-index: 1;    
 }
 .limit-bar2 {
     display: none;
@@ -505,14 +501,11 @@ END LIMIT BREAK TABLE */
     left: 49px;
     bottom: 0px;
     width: 35px;
+    background-color: yellow;
     border: 1px solid rgb(185, 185, 0);
     border-radius: 3px;
     height: 11px;
     z-index: 1;
-    animation-name: limitbar;
-    animation-duration: 1s;
-    animation-direction: normal;
-    animation-iteration-count: infinite;
 }
 .limit-bar3 {
     display: none;
@@ -526,10 +519,23 @@ END LIMIT BREAK TABLE */
     z-index: 1;
     animation-name: limitbar;
     animation-duration: 1s;
-    animation-direction: normal;
+    animation-direction: alternate;
     animation-iteration-count: infinite;
 }
 
+.limit-3:checked ~ .limit-bar1 {
+    animation-name: limitbar;
+    animation-duration: 1s;
+    animation-direction: alternate;
+    animation-iteration-count: infinite;
+}
+
+.limit-3:checked ~ .limit-bar2 {
+    animation-name: limitbar;
+    animation-duration: 1s;
+    animation-direction: alternate;
+    animation-iteration-count: infinite;
+}
 
 @keyframes limitbar {
     0%{background-color: yellow;}
