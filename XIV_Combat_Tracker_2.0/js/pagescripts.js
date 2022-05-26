@@ -179,6 +179,16 @@ const mheal = {
     'heal': 10,
     'rec': 25,
 }
+const mite = {
+    'hp': 20,
+    'mp': 0,
+    'atk': 5,
+    'def': 20,
+    'dmg': 10,
+    'sdmg': 0,
+    'heal': 0,
+    'rec': 0,
+}
 const boss = {
     'hp': 900,
     'mp': 600,
@@ -341,13 +351,24 @@ function newCard(row,char) {
     roleMHeal.value = "mheal";
     let mhealName = document.createTextNode('Minion (Healer)')
     roleMHeal.appendChild(mhealName)
+    //Mite
+    let roleMite = document.createElement('option');
+    roleMite.value = "mite";
+    let miteName = document.createTextNode('Mite')
+    roleMite.appendChild(miteName)
     //BOSS
     let roleBoss = document.createElement('option');
     roleBoss.value = "boss";
     let bossName = document.createTextNode('Boss')
     roleBoss.appendChild(bossName)
 
-
+    if (playerView == true) {
+        roleMTank.disabled = true;
+        roleMDps.disabled = true;
+        roleMHeal.disabled = true;
+        roleMite.disabled = true;
+        roleBoss.disabled = true;
+    }
 
     roleSel.appendChild(roleTank)
     roleSel.appendChild(roleLTank)
@@ -355,12 +376,11 @@ function newCard(row,char) {
     roleSel.appendChild(roleRStrike)
     roleSel.appendChild(roleCast)
     roleSel.appendChild(roleHeal)
-    if (dmView == true) {
-        roleSel.appendChild(roleMTank)
-        roleSel.appendChild(roleMDps)
-        roleSel.appendChild(roleMHeal)
-        roleSel.appendChild(roleBoss)
-    }
+    roleSel.appendChild(roleMTank)
+    roleSel.appendChild(roleMDps)
+    roleSel.appendChild(roleMHeal)
+    roleSel.appendChild(roleMite)
+    roleSel.appendChild(roleBoss)
 
     //TYPE
     let entTypeSel = document.createElement('select');
