@@ -517,7 +517,7 @@ function updateMPCost() {
                     mpSubTotal = Math.ceil((mpBaseCost*aoeMult)/5)*5;
                     break;
                 case 'esuna':
-                    mpBaseCost = 75;
+                    mpBaseCost = 55;
                     mpSubTotal = Math.ceil((mpBaseCost*aoeMult)/5)*5;
                     break;
                 case 'invuln':
