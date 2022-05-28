@@ -667,8 +667,7 @@ input {
 }
 .saveloaddiv {
     display: flex;
-    margin-right: 0;
-    margin-left: auto;
+    margin: auto;
     justify-self: right;
     justify-content: center;
     width: fit-content;
