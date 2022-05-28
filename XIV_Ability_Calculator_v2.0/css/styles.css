@@ -60,10 +60,9 @@ input {
 
 .root-grid {
     display: grid;
-    position: fixed;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
+    position: relative;
+    top: 50px;
+    margin: auto;
     height: fit-content;
     width: fit-content;
     grid-template-areas: 
