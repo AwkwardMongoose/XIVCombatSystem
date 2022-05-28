@@ -483,6 +483,7 @@ function updateMPCost() {
             let mpTotal = 0;
             let aoeMult = 1;
             let eotMult = 1;
+            let effectChecker = document.getElementById('effectcheck'+rowNumber);
             switch (areaEffectRowArr[rowNumber].value) {
                 case 1:
                     aoeMult = 1.5;
@@ -505,7 +506,7 @@ function updateMPCost() {
                     mpBaseCost = mpCostArr[magNumber];
 
                     mpSubTotal = Math.ceil(((Math.ceil((mpBaseCost*aoeMult)/5)*5)*eotMult)/5)*5;
-                    
+                    effectChecker.value = currEffect;
                     break;
                 case 'buff':
                 case 'debuff':
@@ -517,7 +518,7 @@ function updateMPCost() {
                     mpSubTotal = Math.ceil((mpBaseCost*aoeMult)/5)*5;
                     break;
                 case 'esuna':
-                    mpBaseCost = 55;
+                    mpBaseCost = 75;
                     mpSubTotal = Math.ceil((mpBaseCost*aoeMult)/5)*5;
                     break;
                 case 'invuln':
@@ -584,7 +585,6 @@ function updateMPCost() {
         mpCostDisplay.classList.remove('effect-mptotalstyle')
         mpCostDisplay.classList.add('effect-mptotalstyle-over')
         mpCostError.innerHTML = 'Over Max MP!'
-        console.log()
     } else {
         mpCostDisplay.classList.remove('effect-mptotalstyle-over')
         mpCostDisplay.classList.add('effect-mptotalstyle')
@@ -728,7 +728,7 @@ function readoutDisplay() {
             return
         }
     })
-    readoutText.innerHTML = readoutArr.join(' || ')
+    readoutText.innerHTML = readoutArr.join(' <br> ')
 }
 
 function updateDropDowns() {
@@ -771,7 +771,6 @@ function updateDropDowns() {
 function updateAll() {
     let name = document.getElementById('ability-name');
     $(name).val(currName)
-    console.log(currName)
     loadSwitch = true;
     updateMPCost()
     updateMag()
@@ -897,7 +896,6 @@ function saveFile() {
     hiddenElement.target = '_blank';
     hiddenElement.download = currName+'.txt';
     hiddenElement.click();
-    console.log(effectTypeRowArr[1].value)
 }
 
 function loadFile() {
