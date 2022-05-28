@@ -657,7 +657,7 @@ input {
 }
 .mperror {
     position: relative;
-    left: 292px;
+    left:295px;
     bottom: 55px;
     font-weight: bold;
     color: red;
@@ -667,7 +667,9 @@ input {
 }
 .saveloaddiv {
     display: flex;
-    margin: auto;
+    margin-right: 0;
+    margin-left: auto;
+    justify-self: right;
     justify-content: center;
     width: fit-content;
 }
@@ -685,7 +687,7 @@ input {
     animation-direction: normal;
     animation-iteration-count: infinite;
     animation-timing-function: linear;
-    width: 60px;
+    width: 90px;
     line-height: 26px;
     height: 25px;
 }
