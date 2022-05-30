@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>XIV Spell/Ability Maker</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Press Start 2P">
+    <link href="css/styles.css" rel="stylesheet">
+    <link href="css/jquery-ui.css" rel="stylesheet">
+    <script src="js/jquery-3.6.0.min.js"></script>
+    <script src="js/jquery-ui.js"></script>
+    <script type="module" src="js/script.js" defer=""></script>
+</head>
+<body>
+    <div class="loginoverlay" id="loginoverlay"></div>
+    <div class="loginwrapper" id="createscreen"><div class="loginscreenbackpanel"><div class="loginscreen">
+        <div class="googlelogin">
+            <button class="googleloginbutton" id="googlesignin">Log in with Google</button>
+        </div>
+        <div class="logindivider">-OR-</div>
+        <div class="emaillogin">
+            <div class="emailentry">
+                <div><span>E-mail:</span><input class="emailname" type="text" id="email"></div>
+                <div><span>Password:</span><input class="emailpass" type="password" id="password"></div>
+            </div>
+            &nbsp;
+            <div class="loginbuttonwrapper"><button class="emailloginbutton" id="emaillogin">Log in</button><button class="emailloginbutton" id="create">Create</button></div>
+        </div>
+    </div></div></div>
+    <div class="topbarwrapper">
+        <div class="topbar" id="topbar">
+            <div class="loginoptions" id="loginoptions"><button class="loginlauncher" id="loginlauncher">Log-in</button><button class="logout" id="logout">Log-out of <span id="logintype"></span></button></div>
+            <div class=""></div>
+        </div>
+    </div>
+    <div class="root-grid">
+        <div class="sidebackpanel">
+            <div class="sidepanel" id="sidepanel">
+                <div class="titletext">Abilities</div>
+            </div>
+        </div>
+        <div class="mainbackpanel">
+            <div class="mainpanel" id="mainpanel">
+                <div class="makertitle">Ability Info</div>
+                <div class="rolebackpanel">
+                    <div class="roleblock"><div class="roletext">Role</div>
+                        <select class="role-selector" id="role-option">
+                            <option id="role-option-none" value="none">None</option>
+                            <option id="role-option-tank" value="tank">Tank</option>
+                            <option id="role-option-ltank" value="ltank">Light Tank</option>
+                            <option id="role-option-mstriker" value="mstriker">Melee Striker</option>
+                            <option id="role-option-rstriker" value="rstriker">Ranged Striker</option>
+                            <option id="role-option-caster" value="caster">Caster</option>
+                            <option id="role-option-heal" value="heal">Healer/Support</option>
+                            <option id="role-option-tminion" value="tminion">Minion (Tank)</option>
+                            <option id="role-option-dminion" value="dminion">Minion (DPS)</option>
+                            <option id="role-option-hminion" value="hminion">Minion (Heal)</option>
+                            <option id="role-option-boss" value="boss">Boss</option>
+                            <option id="role-option-limit" value="limit">LIMIT BREAK</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="namediv"><input class="nameinput" type="text" id="ability-name" value="" placeholder="Ability Name"></div>
+                <div class="effectgrid">
+                    <div class="effect1">
+                        <div class="effect1backpanel">
+                            <div class="effectblock1">
+                                <div class="effecteff"><span class="effectefftext">Effect</span></div>
+                                <div class="effectnum"><span class="effectnumtext">1</span></div>
+                                <div class="effecttarget"><span class="effecttargettext">Target</span></div>
+                                <select class="effect-selector" id="effect1-option">
+                                    <option id="effect1-option-none" value="none">None</option>
+                                    <option id="effect1-option-dmg" value="dmg" selected>Damage</option>
+                                    <option id="effect1-option-heal" value="heal">Healing</option>
+                                    <option id="effect1-option-stun" value="stun">Stun</option>
+                                    <option id="effect1-option-buff" value="buff">Buff</option>
+                                    <option id="effect1-option-debuff" value="debuff">Debuff</option>
+                                    <option id="effect1-option-esuna" value="esuna">Esuna</option>
+                                    <option id="effect1-option-revive" value="revive">Revive</option>
+                                    <option id="effect1-option-summon" value="summon">Summon</option>
+                                    <option id="effect1-option-stealth" value="stealth">Stealth</option>
+                                    <option id="effect1-option-invuln" value="invuln">Invuln.</option>
+                                    <option id="effect1-option-movement" value="movement">Movement</option>
+                                </select>
+                                <div class="divider"></div>
+                                <select class="target-selector" id="target1-option">
+                                    <option id="target1-option-enemy" value="enemy">Enemy</option>
+                                    <option id="target1-option-ally" value="ally">Ally</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="magbackpanel"><div class="magbackground"></div></div>
+                        <div class="magtitle">Magnitude</div>
+                        <div class="magdiv">
+                            <button class="magbutton minus" id="mag-button-down-1">-</button>
+                            <div class="magnitudecell" id="effect-magcell-1"><div class="effect-magstyle" id="magnitude-display-1">-</div></div>
+                            <button class="magbutton plus" id="mag-button-plus-1">+</button>
+                        </div>
+                        <div class="effectaoe"><span class="effectaoetext">Area</span></div>
+                        <div class="effecteot"><input class="effectcheck" type="hidden" value="dmg" id="effectcheck1"><span class="effecteottext"></span></div>
+                        <div class="checkbox aoecheck"><input class="effect-check" type="checkbox" value="0" id="aoe-check-1"><div class="checkfill"></div></div>
+                        <div class="checkbox eotcheck"><input class="effect-check" type="checkbox" value="0" id="eot-check-1"><div class="checkfill"></div></div>
+                        <div class="effectmp"><span class="effectmptext">MP</span></div>
+                        <div class="mpcostbackpanel">
+                            <div class="mpcostdiv">
+                                <div class="effect-mpcoststyle" id="mpcost-display-1">0</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="effect2">
+                        <div class="effect2backpanel">
+                            <div class="effectblock2">
+                                <div class="effecteff"><span class="effectefftext">Effect</span></div>
+                                <div class="effectnum"><span class="effectnumtext">2</span></div>
+                                <div class="effecttarget"><span class="effecttargettext">Target</span></div>
+                                <select class="effect-selector" id="effect2-option">
+                                    <option id="effect2-option-none" value="none">None</option>
+                                    <option id="effect2-option-dmg" value="dmg">Damage</option>
+                                    <option id="effect2-option-heal" value="heal">Healing</option>
+                                    <option id="effect2-option-stun" value="stun">Stun</option>
+                                    <option id="effect2-option-buff" value="buff">Buff</option>
+                                    <option id="effect2-option-debuff" value="debuff">Debuff</option>
+                                    <option id="effect2-option-esuna" value="esuna">Esuna</option>
+                                    <option id="effect2-option-revive" value="revive">Revive</option>
+                                    <option id="effect2-option-summon" value="summon">Summon</option>
+                                    <option id="effect2-option-stealth" value="stealth">Stealth</option>
+                                    <option id="effect2-option-invuln" value="invuln">Invuln.</option>
+                                    <option id="effect2-option-movement" value="movement">Movement</option>
+                                </select>
+                                <div class="divider"></div>
+                                <select class="target-selector" id="target2-option">
+                                    <option id="target2-option-enemy" value="enemy">Enemy</option>
+                                    <option id="target2-option-ally" value="ally">Ally</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="magbackpanel"><div class="magbackground"></div></div>
+                        <div class="magtitle">Magnitude</div>
+                        <div class="magdiv">
+                            <button class="magbutton minus" id="mag-button-down-2">-</button>
+                            <div class="magnitudecell" id="effect-magcell-2"><div class="effect-magstyle" id="magnitude-display-2">-</div></div>
+                            <button class="magbutton plus" id="mag-button-plus-2">+</button>
+                        </div>
+                        <div class="effectaoe"><span class="effectaoetext">Area</span></div>
+                        <div class="effecteot"><input class="effectcheck" type="hidden" value="dmg" id="effectcheck2"><span class="effecteottext"></span></div>
+                        <div class="checkbox aoecheck"><input class="effect-check" type="checkbox" value="0" id="aoe-check-2"><div class="checkfill"></div></div>
+                        <div class="checkbox eotcheck"><input class="effect-check" type="checkbox" value="0" id="eot-check-2"><div class="checkfill"></div></div>
+                        <div class="effectmp"><span class="effectmptext">MP</span></div>
+                        <div class="mpcostbackpanel">
+                            <div class="mpcostdiv">
+                                <div class="effect-mpcoststyle" id="mpcost-display-2">0</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="effect3">
+                        <div class="effect3backpanel">
+                            <div class="effectblock3">
+                                <div class="effecteff"><span class="effectefftext">Effect</span></div>
+                                <div class="effectnum"><span class="effectnumtext">3</span></div>
+                                <div class="effecttarget"><span class="effecttargettext">Target</span></div>
+                                <select class="effect-selector" id="effect3-option">
+                                    <option id="effect3-option-none" value="none">None</option>
+                                    <option id="effect3-option-dmg" value="dmg">Damage</option>
+                                    <option id="effect3-option-heal" value="heal">Healing</option>
+                                    <option id="effect3-option-stun" value="stun">Stun</option>
+                                    <option id="effect3-option-buff" value="buff">Buff</option>
+                                    <option id="effect3-option-debuff" value="debuff">Debuff</option>
+                                    <option id="effect3-option-esuna" value="esuna">Esuna</option>
+                                    <option id="effect3-option-revive" value="revive">Revive</option>
+                                    <option id="effect3-option-summon" value="summon">Summon</option>
+                                    <option id="effect3-option-stealth" value="stealth">Stealth</option>
+                                    <option id="effect3-option-invuln" value="invuln">Invuln.</option>
+                                    <option id="effect3-option-movement" value="movement">Movement</option>
+                                </select>
+                                <div class="divider"></div>
+                                <select class="target-selector" id="target3-option">
+                                    <option id="target3-option-enemy" value="enemy">Enemy</option>
+                                    <option id="target3-option-ally" value="ally">Ally</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="magbackpanel"><div class="magbackground"></div></div>
+                        <div class="magtitle">Magnitude</div>
+                        <div class="magdiv">
+                            <button class="magbutton minus" id="mag-button-down-3">-</button>
+                            <div class="magnitudecell" id="effect-magcell-3"><div class="effect-magstyle" id="magnitude-display-3">-</div></div>
+                            <button class="magbutton plus" id="mag-button-plus-3">+</button>
+                        </div>
+                        <div class="effectaoe"><span class="effectaoetext">Area</span></div>
+                        <div class="effecteot"><input class="effectcheck" type="hidden" value="dmg" id="effectcheck3"><span class="effecteottext"></span></div>
+                        <div class="checkbox aoecheck"><input class="effect-check" type="checkbox" value="0" id="aoe-check-3"><div class="checkfill"></div></div>
+                        <div class="checkbox eotcheck"><input class="effect-check" type="checkbox" value="0" id="eot-check-3"><div class="checkfill"></div></div>
+                        <div class="effectmp"><span class="effectmptext">MP</span></div>
+                        <div class="mpcostbackpanel">
+                            <div class="mpcostdiv">
+                                <div class="effect-mpcoststyle" id="mpcost-display-3">0</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="readouttitle"><span class="readouttext">Ability Effects</span></div>
+                <div class="outputbackpanel">
+                    <div class="outputblock">
+                        <div class="readout" id="ability-readout"></div>
+                    </div>
+                </div>
+                <div class="totalmp"><span class="totalmptext">Total MP</span></div>
+                <div class="totalmpbackpanel">
+                    <div class="totalmpdiv">
+                        <div class="effect-mptotalstyle" id="mpcost-display-total">0</div>
+                    </div>
+                </div>                
+                <div class="mperror" id="mpcost-display-error">Over Max MP</div>
+                <div class="saveloaddiv">
+                    <div class="fakebuttondiv save"><label class="load-file" id="savefile">Export</label></div><span>&nbsp;</span><div class="fakebuttondiv load"><label class="load-file" for="loadfile">Import</label></div>
+                    <input type="file" id="loadfile" name="loadfile" accept=".txt" hidden>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
