@@ -216,7 +216,7 @@ input {
      height: 15px;
      padding-left: 4px;
      padding-right: 4px;
-     z-index:90;
+     z-index:9;
      vertical-align: middle;
      overflow: hidden;
      white-space: nowrap;
@@ -1146,7 +1146,7 @@ input {
     height: 100%;
     width: 100%;
     background-color: black;
-    z-index: 10;
+    z-index: 11;
 }
 .loginwrapper {
     display: none;
