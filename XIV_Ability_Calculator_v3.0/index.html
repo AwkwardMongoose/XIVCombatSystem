@@ -40,7 +40,11 @@
             <div class="sidepanel" id="sidepanel">
                 <div class="abilitydiv" id="abilitydiv">
                     <ul id="abilitylist" class="abilitylist">
-                        
+                        <li class="abilitylistitem" id="loading">
+                            <span class="selectbounce">></span>
+                            <input class="abilitylistinput" type="radio" id="option-loading" name="abilities" />
+                            <label for="option-loading"><span class="abilitylabel">Loading...</span></label>
+                        </li>
                     </ul>
                 </div>
                 <div class="abilitybuttons">
@@ -225,7 +229,8 @@
                     <input type="file" id="loadfile" name="loadfile" accept=".txt" hidden>
                 </div>
                 <div class="saveabilitydiv"><button class="saveabilitybutton" id="saveability">Save</button></div>
-                <div class="deleteabilitydiv"><button class="saveabilitybutton" id="deleteability">Delete</button></div>
+                <div class="deleteabilitydiv"><button class="saveabilitybutton sidebutton" id="deleteability">Delete</button></div>
+                <div class="newabilitydiv"><button class="saveabilitybutton sidebutton" id="newability">New</button></div>
             </div>
         </div>
     </div>

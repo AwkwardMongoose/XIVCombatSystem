@@ -118,7 +118,6 @@ overlay.addEventListener('click', function() {
             emailCreateButton.style.display = "none";
             loginWrapper.style.visibility = "visible";
             topBar.style.visibility = "visible";
-            console.log(userData)
             if (provider == 'google.com') {
                 let loginType = document.getElementById('logintype');
                 loginType.innerText = 'Google Auth';
@@ -1189,10 +1188,6 @@ saveAbilityButton.addEventListener('click', function() {
     let currId = currName.replaceAll(" ","_");
     if (currName != '') {
         let currAbility = $('[name="abilities"]:checked')[0];
-        let abilityId = currAbility.id.slice(7).replaceAll("_"," ");
-        if (abilityId != currName) {
-            deleteAbility(abilityId)
-        }
         update(ref(db, 'users/'+uid), {
             [currName]: {
                 'currName': currName,
@@ -1217,11 +1212,25 @@ saveAbilityButton.addEventListener('click', function() {
                 'magState': magStateRowArr,
             }
         })
+        if (currAbility) {
+            let abilityId = currAbility.id.slice(7).replaceAll("_"," ");
+            let newName = "ability_"+abilityId.replaceAll(" ","_")
+            if (abilityId != currName) {
+                if (createdArr.includes(newName) == true) {
+                    createdArr.forEach(em => {
+                        if (em == newName) {
+                            let index = createdArr.indexOf(em);
+                            createdArr.splice(index,1)
+                        }
+                    })
+                    deleteAbility(abilityId)
+                } else {
+                    deleteAbility(abilityId)
+                }
+            }
+        }
         let nextId = 'option-'+currId;
-        console.log(abilityId)
-        console.log(nextId)
         let newEl = document.getElementById(nextId);
-        console.log(newEl)
         newEl.checked = true
     }
 })
@@ -1260,99 +1269,251 @@ function loadAbility(el) {
     })
 }
 
+function loadNewAbility() {
+    get(child(dbRef, 'users/universal')).then((snapshot) => {
+        let data = snapshot.val();
+        for (let x in data) {
+            let a = data[x];
+            if (a.currName == '') {
+                var fileLoad = a;
+                currName = fileLoad.currName;
+                currRole = fileLoad.currRole;
+                sdmg = fileLoad.sdmg;
+                heal = fileLoad.heal;
+                maxMp = fileLoad.maxMp;
+                mpHalfMag = fileLoad.mpHalfMag;
+                mpCritThreshold = fileLoad.mpCritThreshold;
+            
+                readoutText = fileLoad.readoutText;
+                mpCostTotal = fileLoad.mpCostTotal;
+            
+                effectTypeRowArr = fileLoad.effectType;
+                prevEffectTypeRowArr = fileLoad.prevEffectType;
+                targetTypeRowArr = fileLoad.targetType;
+                magnitudeRowArr = fileLoad.magnitude;
+                magDisplayRowArr = fileLoad.magDisplay;
+                areaEffectRowArr = fileLoad.areaEffect;
+                periodicRowArr = fileLoad.periodic;
+                mpCostRowArr = fileLoad.mpCost;
+                magStateRowArr = fileLoad.magState;
+                updateAll()
+            }
+        }
+    })
+}
+
+let newAbilityButton = document.getElementById('newability');
+
+function newAbility() {
+    let newCheck = document.getElementById('ability_temp')
+    if (newCheck) {
+
+    } else {
+    //Clear Ability Maker
+    loadNewAbility()
+    //Create Ability
+    let abilityList = document.getElementById('abilitylist');
+    let el = 'temp'
+    let newName = "New Ability";
+    // li element
+    let li = document.createElement('li');
+    li.classList.add('abilitylistitem')
+    li.id = 'ability_'+el;
+    abilityList.appendChild(li)
+    // bounce Span
+    let selectBounce = document.createElement('span');
+    selectBounce.classList.add('selectbounce')
+    let arrow = document.createTextNode('>')
+    selectBounce.appendChild(arrow)
+    li.appendChild(selectBounce)
+    // input
+    let input = document.createElement('input')
+    input.classList.add('abilitylistinput')
+    input.type = 'radio';
+    input.id = 'option-'+el;
+    input.value = createdArr.length;
+    input.name = 'abilities';
+    li.appendChild(input)
+    // label
+    let label = document.createElement('label')
+    label.htmlFor = 'option-'+el;
+    li.appendChild(label)
+    // name span
+    let name = document.createElement('span')
+    name.classList.add("abilitylabel")
+    let nameText = document.createTextNode(newName)
+    name.appendChild(nameText)
+    label.appendChild(name)
+    input.onchange = function() {loadNewAbility()};
+    createdArr.push(li.id)
+    let charLength = nameText.length;
+    if (charLength > 13) {
+        name.classList.add('marquee')
+    }
+    if (createdArr.length == 1) {
+        let firstRadio = $('[name="abilities"][value="0"]')[0];
+        firstRadio.checked = true;
+        loadAbility(firstRadio.id.slice(7))
+    } else {
+        console.log('INPUT')
+        input.checked = true;
+    }
+
+    }
+}
+
+newAbilityButton.addEventListener('click', function() {
+    newAbility()
+})
+
 function marquee() {
     let listArr = document.getElementsByClassName('abilitylabel')
     for (let x in listArr) {
         let string = x.innerHTML;
         let charLength = string.size();
-        console.log(charLength)
         if (charLength > 13) {
             x.classList.add('marquee')
         }
     }
 }
 let createdArr = [];
+let deletedArr = [];
 function liveUpdate(uid) {
     onValue(ref(db, 'users/'+uid), (snapshot) => {
         let data = snapshot.val();
-        let listArr = [];
-        let dbArr = [];
-        let dataArr = Object.entries(data)
-        dataArr.forEach(x => {
-            let newId = x[1].currName.replaceAll(/ /g,"_");
-            dbArr.push(newId)
-            listArr.push(newId)
+        if (data) {            
+            let listArr = [];
+            let dbArr = [];
+            let dataArr = Object.keys(data)
+            console.log(dataArr)
+            dataArr.forEach(x => {
+                let newId = x.replaceAll(/ /g,"_");
+                dbArr.push(newId)
+                listArr.push(newId)
+                let list = $('.abilitylistitem');
+            })
+            //New Item Creation
             let list = $('.abilitylistitem');
-        })
-        //New Item Creation
-        let list = $('.abilitylistitem');
-        let abilityList = document.getElementById('abilitylist');
-        listArr.forEach(el => {
-            if (createdArr.includes('ability_'+el) != true) {
-                let newName = el.replaceAll("_"," ");
-                // li element
-                let li = document.createElement('li');
-                li.classList.add('abilitylistitem')
-                li.id = 'ability_'+el;
-                abilityList.appendChild(li)
-                // bounce Span
-                let selectBounce = document.createElement('span');
-                selectBounce.classList.add('selectbounce')
-                let arrow = document.createTextNode('>')
-                selectBounce.appendChild(arrow)
-                li.appendChild(selectBounce)
-                // input
-                let input = document.createElement('input')
-                input.classList.add('abilitylistinput')
-                input.type = 'radio';
-                input.id = 'option-'+el;
-                input.value = createdArr.length;
-                input.name = 'abilities';
-                li.appendChild(input)
-                // label
-                let label = document.createElement('label')
-                label.htmlFor = 'option-'+el;
-                li.appendChild(label)
-                // name span
-                let name = document.createElement('span')
-                name.classList.add("abilitylabel")
-                let nameText = document.createTextNode(newName)
-                name.appendChild(nameText)
-                label.appendChild(name)
-                input.onchange = function() {loadAbility(el)};
-                createdArr.push(li.id)
-                let charLength = nameText.length;
-                if (charLength > 13) {
-                    name.classList.add('marquee')
+            let abilityList = document.getElementById('abilitylist');
+            console.log("CREATION BEGINS HERE")
+            listArr.forEach(el => {
+                if (createdArr.includes('ability_'+el) != true) {
+                    let newName = el.replaceAll("_"," ");
+                    // li element
+                    let li = document.createElement('li');
+                    li.classList.add('abilitylistitem')
+                    li.id = 'ability_'+el;
+                    abilityList.appendChild(li)
+                    // bounce Span
+                    let selectBounce = document.createElement('span');
+                    selectBounce.classList.add('selectbounce')
+                    let arrow = document.createTextNode('>')
+                    selectBounce.appendChild(arrow)
+                    li.appendChild(selectBounce)
+                    // input
+                    let input = document.createElement('input')
+                    input.classList.add('abilitylistinput')
+                    input.type = 'radio';
+                    input.id = 'option-'+el;
+                    input.value = createdArr.length;
+                    input.name = 'abilities';
+                    li.appendChild(input)
+                    // label
+                    let label = document.createElement('label')
+                    label.htmlFor = 'option-'+el;
+                    li.appendChild(label)
+                    // name span
+                    let name = document.createElement('span')
+                    name.classList.add("abilitylabel")
+                    let nameText = document.createTextNode(newName)
+                    name.appendChild(nameText)
+                    label.appendChild(name)
+                    input.onchange = function() {loadAbility(el)};
+                    createdArr.push(li.id)
+                    let charLength = nameText.length;
+                    if (charLength > 13) {
+                        name.classList.add('marquee')
+                    }
+                    if (createdArr.length == 1) {
+                        let firstRadio = $('[name="abilities"][value="0"]')[0];
+                        firstRadio.checked = true;
+                        loadAbility(firstRadio.id.slice(7))
+                    }
                 }
-                if (createdArr.length == 1) {
-                    let firstRadio = $('[name="abilities"][value="0"]')[0];
-                    firstRadio.checked = true;
-                    loadAbility(firstRadio.id.slice(7))
+            })
+            sortList()
+            console.log(Array.from(list))
+            list.each(function(i) {
+                let el = list[i];
+                console.log(el)
+                let id = el.id;
+                if (createdArr.includes(id) != true) {
+                    console.log(el,1)
+                    el.remove()
                 }
-            }
-        })
-        sortList()
-        list.each(function(i) {
-            let el = list[i];
-            let id = el.id.slice(8);
-            if (dbArr.includes(id) != true) {
-                el.remove()
-            }
-        })
-    })
-}
-function deleteAbility(el) {
-    let newName = "ability_"+el.replaceAll(" ","_");
-    console.log(newName)
-    console.log(createdArr)
-    createdArr.forEach(x => {
-        let index = createdArr.indexOf(x);
-        if (x == newName) {
-            createdArr.splice(index,1)
+            })    
+        } else {
+            console.log('NO DATA')
             console.log(createdArr)
+            console.log(createdArr.length)
+            console.log(createdArr)
+            if (createdArr.length <= 0) {
+                newAbility()
+                
+                /*update(ref(db, 'users/'+uid), {
+                    'New Ability': {
+                        'areaEffect': [null,{'value':0},{'value':0},{'value':0}],
+                        'currName': '',
+                        'currRole': 'none',
+                        'effectType': [null,{'value':'dmg'},{'value':'none'},{'value':'none'}],
+                        'heal': 0,
+                        'magDisplay': [null,{'value':0},{'value':0},{'value':0}],
+                        'magState': [null,{'value':'enabled'},{'value':'disabled'},{'value':'disabled'}],
+                        'magnitude': [null,{'value':0},{'value':-1},{'value':-1}],
+                        'maxMp': 2600,
+                        'mpCost': [null,{'value':0},{'value':0},{'value':0}],
+                        'mpCostTotal': 0,
+                        'mpCritThreshold': 76,
+                        'mpHalfMag': 63,
+                        'periodic': [null,{'value':0},{'value':0},{'value':0}],
+                        'prevEffectType': [null,{'value':'dmg'},{'value':'none'},{'value':'none'}],
+                        'readoutText': "-",
+                        'sdmg': 0,
+                        'targetType': [null,{'value':'enemy'},{'value':'enemy'},{'value':'enemy'}]
+                    }
+                })*/
+            }
+            let list = $('.abilitylistitem');
+            list.each(function(i) {
+                let el = list[i];
+                let id = el.id;
+                console.log(createdArr)
+                if (createdArr.includes(id) != true) {
+                    console.log(el,2)
+                    el.remove()
+                }
+            })  
         }
     })
+}
+
+function deleteAbility(el) {
+    let newName = "ability_"+el.replaceAll(" ","_");
+    let element = document.getElementById(newName);
+    if (createdArr.includes(newName) == true) {
+        createdArr.forEach(em => {
+            if (em == newName) {
+                let index = createdArr.indexOf(em);
+                createdArr.splice(index,1)
+            }
+        })
+    }
+    element.remove()
+    let list = Array.from(document.getElementsByClassName('abilitylistinput'));
+    console.log(list.length)
+    if (list.length > 0) {
+        list[0].checked = true;
+    }
     set(ref(db, 'users/'+uid+'/'+el), null);
 }
 
@@ -1364,3 +1525,24 @@ delButton.addEventListener('click', function() {
     deleteAbility(abilityId)
 })
 
+let newAbilityStats = {
+    'areaEffect': [null,{'value':0},{'value':0},{'value':0}],
+    'currName': 'New Ability',
+    'currRole': 'none',
+    'effectType': [null,{'value':'dmg'},{'value':'none'},{'value':'none'}],
+    'heal': 0,
+    'magDisplay': [null,{'value':0},{'value':0},{'value':0}],
+    'magState': [null,{'value':'enabled'},{'value':'disabled'},{'value':'disabled'}],
+    'magnitude': [null,{'value':0},{'value':-1},{'value':-1}],
+    'maxMp': 2600,
+    'mpCost': [null,{'value':0},{'value':0},{'value':0}],
+    'mpCostTotal': 0,
+    'mpCritThreshold': 76,
+    'mpHalfMag': 63,
+    'periodic': [null,{'value':0},{'value':0},{'value':0}],
+    'prevEffectType': [null,{'value':'dmg'},{'value':'none'},{'value':'none'}],
+    'readoutText': "-",
+    'sdmg': 0,
+    'targetType': [null,{'value':'enemy'},{'value':'enemy'},{'value':'enemy'}]
+}
+let newAbilityStats2 = {"currName":"","currRole":"none","sdmg":0,"heal":0,"maxMp":2600,"mpHalfMag":63,"mpCritThreshold":76,"readoutText":"-","mpCostTotal":0,"effectType":[null,{"value":"dmg"},{"value":"none"},{"value":"none"}],"prevEffectType":[null,{"value":"dmg"},{"value":"none"},{"value":"none"}],"targetType":[null,{"value":"enemy"},{"value":"enemy"},{"value":"enemy"}],"magnitude":[null,{"value":0},{"value":-1},{"value":-1}],"magDisplay":[null,{"value":0},{"value":0},{"value":0}],"areaEffect":[null,{"value":0},{"value":0},{"value":0}],"periodic":[null,{"value":0},{"value":0},{"value":0}],"mpCost":[null,{"value":0},{"value":0},{"value":0}],"magState":[null,{"value":"enabled"},{"value":"disabled"},{"value":"disabled"}]}

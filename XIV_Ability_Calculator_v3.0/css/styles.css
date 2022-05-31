@@ -1280,10 +1280,22 @@ input {
     width: fit-content;
 }
 .saveabilitydiv {
+    position: relative;
+    width: fit-content;
+    bottom: 27px;
+}
+.deleteabilitydiv {
     position: absolute;
-    bottom: 10px;
+    bottom: 15px;
+    left: -165px;
+}
+.newabilitydiv {
+    position: absolute;
+    bottom: 50px;
+    left: -165px;
 }
 .saveabilitybutton {
+    font-size: 14px;
     cursor: pointer;
     margin: auto;
     text-align: center;
@@ -1309,4 +1321,7 @@ input {
     animation-direction: normal;
     animation-iteration-count: infinite;
     animation-timing-function: linear;
+}
+.sidebutton {
+    width: 140px;
 }
