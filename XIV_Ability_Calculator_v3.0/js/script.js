@@ -1498,23 +1498,29 @@ function liveUpdate(uid) {
 }
 
 function deleteAbility(el) {
-    let newName = "ability_"+el.replaceAll(" ","_");
-    let element = document.getElementById(newName);
-    if (createdArr.includes(newName) == true) {
-        createdArr.forEach(em => {
-            if (em == newName) {
-                let index = createdArr.indexOf(em);
-                createdArr.splice(index,1)
-            }
-        })
-    }
-    element.remove()
     let list = Array.from(document.getElementsByClassName('abilitylistinput'));
-    console.log(list.length)
-    if (list.length > 0) {
-        list[0].checked = true;
+    if (el == 'temp' && list.length == 1) {
+
+    } else {
+        let newName = "ability_"+el.replaceAll(" ","_");
+        let element = document.getElementById(newName);
+        if (createdArr.includes(newName) == true) {
+            createdArr.forEach(em => {
+                if (em == newName) {
+                    let index = createdArr.indexOf(em);
+                    createdArr.splice(index,1)
+                }
+            })
+        }
+        element.remove()
+        let list = Array.from(document.getElementsByClassName('abilitylistinput'));
+        console.log(list.length)
+        if (list.length > 0) {
+            list[0].checked = true;
+        }
+        console.log(el+" has been deleted.")
+        set(ref(db, 'users/'+uid+'/'+el), null);
     }
-    set(ref(db, 'users/'+uid+'/'+el), null);
 }
 
   let delButton = document.getElementById('deleteability')
