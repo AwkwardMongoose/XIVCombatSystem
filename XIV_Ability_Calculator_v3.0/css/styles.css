@@ -186,6 +186,8 @@ input {
     color: black;
     font-weight: bold;
     text-align: left;
+    padding-bottom: 2px;
+    border-bottom: 2px solid rgb(0, 0, 103);
 }
 .abilitylist li {
     height:20px;
@@ -238,7 +240,9 @@ input {
 .abilitylistinput {
     width: fit-content;
 }
-
+.abilitylabel {
+    overflow: visible;
+}
 .abilitylist label:hover > .marquee {
     display: block;
     animation-name: marquee;
@@ -247,14 +251,11 @@ input {
     animation-timing-function: ease-in-out;
     animation-iteration-count: infinite;
 }
-.abilitylabel {
-    overflow: visible;
-}
 @keyframes marquee {
     0% {transform: translateX(0%);}
     20% {transform: translateX(0%);}
-    80% {transform: translateX(-75%);}
-    100% {transform: translateX(-75%);}
+    80% {transform: translateX(-80%);}
+    100% {transform: translateX(-80%);}
 }
 
 
@@ -347,6 +348,7 @@ input {
 
 .nameinput {
     text-align: center;
+    width: 24ch;
     padding-top: 5px;
     font-size: 20px;
     line-height: 25px;
