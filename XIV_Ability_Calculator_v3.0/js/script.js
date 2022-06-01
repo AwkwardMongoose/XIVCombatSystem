@@ -208,6 +208,7 @@ var heal = 0;
 var maxMp = 2600;
 var mpHalfMag = 63;
 var mpCritThreshold = 76;
+var actions = 1;
 
 var readoutText = '-';
 var mpCostTotal = 0;
@@ -221,6 +222,7 @@ var areaEffect1 = {value:0};
 var periodic1 = {value:0};
 var mpCost1 = {value:0};
 var magState1 = {value: 'enabled'};
+var actions1 = {value: 1}
 
 var effectType2 = {value:'none'};
 var prevEffectType2 = {value:'none'};
@@ -231,6 +233,7 @@ var areaEffect2 = {value:0};
 var periodic2 = {value:0};
 var mpCost2 = {value:0};
 var magState2 = {value: 'disabled'};
+var actions2 = {value: 1}
 
 var effectType3 = {value:'none'};
 var prevEffectType3 = {value:'none'};
@@ -241,6 +244,7 @@ var areaEffect3 = {value:0};
 var periodic3 = {value:0};
 var mpCost3 = {value:0};
 var magState3 = {value: 'disabled'};
+var actions3 = {value: 1}
 
 let effectTypeRowArr = ['null',effectType1,effectType2,effectType3];
 let prevEffectTypeRowArr = ['null',prevEffectType1,prevEffectType2,prevEffectType3];
@@ -251,6 +255,7 @@ let areaEffectRowArr = ['null',areaEffect1,areaEffect2,areaEffect3];
 let periodicRowArr = ['null',periodic1,periodic2,periodic3];
 let mpCostRowArr = ['null',mpCost1,mpCost2,mpCost3];
 let magStateRowArr = ['null',magState1,magState2,magState3];
+let actionsRowArr = ['null',actions1, actions2, actions3];
 
 function initialLoad() {
     rowArr.forEach(row => {
@@ -300,7 +305,6 @@ function effectSelect(element) {
     prevEffectTypeRowArr[number] = {value: effect}
     let delayedSwitch = setTimeout(function(){loadSwitch = false;},0);
 }
-
 function targetSelect(element) {
     let target = element.val();
     let number = element.attr('id').slice(6,7);
@@ -608,6 +612,7 @@ function updateMag() {
                             magDisplay.innerHTML = Math.ceil((sdmg+magnitudeArr[element.value])*magCritPercent);
                         }
                     }
+                    actions1
                     break;
                 case 'heal':
                     if (currRole == 'none') {
@@ -825,6 +830,13 @@ function readoutDisplay() {
             let readoutEffect = '';
             let readoutTarget = '';
             let checkedBoxes = 'none';
+            if (areaEffectRowArr[row].value == 1 || effectType == 'summon' || effectType == 'stealth') {
+                console.log('YES')
+                actionsRowArr[row] = {value:2};
+            } else {
+                console.log('NO')
+                actionsRowArr[row] = {value:1};
+            }
             if (periodic == true) {
                 if (magDisplayText == '+5') {
                     magDisplayText = '+5';
@@ -923,6 +935,15 @@ function readoutDisplay() {
         }
     })
     readoutText.innerHTML = readoutArr.join(' <br> ')
+    let actionsHighest = [];
+    actionsRowArr.forEach(el => {
+        if (el.value != undefined) {
+            console.log(el.value)
+            actionsHighest.push(el.value)
+        }
+    })
+    let actionsNumber = Math.max(...actionsHighest)
+    document.getElementById('actions-display').innerText = actionsNumber;
 }
 
 function updateDropDowns() {
@@ -1348,14 +1369,14 @@ function newAbility() {
     createdArr.push(li.id)
     let charLength = nameText.length;
     if (charLength > 13) {
-        name.classList.add('marquee')
+        let lengthDiff = charLength-13;
+        name.classList.add('marquee'+lengthDiff)
     }
     if (createdArr.length == 1) {
         let firstRadio = $('[name="abilities"][value="0"]')[0];
         firstRadio.checked = true;
         loadAbility(firstRadio.id.slice(7))
     } else {
-        console.log('INPUT')
         input.checked = true;
     }
 
@@ -1385,7 +1406,6 @@ function liveUpdate(uid) {
             let listArr = [];
             let dbArr = [];
             let dataArr = Object.keys(data)
-            console.log(dataArr)
             dataArr.forEach(x => {
                 let newId = x.replaceAll(/ /g,"_");
                 dbArr.push(newId)
@@ -1395,7 +1415,6 @@ function liveUpdate(uid) {
             //New Item Creation
             let list = $('.abilitylistitem');
             let abilityList = document.getElementById('abilitylist');
-            console.log("CREATION BEGINS HERE")
             listArr.forEach(el => {
                 if (createdArr.includes('ability_'+el) != true) {
                     let newName = el.replaceAll("_"," ");
@@ -1432,7 +1451,8 @@ function liveUpdate(uid) {
                     createdArr.push(li.id)
                     let charLength = nameText.length;
                     if (charLength > 13) {
-                        name.classList.add('marquee')
+                        let lengthDiff = charLength-13;
+                        name.classList.add('marquee'+lengthDiff)
                     }
                     if (createdArr.length == 1) {
                         let firstRadio = $('[name="abilities"][value="0"]')[0];
@@ -1442,21 +1462,15 @@ function liveUpdate(uid) {
                 }
             })
             sortList()
-            console.log(Array.from(list))
             list.each(function(i) {
                 let el = list[i];
-                console.log(el)
                 let id = el.id;
                 if (createdArr.includes(id) != true) {
-                    console.log(el,1)
                     el.remove()
                 }
             })    
         } else {
             console.log('NO DATA')
-            console.log(createdArr)
-            console.log(createdArr.length)
-            console.log(createdArr)
             if (createdArr.length <= 0) {
                 newAbility()
                 
@@ -1487,9 +1501,7 @@ function liveUpdate(uid) {
             list.each(function(i) {
                 let el = list[i];
                 let id = el.id;
-                console.log(createdArr)
                 if (createdArr.includes(id) != true) {
-                    console.log(el,2)
                     el.remove()
                 }
             })  
@@ -1514,7 +1526,6 @@ function deleteAbility(el) {
         }
         element.remove()
         let list = Array.from(document.getElementsByClassName('abilitylistinput'));
-        console.log(list.length)
         if (list.length > 0) {
             list[0].checked = true;
         }

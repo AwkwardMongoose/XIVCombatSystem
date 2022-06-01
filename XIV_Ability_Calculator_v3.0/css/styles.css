@@ -243,19 +243,173 @@ input {
 .abilitylabel {
     overflow: visible;
 }
-.abilitylist label:hover > .marquee {
+.abilitylist label:hover > .marquee1 {
     display: block;
-    animation-name: marquee;
+    animation-name: marquee1;
+    animation-duration: 3s;
+    animation-direction: alternate;
+    animation-timing-function: ease-in-out;
+    animation-iteration-count: infinite;
+}
+.abilitylist label:hover > .marquee2 {
+    display: block;
+    animation-name: marquee2;
+    animation-duration: 3s;
+    animation-direction: alternate;
+    animation-timing-function: ease-in-out;
+    animation-iteration-count: infinite;
+}
+.abilitylist label:hover > .marquee3 {
+    display: block;
+    animation-name: marquee3;
+    animation-duration: 3s;
+    animation-direction: alternate;
+    animation-timing-function: ease-in-out;
+    animation-iteration-count: infinite;
+}
+.abilitylist label:hover > .marquee4 {
+    display: block;
+    animation-name: marquee4;
+    animation-duration: 4s;
+    animation-direction: alternate;
+    animation-timing-function: ease-in-out;
+    animation-iteration-count: infinite;
+}
+.abilitylist label:hover > .marquee5 {
+    display: block;
+    animation-name: marquee5;
+    animation-duration: 4s;
+    animation-direction: alternate;
+    animation-timing-function: ease-in-out;
+    animation-iteration-count: infinite;
+}
+.abilitylist label:hover > .marquee6 {
+    display: block;
+    animation-name: marquee6;
+    animation-duration: 4s;
+    animation-direction: alternate;
+    animation-timing-function: ease-in-out;
+    animation-iteration-count: infinite;
+}
+.abilitylist label:hover > .marquee7 {
+    display: block;
+    animation-name: marquee7;
+    animation-duration: 5s;
+    animation-direction: alternate;
+    animation-timing-function: ease-in-out;
+    animation-iteration-count: infinite;
+}
+.abilitylist label:hover > .marquee8 {
+    display: block;
+    animation-name: marquee8;
+    animation-duration: 5s;
+    animation-direction: alternate;
+    animation-timing-function: ease-in-out;
+    animation-iteration-count: infinite;
+}
+.abilitylist label:hover > .marquee9 {
+    display: block;
+    animation-name: marquee9;
+    animation-duration: 5s;
+    animation-direction: alternate;
+    animation-timing-function: ease-in-out;
+    animation-iteration-count: infinite;
+}
+.abilitylist label:hover > .marquee10 {
+    display: block;
+    animation-name: marquee10;
     animation-duration: 6s;
     animation-direction: alternate;
     animation-timing-function: ease-in-out;
     animation-iteration-count: infinite;
 }
-@keyframes marquee {
-    0% {transform: translateX(0%);}
-    20% {transform: translateX(0%);}
-    80% {transform: translateX(-80%);}
-    100% {transform: translateX(-80%);}
+.abilitylist label:hover > .marquee11 {
+    display: block;
+    animation-name: marquee11;
+    animation-duration: 6s;
+    animation-direction: alternate;
+    animation-timing-function: ease-in-out;
+    animation-iteration-count: infinite;
+}
+.abilitylist label:hover > .marquee12 {
+    display: block;
+    animation-name: marquee12;
+    animation-duration: 6s;
+    animation-direction: alternate;
+    animation-timing-function: ease-in-out;
+    animation-iteration-count: infinite;
+}
+@keyframes marquee1 {
+    0% {transform: translateX(0ch);}
+    20% {transform: translateX(0ch);}
+    80% {transform: translateX(-1ch);}
+    100% {transform: translateX(-1ch);}
+}
+@keyframes marquee2 {
+    0% {transform: translateX(0ch);}
+    20% {transform: translateX(0ch);}
+    80% {transform: translateX(-2ch);}
+    100% {transform: translateX(-2ch);}
+}
+@keyframes marquee3 {
+    0% {transform: translateX(0ch);}
+    20% {transform: translateX(0ch);}
+    80% {transform: translateX(-3ch);}
+    100% {transform: translateX(-3ch);}
+}
+@keyframes marquee4 {
+    0% {transform: translateX(0ch);}
+    20% {transform: translateX(0ch);}
+    80% {transform: translateX(-4ch);}
+    100% {transform: translateX(-4ch);}
+}
+@keyframes marquee5 {
+    0% {transform: translateX(0ch);}
+    20% {transform: translateX(0ch);}
+    80% {transform: translateX(-5ch);}
+    100% {transform: translateX(-5ch);}
+}
+@keyframes marquee6 {
+    0% {transform: translateX(0ch);}
+    20% {transform: translateX(0ch);}
+    80% {transform: translateX(-6ch);}
+    100% {transform: translateX(-6ch);}
+}
+@keyframes marquee7 {
+    0% {transform: translateX(0ch);}
+    20% {transform: translateX(0ch);}
+    80% {transform: translateX(-7ch);}
+    100% {transform: translateX(-7ch);}
+}
+@keyframes marquee8 {
+    0% {transform: translateX(0ch);}
+    20% {transform: translateX(0ch);}
+    80% {transform: translateX(-8ch);}
+    100% {transform: translateX(-8ch);}
+}
+@keyframes marquee9 {
+    0% {transform: translateX(0ch);}
+    20% {transform: translateX(0ch);}
+    80% {transform: translateX(-9ch);}
+    100% {transform: translateX(-9ch);}
+}
+@keyframes marquee10 {
+    0% {transform: translateX(0ch);}
+    20% {transform: translateX(0ch);}
+    80% {transform: translateX(-10ch);}
+    100% {transform: translateX(-10ch);}
+}
+@keyframes marquee11 {
+    0% {transform: translateX(0ch);}
+    20% {transform: translateX(0ch);}
+    80% {transform: translateX(-11ch);}
+    100% {transform: translateX(-11ch);}
+}
+@keyframes marquee12 {
+    0% {transform: translateX(0ch);}
+    20% {transform: translateX(0ch);}
+    80% {transform: translateX(-12ch);}
+    100% {transform: translateX(-12ch);}
 }
 
 
@@ -348,7 +502,7 @@ input {
 
 .nameinput {
     text-align: center;
-    width: 24ch;
+    width: 26ch;
     padding-top: 5px;
     font-size: 20px;
     line-height: 25px;
@@ -789,7 +943,7 @@ input {
 .mperror {
     position: absolute;
     right: 3px;
-    bottom: 85px;
+    bottom: 90px;
     font-weight: bold;
     color: red;
     font-size: 10px;
@@ -1329,4 +1483,30 @@ input {
 }
 .sidebutton {
     width: 140px;
+}
+
+.actionswrapper {
+    position: absolute;
+    bottom: 68px;
+    right: 30px;
+    text-align: center;
+    font-size: 10px;
+    line-height: 23px;
+    height: 20px;
+    width: fit-content;
+    z-index: 6;
+}
+.actions {
+    position: absolute;
+    bottom:45px;
+    right: 54px;
+    text-align: center;
+    background-color: black;
+    font-size: 10px;
+    margin: auto;
+    line-height: 23px;
+    height: 20px;
+    width: 20px;
+    border: 2px solid gray;
+    border-radius: 5px;
 }
