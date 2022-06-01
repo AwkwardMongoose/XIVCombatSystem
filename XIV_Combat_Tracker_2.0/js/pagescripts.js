@@ -191,13 +191,13 @@ const mite = {
 }
 const boss = {
     'hp': 900,
-    'mp': 600,
+    'mp': 400,
     'atk': 25,
     'def': 60,
     'dmg': 40,
     'sdmg': 50,
     'heal': 30,
-    'rec': 50,
+    'rec': 100,
 }
 //END ROLE OBJECTS
 
@@ -470,6 +470,7 @@ function newCard(row,char) {
 
     let atkDiv = document.createElement('div')
     atkDiv.classList.add('atk')
+    atkDiv.id = 'atkdiv'+row;
     statsDiv.appendChild(atkDiv)
     let atkName = document.createTextNode('ATK')
     atkDiv.appendChild(atkName)
@@ -1075,8 +1076,18 @@ $(document).on('keydown', '.points', function(e) {
     var key = e.which;
     if(key == 13)  // the enter key code
      {
-        this.blur() 
+        this.blur()
      }
+})
+function rollD100() {
+    return Math.floor(Math.random() * 100);
+  }
+$(document).on('click', '.atk', function() {
+    let row = this.id.match(/\d+/g)[0];
+    let type = this.id.match(/[a-zA-Z]+/g)[0];
+    let stat = parseInt(document.getElementById('atk'+row).value);
+    let roll = rollD100();
+    console.log(roll+stat,"("+roll+"+"+stat+")")
 })
 
 $(document).on('focusout', '.points', function() {
