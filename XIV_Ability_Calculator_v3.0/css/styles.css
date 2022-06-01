@@ -941,6 +941,7 @@ input {
     border-radius: 5px;
 }
 .mperror {
+    visibility: hidden;
     position: absolute;
     right: 3px;
     bottom: 90px;
@@ -1148,7 +1149,7 @@ input {
     background: black;
     line-height: 18px;
     width: 184px;
-    height: 4px;
+    height: 5px;
     z-index: 8;
 }
 .readouttext {
@@ -1509,4 +1510,37 @@ input {
     width: 20px;
     border: 2px solid gray;
     border-radius: 5px;
+}
+
+.targetswrapper {
+    visibility: hidden;
+    background-color: black;
+    position: absolute;
+    bottom: 155px;
+    right: 135px;
+    text-align: center;
+    font-size: 12px;
+    line-height: 7px;
+    height: 5px;
+    width: fit-content;
+    z-index: 6;
+}
+.targets {
+    visibility: hidden;
+    position: absolute;
+    bottom:133px;
+    right: 130px;
+    text-align: center;
+    background-color: black;
+    font-size: 10px;
+    margin: auto;
+    line-height: 25px;
+    height: 20px;
+    width: 30px;
+    border: 2px solid gray;
+    border-radius: 5px;
+}
+.targetinput {
+    margin: auto;
+    text-align: center;
 }

@@ -208,7 +208,7 @@ var heal = 0;
 var maxMp = 2600;
 var mpHalfMag = 63;
 var mpCritThreshold = 76;
-var actions = 1;
+var targetCount = 1;
 
 var readoutText = '-';
 var mpCostTotal = 0;
@@ -256,6 +256,8 @@ let periodicRowArr = ['null',periodic1,periodic2,periodic3];
 let mpCostRowArr = ['null',mpCost1,mpCost2,mpCost3];
 let magStateRowArr = ['null',magState1,magState2,magState3];
 let actionsRowArr = ['null',actions1, actions2, actions3];
+
+const targetInput = document.getElementById('targets');
 
 function initialLoad() {
     rowArr.forEach(row => {
@@ -784,10 +786,12 @@ function updateMPCost() {
         mpCostDisplay.classList.remove('effect-mptotalstyle')
         mpCostDisplay.classList.add('effect-mptotalstyle-over')
         mpCostError.innerHTML = 'Over Max MP!'
+        mpCostError.style.visibility = 'visible'
     } else {
         mpCostDisplay.classList.remove('effect-mptotalstyle-over')
         mpCostDisplay.classList.add('effect-mptotalstyle')
         mpCostError.innerHTML = ''
+        mpCostError.style.visibility = 'hidden'
     }
 }
 
@@ -819,33 +823,54 @@ function effectCheckboxHandler(element) {
 function readoutDisplay() {
     var readoutArr = []
     var readoutText = document.getElementById('ability-readout');
+    let isAoE = false;
+    areaEffectRowArr.forEach(el => {
+        if (el.value == 1) {
+            isAoE = true;
+        }
+    })
+    if (isAoE == false) {
+        targetCount = 2;
+        targetInput.value = 2;
+        document.getElementById('targetswrapper').style.visibility = 'hidden';
+        document.getElementById('targetsdiv').style.visibility = 'hidden';
+    } else if (isAoE == true) {
+        document.getElementById('targetswrapper').style.visibility = 'visible';
+        document.getElementById('targetsdiv').style.visibility = 'visible';
+    }
     rowArr.forEach(row => {
         if (row != 'null') {
             let effectType = effectTypeRowArr[row].value;
             let targetType = targetTypeRowArr[row].value;
             let magnitude = magnitudeRowArr[row].value;
-            let magDisplayText = magDisplayRowArr[row].value;
+            let magDisplayText2 = magDisplayRowArr[row].value;
             let areaEffect = areaEffectRowArr[row].value;
             let periodic = periodicRowArr[row].value;
+            let magDisplayText = magDisplayText2;
             let readoutEffect = '';
             let readoutTarget = '';
             let checkedBoxes = 'none';
+            let dmgReduction = 0;
+            if (targetCount > 2 && areaEffect == 1) {
+                dmgReduction = ((targetCount-2)*5);
+                magDisplayText = Math.max(5,magDisplayText2-dmgReduction);
+            } else {
+                dmgReduction = 0;
+            }
             if (areaEffectRowArr[row].value == 1 || effectType == 'summon' || effectType == 'stealth') {
-                console.log('YES')
                 actionsRowArr[row] = {value:2};
             } else {
-                console.log('NO')
                 actionsRowArr[row] = {value:1};
             }
             if (periodic == true) {
                 if (magDisplayText == '+5') {
-                    magDisplayText = '+5';
+                    //magDisplayText = '+5';
                 } else if (currRole == 'none') {
                     let magDisplayInt = parseInt(magDisplayText);
-                    magDisplayText = '+' + Math.floor((magDisplayInt/2)/5)*5;
+                    magDisplayText = '+' + (Math.floor((magDisplayInt/2)/5)*5);
                 } else {
                     let magDisplayInt = parseInt(magDisplayText);
-                    magDisplayText = Math.floor((magDisplayInt/2)/5)*5;
+                    magDisplayText = (Math.floor((magDisplayInt/2)/5)*5);
                 }
             } else {
             }
@@ -938,7 +963,6 @@ function readoutDisplay() {
     let actionsHighest = [];
     actionsRowArr.forEach(el => {
         if (el.value != undefined) {
-            console.log(el.value)
             actionsHighest.push(el.value)
         }
     })
@@ -949,7 +973,7 @@ function readoutDisplay() {
 function updateDropDowns() {
     let roleChoice = document.getElementById('role-option-' + currRole);
     let roleElement = document.getElementById('role-option');
-    let role = $(roleElement);
+    let role = $(roleElement)
     rowArr.forEach(row => {
         if (row != 'null') {
             //effect
@@ -995,6 +1019,7 @@ function updateAll() {
     let role = $(roleElement);
     rowArr.forEach(row => {
     })
+    targetInput.value = targetCount;
     updateDropDowns()
     roleSelect(role)
 }
@@ -1089,6 +1114,7 @@ function saveFile() {
         'maxMp': maxMp,
         'mpHalfMag': mpHalfMag,
         'mpCritThreshold': mpCritThreshold,
+        'targetCount': targetCount,
     
         'readoutText': readoutText,
         'mpCostTotal': mpCostTotal,
@@ -1127,6 +1153,7 @@ function loadFile() {
             maxMp = fileLoad.maxMp;
             mpHalfMag = fileLoad.mpHalfMag;
             mpCritThreshold = fileLoad.mpCritThreshold;
+            targetCount = fileLoad.targetCount;
         
             readoutText = fileLoad.readoutText;
             mpCostTotal = fileLoad.mpCostTotal;
@@ -1155,7 +1182,6 @@ var testSave = {
 }
 
 $("#testcheckbox").click(function() {
-    console.log(saveFile.effectType1);
 });
 
 $("#savefile").click(function() {
@@ -1166,6 +1192,11 @@ $("#savefile").click(function() {
 $("#loadfile").change(function() {
     loadFile()
 });
+
+targetInput.addEventListener('change', function() {
+    targetCount = this.value;
+    updateAll()
+})
 
 
 function sortList() {
@@ -1218,6 +1249,7 @@ saveAbilityButton.addEventListener('click', function() {
                 'maxMp': maxMp,
                 'mpHalfMag': mpHalfMag,
                 'mpCritThreshold': mpCritThreshold,
+                'targetCount': targetCount,
             
                 'readoutText': readoutText,
                 'mpCostTotal': mpCostTotal,
@@ -1271,6 +1303,7 @@ function loadAbility(el) {
                 maxMp = fileLoad.maxMp;
                 mpHalfMag = fileLoad.mpHalfMag;
                 mpCritThreshold = fileLoad.mpCritThreshold;
+                targetCount = fileLoad.targetCount;
             
                 readoutText = fileLoad.readoutText;
                 mpCostTotal = fileLoad.mpCostTotal;
@@ -1304,6 +1337,7 @@ function loadNewAbility() {
                 maxMp = fileLoad.maxMp;
                 mpHalfMag = fileLoad.mpHalfMag;
                 mpCritThreshold = fileLoad.mpCritThreshold;
+                targetCount = fileLoad.targetCount;
             
                 readoutText = fileLoad.readoutText;
                 mpCostTotal = fileLoad.mpCostTotal;
