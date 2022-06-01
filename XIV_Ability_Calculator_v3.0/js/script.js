@@ -393,9 +393,9 @@ function roleSelect(element) {
         case 'boss':
             sdmg = 50;
             heal = 30;
-            maxMp = 600;
-            mpHalfMag = 9;
-            mpCritThreshold = 17;
+            maxMp = 400;
+            mpHalfMag = 6;
+            mpCritThreshold = 12;
         break
         case 'limit':
             sdmg = 100;
