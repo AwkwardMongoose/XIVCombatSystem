@@ -1047,7 +1047,7 @@ $(document).on('click', '.type-selector', function() {
     //writeRowData(row,val)
 })
 //Curr HP&MP
-$(document).on('change', '.points', function() {
+/*$(document).on('change', '.points', function() {
     let row = this.id.match(/\d+/g)[0];
     let type = this.id.match(/[a-zA-Z]+/g)[0];
     let val = this.value;
@@ -1059,6 +1059,82 @@ $(document).on('change', '.points', function() {
         update(ref(db, 'session/'+session+'/'+row), {
             'currMP': val,
         });
+    }
+})*/
+
+var oldVal = 0;
+$(document).on('focus', '.points', function() {
+    let row = this.id.match(/\d+/g)[0];
+    let type = this.id.match(/[a-zA-Z]+/g)[0];
+    let val = this.value;
+    oldVal = val;
+    this.value = '';
+})
+
+$(document).on('keydown', '.points', function(e) {
+    var key = e.which;
+    if(key == 13)  // the enter key code
+     {
+        this.blur() 
+     }
+})
+
+$(document).on('focusout', '.points', function() {
+    let row = this.id.match(/\d+/g)[0];
+    let type = this.id.match(/[a-zA-Z]+/g)[0];
+    let val = this.value;
+    if (type == 'currhp') {
+        if (val.match(/[+,-]+/g) == null) {
+            get(child(dbRef, 'session/'+session+'/'+row)).then((snapshot) => {
+                let data = snapshot.val();
+                let newVal = 0;
+                if (val == '') {
+                    newVal = data.currHP
+                } else {
+                    newVal = val;
+                }
+                update(ref(db, 'session/'+session+'/'+row), {
+                    'currHP': newVal,
+                });
+                this.value = newVal;
+            })
+        } else if (val.match(/[+,-]+/g)[0] == '+') {
+            let newVal = parseInt(oldVal) + parseInt(val.match(/\d+/g)[0]);
+            update(ref(db, 'session/'+session+'/'+row), {
+                'currHP': newVal,
+            });
+        } else if (val.match(/[+,-]+/g)[0] == '-') {
+            let newVal = parseInt(oldVal) - parseInt(val.match(/\d+/g)[0]);
+            update(ref(db, 'session/'+session+'/'+row), {
+                'currHP': newVal,
+            });
+        }
+    } else if (type == 'currmp') {
+        if (val.match(/[+,-]+/g) == null) {
+            get(child(dbRef, 'session/'+session+'/'+row)).then((snapshot) => {
+                let data = snapshot.val();
+                let newVal = 0;
+                if (val == '') {
+                    newVal = data.currMP
+                } else {
+                    newVal = val;
+                }
+                update(ref(db, 'session/'+session+'/'+row), {
+                    'currMP': newVal,
+                });
+                this.value = newVal;
+            })
+        } else if (val.match(/[+,-]+/g)[0] == '+') {
+            let newVal = parseInt(oldVal) + parseInt(val.match(/\d+/g)[0]);
+            update(ref(db, 'session/'+session+'/'+row), {
+                'currMP': newVal,
+            });
+        } else if (val.match(/[+,-]+/g)[0] == '-') {
+            let newVal = parseInt(oldVal) - parseInt(val.match(/\d+/g)[0]);
+            update(ref(db, 'session/'+session+'/'+row), {
+                'currMP': newVal,
+            });
+        }
     }
 })
 //Max HP&MP
