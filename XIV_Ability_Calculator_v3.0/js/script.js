@@ -1465,7 +1465,7 @@ function liveUpdate(uid) {
                     li.appendChild(selectBounce)*/
                     // Hand
                     let selectHand = document.createElement('img');
-                    selectHand.src = '../img/hand16.png';
+                    selectHand.src = './img/hand16.png';
                     selectHand.classList.add('selectbounce')
                     li.appendChild(selectHand)
                     // input
