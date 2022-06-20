@@ -1458,11 +1458,16 @@ function liveUpdate(uid) {
                     li.id = 'ability_'+el;
                     abilityList.appendChild(li)
                     // bounce Span
-                    let selectBounce = document.createElement('span');
+                    /*let selectBounce = document.createElement('span');
                     selectBounce.classList.add('selectbounce')
                     let arrow = document.createTextNode('>')
                     selectBounce.appendChild(arrow)
-                    li.appendChild(selectBounce)
+                    li.appendChild(selectBounce)*/
+                    // Hand
+                    let selectHand = document.createElement('img');
+                    selectHand.src = '../img/hand16.png';
+                    selectHand.classList.add('selectbounce')
+                    li.appendChild(selectHand)
                     // input
                     let input = document.createElement('input')
                     input.classList.add('abilitylistinput')

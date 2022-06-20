@@ -1182,6 +1182,7 @@ input {
 }
 .selectbounce {
     visibility: hidden;
+    z-index: 10;
 }
 .abilityitem:hover > .selectbounce {
     visibility: visible;
