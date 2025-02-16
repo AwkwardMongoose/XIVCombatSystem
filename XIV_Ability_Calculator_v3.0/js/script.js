@@ -10,13 +10,13 @@ import { onAuthStateChanged, setPersistence, browserLocalPersistence, signInWith
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-    apiKey: "AIzaSyCySm2B_qI8Z-EP0-qGqKHYE-TF9ipD7Eg",
-    authDomain: "xiv-ability-maker.firebaseapp.com",
-    databaseURL: "https://xiv-ability-maker-default-rtdb.firebaseio.com",
-    projectId: "xiv-ability-maker",
-    storageBucket: "xiv-ability-maker.appspot.com",
-    messagingSenderId: "847796021187",
-    appId: "1:847796021187:web:9a2570fdd88c14b3553f76"
+      apiKey: "AIzaSyCySm2B_qI8Z-EP0-qGqKHYE-TF9ipD7Eg",
+      authDomain: "xiv-ability-maker.firebaseapp.com",
+      databaseURL: "https://xiv-ability-maker-default-rtdb.firebaseio.com",
+      projectId: "xiv-ability-maker",
+      storageBucket: "xiv-ability-maker.firebasestorage.app",
+      messagingSenderId: "847796021187",
+      appId: "1:847796021187:web:9a2570fdd88c14b3553f76"
   };
 
 // Initialize Firebase
