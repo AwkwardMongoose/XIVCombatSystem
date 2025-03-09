@@ -1,7 +1,7 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.11/firebase-app.js";
 import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/9.6.11/firebase-firestore.js";
 import { getDatabase, ref, set, child, get, onValue, update } from "https://www.gstatic.com/firebasejs/9.6.11/firebase-database.js";
-import { onAuthStateChanged, setPersistence, browserLocalPersistence, signInWithRedirect, GoogleAuthProvider, getAuth, createUserWithEmailAndPassword, signInAnonymously, signInWithEmailAndPassword, signOut} from "https://www.gstatic.com/firebasejs/9.6.11/firebase-auth.js";
+import { onAuthStateChanged, setPersistence, browserLocalPersistence, signInWithRedirect, signInWithPopup, GoogleAuthProvider, getAuth, createUserWithEmailAndPassword, signInAnonymously, signInWithEmailAndPassword, signOut} from "https://www.gstatic.com/firebasejs/9.6.11/firebase-auth.js";
 
 
 // Import the functions you need from the SDKs you need
@@ -10,13 +10,13 @@ import { onAuthStateChanged, setPersistence, browserLocalPersistence, signInWith
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-      apiKey: "AIzaSyCySm2B_qI8Z-EP0-qGqKHYE-TF9ipD7Eg",
-      authDomain: "xiv-ability-maker.firebaseapp.com",
-      databaseURL: "https://xiv-ability-maker-default-rtdb.firebaseio.com",
-      projectId: "xiv-ability-maker",
-      storageBucket: "xiv-ability-maker.firebasestorage.app",
-      messagingSenderId: "847796021187",
-      appId: "1:847796021187:web:9a2570fdd88c14b3553f76"
+    apiKey: "AIzaSyCySm2B_qI8Z-EP0-qGqKHYE-TF9ipD7Eg",
+    authDomain: "xiv-ability-maker.firebaseapp.com",
+    databaseURL: "https://xiv-ability-maker-default-rtdb.firebaseio.com",
+    projectId: "xiv-ability-maker",
+    storageBucket: "xiv-ability-maker.appspot.com",
+    messagingSenderId: "847796021187",
+    appId: "1:847796021187:web:9a2570fdd88c14b3553f76"
   };
 
 // Initialize Firebase
@@ -75,13 +75,15 @@ onAuthStateChanged(auth,(user) => {
 });
 
 googleSignInButton.addEventListener('click', function() {
-    signInWithRedirect(auth, provider)
+    //signInWithRedirect(auth, provider)
+    signInWithPopup(auth, provider)
     .then((result) => {
       // This gives you a Google Access Token. You can use it to access the Google API.
       const credential = GoogleAuthProvider.credentialFromResult(result);
       const token = credential.accessToken;
       // The signed-in user info.
       const user = result.user;
+      // IdP data available using getAdditionalUserInfo(result)
       // ...
     }).catch((error) => {
       // Handle Errors here.
