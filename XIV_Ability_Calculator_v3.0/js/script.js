@@ -1,7 +1,7 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.11/firebase-app.js";
 import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/9.6.11/firebase-firestore.js";
 import { getDatabase, ref, set, child, get, onValue, update } from "https://www.gstatic.com/firebasejs/9.6.11/firebase-database.js";
-import { onAuthStateChanged, setPersistence, browserLocalPersistence, signInWithRedirect, GoogleAuthProvider, getAuth, createUserWithEmailAndPassword, signInAnonymously, signInWithEmailAndPassword, signOut, getRedirectResult} from "https://www.gstatic.com/firebasejs/9.6.11/firebase-auth.js";
+import { onAuthStateChanged, setPersistence, browserLocalPersistence, signInWithRedirect, signInWithPopup, GoogleAuthProvider, getAuth, createUserWithEmailAndPassword, signInAnonymously, signInWithEmailAndPassword, signOut, getRedirectResult} from "https://www.gstatic.com/firebasejs/9.6.11/firebase-auth.js";
 
 
 // Import the functions you need from the SDKs you need
@@ -14,7 +14,7 @@ const firebaseConfig = {
     authDomain: "xiv-ability-maker.firebaseapp.com",
     databaseURL: "https://xiv-ability-maker-default-rtdb.firebaseio.com",
     projectId: "xiv-ability-maker",
-    storageBucket: "xiv-ability-maker.appspot.com",
+    storageBucket: "xiv-ability-maker.firebasestorage.app",
     messagingSenderId: "847796021187",
     appId: "1:847796021187:web:9a2570fdd88c14b3553f76"
   };
@@ -56,6 +56,8 @@ onAuthStateChanged(auth,(user) => {
         emailCreateButton.style.display = "none";
         loginWrapper.style.visibility = "visible";
         topBar.style.visibility = "visible";
+        overlay.style.display = 'none';
+        createScreen.style.display = 'none';
         if (provider == 'google.com') {
             let loginType = document.getElementById('logintype');
             loginType.innerText = 'Google Auth';
@@ -75,7 +77,7 @@ onAuthStateChanged(auth,(user) => {
 });
 
 googleSignInButton.addEventListener('click', function() {
-    signInWithRedirect(auth, provider)
+    /*signInWithRedirect(auth, provider)
     getRedirectResult(auth)
     .then((result) => {
       // This gives you a Google Access Token. You can use it to access Google APIs.
@@ -95,7 +97,26 @@ googleSignInButton.addEventListener('click', function() {
       // The AuthCredential type that was used.
       const credential = GoogleAuthProvider.credentialFromError(error);
       // ...
-    });
+    });*/
+    signInWithPopup(auth, provider)
+    .then((result) => {
+        // This gives you a Google Access Token. You can use it to access the Google API.
+        const credential = GoogleAuthProvider.credentialFromResult(result);
+        const token = credential.accessToken;
+        // The signed-in user info.
+        const user = result.user;
+        // IdP data available using getAdditionalUserInfo(result)
+        // ...
+    }).catch((error) => {
+        // Handle Errors here.
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        // The email of the user's account used.
+        const email = error.customData.email;
+        // The AuthCredential type that was used.
+        const credential = GoogleAuthProvider.credentialFromError(error);
+        // ...
+  });
 })
 
 function loginDisplay() {
