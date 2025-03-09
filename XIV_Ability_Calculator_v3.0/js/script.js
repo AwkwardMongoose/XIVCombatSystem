@@ -1,7 +1,7 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.11/firebase-app.js";
 import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/9.6.11/firebase-firestore.js";
 import { getDatabase, ref, set, child, get, onValue, update } from "https://www.gstatic.com/firebasejs/9.6.11/firebase-database.js";
-import { onAuthStateChanged, setPersistence, browserLocalPersistence, signInWithRedirect, signInWithPopup, GoogleAuthProvider, getAuth, createUserWithEmailAndPassword, signInAnonymously, signInWithEmailAndPassword, signOut} from "https://www.gstatic.com/firebasejs/9.6.11/firebase-auth.js";
+import { onAuthStateChanged, setPersistence, browserLocalPersistence, signInWithRedirect, GoogleAuthProvider, getAuth, createUserWithEmailAndPassword, signInAnonymously, signInWithEmailAndPassword, signOut, getRedirectResult} from "https://www.gstatic.com/firebasejs/9.6.11/firebase-auth.js";
 
 
 // Import the functions you need from the SDKs you need
@@ -75,12 +75,13 @@ onAuthStateChanged(auth,(user) => {
 });
 
 googleSignInButton.addEventListener('click', function() {
-    //signInWithRedirect(auth, provider)
-    signInWithPopup(auth, provider)
+    signInWithRedirect(auth, provider)
+    getRedirectResult(auth)
     .then((result) => {
-      // This gives you a Google Access Token. You can use it to access the Google API.
+      // This gives you a Google Access Token. You can use it to access Google APIs.
       const credential = GoogleAuthProvider.credentialFromResult(result);
       const token = credential.accessToken;
+  
       // The signed-in user info.
       const user = result.user;
       // IdP data available using getAdditionalUserInfo(result)
